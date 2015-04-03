@@ -10,5 +10,9 @@
     deleted = red
     untracked = yellow
 [user]
-	name = toran billups
-	email = toranb@gmail.com
+	name = andreas
+	email = andreas@agoodid.se
+[heroku]
+    account = work
+[push]
+	default = simple

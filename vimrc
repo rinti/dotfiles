@@ -47,6 +47,7 @@ NeoBundle '~/dotfiles/vim/my-plugins/tmux-navigator', {'type': 'nosync'}
 NeoBundle '~/dotfiles/vim/my-plugins/vim-ack', {'type': 'nosync'}
 NeoBundle '~/dotfiles/vim/my-plugins/vim-grep-quickfix', {'type': 'nosync'}
 NeoBundle '~/dotfiles/vim/my-plugins/vim-wiki-links', {'type': 'nosync'}
+NeoBundle 'hhff/SpacegrayEighties.vim'
 call neobundle#end()
 filetype  plugin on
 filetype  indent on
@@ -67,7 +68,7 @@ set noswapfile                         " Ain't nobody got time for swap files
 set noerrorbells                       " Don't beep
 set nowrap                             " Do not wrap lines
 set popt=left:8pc,right:3pc            " Print options
-set shiftwidth=4                       " Number of spaces to use for each step of indent
+set shiftwidth=2                       " Number of spaces to use for each step of indent
 set showcmd                            " Display incomplete commands in the bottom line of the screen
 set ignorecase                         " Ignore case when searching....
 set smartcase                          " ...unless uppercase letter are used
@@ -96,7 +97,7 @@ if has("autocmd")
 endif
 
 syntax enable
-colorscheme honeybadger
+colorscheme SpacegrayEighties
 let g:solarized_termcolors = &t_Co
 let g:solarized_termtrans = 1
 let g:solarized_termcolors=256
@@ -137,6 +138,7 @@ cmap w!! w !sudo tee %
 let g:syntastic_check_on_open=1                   " check for errors when file is loaded
 let g:syntastic_loc_list_height=5                 " the height of the error list defaults to 10
 let g:syntastic_python_checkers = ['flake8']      " sets flake8 as the default for checking python files
+let g:syntastic_python_flake8_post_args='--ignore=E111'
 let g:syntastic_javascript_checkers = ['jshint']  " sets jshint as our javascript linter
 let g:syntastic_filetype_map = { 'handlebars.html': 'handlebars' }
 let g:syntastic_mode_map={ 'mode': 'active',
