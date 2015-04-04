@@ -21,6 +21,7 @@ NeoBundle 'JarrodCTaylor/vim-256-color-schemes'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'ervandew/supertab'
+NeoBundle 'mustache/vim-mustache-handlebars'
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'kien/ctrlp.vim'
@@ -183,7 +184,7 @@ let g:gundo_preview_bottom = 1
 let g:markdown_fold_style = 'nested'
 let g:markdown_fenced_languages = ['python', 'sh', 'vim', 'javascript', 'html', 'css', 'c', 'sql']
 nmap f <Plug>SneakForward
-nmap F <Plug>SneakBackward
+nmap F <Plug>SneakBankward
 let g:sneak#streak = 1
 let g:sneak#target_labels = "sfgkqwetyupzcvbnmSDFGHJKLQWERTYUPZXCVBNM1234567890rx"
 let g:user_emmet_install_global = 0
