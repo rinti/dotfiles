@@ -72,7 +72,7 @@ set shiftwidth=2                       " Number of spaces to use for each step o
 set showcmd                            " Display incomplete commands in the bottom line of the screen
 set ignorecase                         " Ignore case when searching....
 set smartcase                          " ...unless uppercase letter are used
-set tabstop=4                          " Number of spaces that a <Tab> counts for
+set tabstop=2                          " Number of spaces that a <Tab> counts for
 set expandtab                          " Make vim use spaces and not tabs
 set undolevels=1000                    " Never can be too careful when it comes to undoing
 set hidden                             " Don't unload the buffer when we switch between them. Saves undo history
@@ -86,6 +86,7 @@ set showbreak=↪\
 set synmaxcol=256
 set scrolloff=3
 set clipboard=unnamed
+au BufNewFile,BufRead *.hbs set ft=html syntax=html
 au BufNewFile,BufRead *.json set ft=javascript
 set pastetoggle=<F3>
 set nofoldenable
@@ -171,6 +172,7 @@ let g:jedi#use_tabs_not_buffers = 0     " Use buffers not tabs
 let g:jedi#popup_on_dot = 0
 let g:jedi#rename_command = "<leader>rn"
 let g:ctrlp_reuse_window = 'startify'
+let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden --ignore .git --ignore .DS_Store --ignore "**/*.pyc" -g ""'
 let g:startify_change_to_dir = 0
 hi StartifyHeader ctermfg=124
 let g:startify_show_files = 1
