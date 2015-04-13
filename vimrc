@@ -138,6 +138,7 @@ nnoremap Y y$
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> :.cc<CR>
 autocmd BufReadPost quickfix nnoremap <buffer> o :.cc<CR>
 nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
+autocmd FileType python nnoremap <leader>y :0,$!yapf<Cr>
 cmap w!! w !sudo tee %
 let g:syntastic_check_on_open=1                   " check for errors when file is loaded
 let g:syntastic_loc_list_height=5                 " the height of the error list defaults to 10
