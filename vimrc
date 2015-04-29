@@ -15,6 +15,7 @@ call neobundle#begin(expand($HOME.'/.vim/bundle/'))
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'bkad/CamelCaseMotion'
 NeoBundle 'Shougo/neocomplcache.vim'
+NeoBundle 'groenewege/vim-less'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'terryma/vim-multiple-cursors'
@@ -35,6 +36,7 @@ NeoBundle 'bling/vim-airline'
 NeoBundle 'justinmk/vim-sneak'
 NeoBundle 'JarrodCTaylor/vim-shell-executor'
 NeoBundle 'epeli/slimux'
+NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'JarrodCTaylor/vim-qunit-special-blend'
 NeoBundle 'leafgarland/typescript-vim'
 NeoBundle 'https://github.com/mattn/emmet-vim/'
@@ -138,7 +140,7 @@ nnoremap Y y$
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> :.cc<CR>
 autocmd BufReadPost quickfix nnoremap <buffer> o :.cc<CR>
 nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
-autocmd FileType python nnoremap <leader>y :0,$!yapf<Cr>
+autocmd FileType python nnoremap <leader>y :0,$!yapf --style='{indent_width: 2}'<Cr>
 cmap w!! w !sudo tee %
 let g:syntastic_check_on_open=1                   " check for errors when file is loaded
 let g:syntastic_loc_list_height=5                 " the height of the error list defaults to 10
@@ -199,7 +201,7 @@ let g:indent_guides_exclude_filetypes = ['help', 'nerdtree']
 let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=238
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=249
-" autocmd BufWritePost *.less :!touch `find xcalibur -name "bootstrap.less" | head -1`
+autocmd BufWritePost *.less :silent !touch `find xcalibur -name "bootstrap.less" | head -1`
 let g:rbpt_colorpairs = [
     \ ['brown',       'RoyalBlue3'],
     \ ['Darkblue',    'SeaGreen3'],
