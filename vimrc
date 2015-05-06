@@ -176,6 +176,7 @@ let g:NERDTreeMapJumpNextSibling = ''
 let g:NERDTreeMapJumpPrevSibling = ''
 let g:jedi#use_tabs_not_buffers = 0     " Use buffers not tabs
 let g:jedi#popup_on_dot = 0
+let g:jedi#completions_enabled= 0
 let g:jedi#rename_command = "<leader>rn"
 let g:ctrlp_reuse_window = 'startify'
 let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden --ignore .git --ignore .DS_Store --ignore "**/*.pyc" -g ""'
