@@ -18,7 +18,7 @@ local -A pr_com
 local -a prompt_left_lines
 
 zstyle ":pr_jrock:" mode full
-zstyle ':pr_jrock:*' hooks pwd usr vcs venv rvm npm jobs prompt
+zstyle ':pr_jrock:*' hooks pwd usr vcs venv jobs prompt
 zstyle ':pr_jrock:*' pwd "%~"
 
 zstyle ':vcs_info:*' enable git
@@ -53,29 +53,10 @@ function pr_run_hooks() {
 }
 
 function +pr-mode-full() {
-    local i info_line_width return_status_width filler v_shim rvm_shim npm_shim
+    local i info_line_width return_status_width filler v_shim
 
     infoline=( ${pr_com[pwd]} ${pr_com[usr]} )
 
-    [[ -n ${pr_com[npm]} ]] && infoline[1]=(
-        ${infoline[1]}
-        "${cyan} n${gray}(${pr_com[npm]}${gray})${reset}"
-    )
-
-    npm_shim=0
-    if [[ -n ${pr_com[npm]} ]]; then
-        npm_shim+=1
-    fi
-
-    [[ -n ${pr_com[rvm]} ]] && infoline[1]=(
-        ${infoline[1]}
-        "${red} r${gray}(${pr_com[rvm]}${gray})${reset}"
-    )
-
-    rvm_shim=0
-    if [[ -n ${pr_com[rvm]} ]]; then
-        rvm_shim+=1
-    fi
 
     [[ -n ${pr_com[venv]} ]] && infoline[1]=(
         ${infoline[1]}
@@ -91,7 +72,7 @@ function +pr-mode-full() {
     info_line_width=${#${(%)info_line_width}}
     return_status_width=3
 
-    filler="${gray}${(l:$(( $COLUMNS - $info_line_width - $return_status_width + $v_shim + $rvm_shim + $npm_shim))::─:)}${reset}"
+    filler="${gray}${(l:$(( $COLUMNS - $info_line_width - $return_status_width + $v_shim))::─:)}${reset}"
     infoline[-1]=( ${filler} ${infoline[-1]} )
 
     lines=(
@@ -139,34 +120,6 @@ function +pr-venv() {
     )
 
     pr_com[venv]=${(j::)v_venv}
-}
-
-function +pr-rvm() {
-    local -a v_rvm
-
-    if [[ $(rvm current | awk '{split($0,a,"@");print a[2]}') != "" ]]; then
-        v_rvm=(
-            ${red}
-            $(rvm current | awk '{split($0,a,"@");print a[2]}')
-            ${reset}
-        )
-    fi
-
-    pr_com[rvm]=${(j::)v_rvm}
-}
-
-function +pr-npm() {
-    local -a v_npm
-
-    if [[ ${NODE_NAME}  != "" ]]; then
-        v_npm=(
-            ${cyan}
-            ${NODE_NAME}
-            ${reset}
-        )
-    fi
-
-    pr_com[npm]=${(j::)v_npm}
 }
 
 function +pr-jobs() {
