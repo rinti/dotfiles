@@ -106,12 +106,12 @@ function +pr-mode-full() {
     )
 
     if [[ -n ${pr_com[vcs]} ]]; then
-        lines[1]="${gray}┌──${lines[1]}${gray}─${reset}"
-        lines[2]="${gray}├──${lines[2]}${reset}"
-        lines[3]="${gray}└──➤${lines[3]}${reset}"
+        lines[1]="${gray}┌─${lines[1]}${gray}─${reset}"
+        lines[2]="${gray}├─${lines[2]}${reset}"
+        lines[3]="${gray}└─>${lines[3]}${reset}"
     else
-        lines[1]="${gray}┌──${lines[1]}${gray}─${reset}"
-        lines[2]="${gray}└──➤${lines[2]}${reset}"
+        lines[1]="${gray}┌─${lines[1]}${gray}─${reset}"
+        lines[2]="${gray}└─>${lines[2]}${reset}"
     fi
 
     prompt_left_lines=( ${lines[@]} )

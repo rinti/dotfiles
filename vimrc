@@ -12,6 +12,7 @@ if has('vim_starting')
     set rtp+=$HOME/.vim/bundle/neobundle.vim/
 endif
 call neobundle#begin(expand($HOME.'/.vim/bundle/'))
+NeoBundle 'croaker/mustang-vim'
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'bkad/CamelCaseMotion'
 NeoBundle 'Shougo/neocomplcache.vim'
@@ -87,6 +88,7 @@ set wildmenu                           " Command-line completion in an enhanced 
 set shell=bash                         " Required to let zsh know how to run things on command line
 set ttimeoutlen=50                     " Fix delay when escaping from insert with Esc
 set noshowmode                         " Hide the default mode text (e.g. -- INSERT -- below the statusline)
+set relativenumber                     " Relative line numbers
 set showbreak=↪\
 set synmaxcol=256
 set scrolloff=3
@@ -103,7 +105,7 @@ if has("autocmd")
 endif
 
 syntax enable
-colorscheme SpacegrayEighties
+colorscheme mustang
 let g:solarized_termcolors = &t_Co
 let g:solarized_termtrans = 1
 let g:solarized_termcolors=256
@@ -141,6 +143,7 @@ autocmd BufReadPost quickfix nnoremap <buffer> <CR> :.cc<CR>
 autocmd BufReadPost quickfix nnoremap <buffer> o :.cc<CR>
 nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
 autocmd FileType python nnoremap <leader>y :0,$!yapf --style='{indent_width: 2}'<Cr>
+autocmd FileType python nnoremap <leader>y4 :0,$!yapf<Cr>
 cmap w!! w !sudo tee %
 let g:syntastic_check_on_open=1                   " check for errors when file is loaded
 let g:syntastic_loc_list_height=5                 " the height of the error list defaults to 10
