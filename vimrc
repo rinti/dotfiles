@@ -12,6 +12,8 @@ if has('vim_starting')
     set rtp+=$HOME/.vim/bundle/neobundle.vim/
 endif
 call neobundle#begin(expand($HOME.'/.vim/bundle/'))
+NeoBundle 'NLKNguyen/papercolor-theme'
+NeoBundle 'joshhartigan/vim-reddit'
 NeoBundle 'croaker/mustang-vim'
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'bkad/CamelCaseMotion'
@@ -105,13 +107,13 @@ if has("autocmd")
 endif
 
 syntax enable
-colorscheme mustang
 let g:solarized_termcolors = &t_Co
 let g:solarized_termtrans = 1
 let g:solarized_termcolors=256
 let g:solarized_visibility = "high"
 let g:solarized_contrast = "high"
 set background=dark
+colorscheme mustang
 
 let g:mustache_abbreviations = 1
 
@@ -139,6 +141,8 @@ let g:airline#extensions#virtualenv#enabled = 0
 nnoremap <Leader>fr :call VisualFindAndReplace()<CR>
 xnoremap <Leader>fr :call VisualFindAndReplaceWithSelection()<CR>
 nnoremap Y y$
+nnoremap å :colorscheme mustang<CR>
+nnoremap Å :colorscheme PaperColor<CR>
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> :.cc<CR>
 autocmd BufReadPost quickfix nnoremap <buffer> o :.cc<CR>
 nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
@@ -205,7 +209,28 @@ let g:indent_guides_exclude_filetypes = ['help', 'nerdtree']
 let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=238
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=249
-autocmd BufWritePost *.less :silent !touch `find xcalibur -name "bootstrap.less" | head -1`
+if isdirectory("xcalibur")
+  autocmd BufWritePost *.less :silent !touch `find xcalibur -name "bootstrap.less" | head -1`
+endif
+command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
+function! s:RunShellCommand(cmdline)
+  echo a:cmdline
+  let expanded_cmdline = a:cmdline
+  for part in split(a:cmdline, ' ')
+     if part[0] =~ '\v[%#<]'
+        let expanded_part = fnameescape(expand(part))
+        let expanded_cmdline = substitute(expanded_cmdline, part, expanded_part, '')
+     endif
+  endfor
+  botright new
+  setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+  call setline(1, 'You entered:    ' . a:cmdline)
+  call setline(2, 'Expanded Form:  ' .expanded_cmdline)
+  call setline(3,substitute(getline(2),'.','=','g'))
+  execute '$read !'. expanded_cmdline
+  setlocal nomodifiable
+  1
+endfunction
 let g:rbpt_colorpairs = [
     \ ['brown',       'RoyalBlue3'],
     \ ['Darkblue',    'SeaGreen3'],
@@ -315,17 +340,6 @@ function! s:DeleteBuffer()
         \ : fnamemodify(line[2:], ':p')
     exec "bd" bufid
     exec "norm \<F5>"
-endfunction
-function! ToggleTodoCheckbox()
-        let line = getline('.')
-        if(match(line, "\\[ \\]") != -1)
-          let line = substitute(line, "\\[ \\]", "[√]", "")
-          let line = substitute(line, "$", " @done (" . strftime("%m/%d/%y %H:%M") . ")", "")
-        elseif(match(line, "\\[√\\]") != -1)
-          let line = substitute(line, "\\[√\\]", "[ ]", "")
-          let line = substitute(line, " @done.*$", "", "")
-        endif
-        call setline('.', line)
 endfunction
 let g:quickfix_is_open = 0
 
