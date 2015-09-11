@@ -12,36 +12,28 @@ if has('vim_starting')
     set rtp+=$HOME/.vim/bundle/neobundle.vim/
 endif
 call neobundle#begin(expand($HOME.'/.vim/bundle/'))
+NeoBundle 'pelodelfuego/vim-swoop'
 NeoBundle 'NLKNguyen/papercolor-theme'
-NeoBundle 'joshhartigan/vim-reddit'
 NeoBundle 'croaker/mustang-vim'
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'bkad/CamelCaseMotion'
 NeoBundle 'Shougo/neocomplcache.vim'
 NeoBundle 'groenewege/vim-less'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'JarrodCTaylor/vim-256-color-schemes'
 NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'majutsushi/tagbar'
 NeoBundle 'ervandew/supertab'
 NeoBundle 'mustache/vim-mustache-handlebars'
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'tpope/vim-commentary'
-NeoBundle 'davidhalter/jedi-vim'
+" NeoBundle 'davidhalter/jedi-vim'
 NeoBundle 'mhinz/vim-startify'
 NeoBundle 'tpope/vim-surround'
-NeoBundle 'JarrodCTaylor/vim-python-test-runner'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'justinmk/vim-sneak'
 NeoBundle 'JarrodCTaylor/vim-shell-executor'
 NeoBundle 'epeli/slimux'
 NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'JarrodCTaylor/vim-qunit-special-blend'
-NeoBundle 'leafgarland/typescript-vim'
 NeoBundle 'https://github.com/mattn/emmet-vim/'
 NeoBundle 'osyo-manga/vim-over'
 NeoBundle 'nathanaelkane/vim-indent-guides'
@@ -49,11 +41,11 @@ NeoBundle 'kien/rainbow_parentheses.vim'
 NeoBundle 'wellle/targets.vim'
 NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'junegunn/vim-easy-align'
-NeoBundle '~/dotfiles/vim/my-plugins/nerd-ack', {'type': 'nosync'}
-NeoBundle '~/dotfiles/vim/my-plugins/tmux-navigator', {'type': 'nosync'}
-NeoBundle '~/dotfiles/vim/my-plugins/vim-ack', {'type': 'nosync'}
-NeoBundle '~/dotfiles/vim/my-plugins/vim-grep-quickfix', {'type': 'nosync'}
-NeoBundle '~/dotfiles/vim/my-plugins/vim-wiki-links', {'type': 'nosync'}
+" NeoBundle '~/dotfiles/vim/my-plugins/nerd-ack', {'type': 'nosync'}
+" NeoBundle '~/dotfiles/vim/my-plugins/tmux-navigator', {'type': 'nosync'}
+" NeoBundle '~/dotfiles/vim/my-plugins/vim-ack', {'type': 'nosync'}
+" NeoBundle '~/dotfiles/vim/my-plugins/vim-grep-quickfix', {'type': 'nosync'}
+" NeoBundle '~/dotfiles/vim/my-plugins/vim-wiki-links', {'type': 'nosync'}
 NeoBundle 'hhff/SpacegrayEighties.vim'
 call neobundle#end()
 filetype  plugin on
@@ -63,6 +55,7 @@ syntax on
 set autoindent                         " Copy indent from current line
 set autoread                           " Read open files again when changed outside Vim
 set autowrite                          " Write a modified buffer on each :next , ...
+set regexpengine=2                      " Rumor says this is fast
 set backspace=indent,eol,start         " Backspacing over everything in insert mode
 set colorcolumn=101                    " Ruler at 101 characters in.
 set history=200                        " Keep 200 lines of command line history
@@ -99,6 +92,9 @@ au BufNewFile,BufRead *.hbs set ft=html syntax=html
 au BufNewFile,BufRead *.json set ft=javascript
 set pastetoggle=<F3>
 set nofoldenable
+set foldmethod=indent   "fold based on indent
+set foldnestmax=10      "deepest fold is 10 levels
+set foldlevel=1         "this is just what i use
 if has("autocmd")
   autocmd BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
@@ -249,6 +245,7 @@ let g:rbpt_colorpairs = [
     \ ['red',         'firebrick3'],
     \ ['darkgreen',   'RoyalBlue3'],
     \ ]
+nmap . :
 let g:rbpt_max = 16
 let g:rbpt_loadcmd_toggle = 0
 nnoremap <Esc><Esc> :nohlsearch<CR>
@@ -378,6 +375,8 @@ vmap <silent> <expr> p <sid>Repl()
 let mapleader=" "
 nnoremap j gj
 nnoremap k gk
+nnoremap J 5j
+nnoremap K 5k
 nnoremap <Leader>ff :CtrlP<CR>
 noremap <Leader>sp :set spell spelllang=en_us<CR>
 nnoremap <Leader>tb :TagbarToggle<CR>
