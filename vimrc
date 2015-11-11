@@ -12,6 +12,7 @@ if has('vim_starting')
     set rtp+=$HOME/.vim/bundle/neobundle.vim/
 endif
 call neobundle#begin(expand($HOME.'/.vim/bundle/'))
+NeoBundle 'michaeljsmith/vim-indent-object'
 NeoBundle 'pelodelfuego/vim-swoop'
 NeoBundle 'NLKNguyen/papercolor-theme'
 NeoBundle 'croaker/mustang-vim'
@@ -26,7 +27,6 @@ NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'tpope/vim-commentary'
-" NeoBundle 'davidhalter/jedi-vim'
 NeoBundle 'mhinz/vim-startify'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'bling/vim-airline'
@@ -41,11 +41,6 @@ NeoBundle 'kien/rainbow_parentheses.vim'
 NeoBundle 'wellle/targets.vim'
 NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'junegunn/vim-easy-align'
-" NeoBundle '~/dotfiles/vim/my-plugins/nerd-ack', {'type': 'nosync'}
-" NeoBundle '~/dotfiles/vim/my-plugins/tmux-navigator', {'type': 'nosync'}
-" NeoBundle '~/dotfiles/vim/my-plugins/vim-ack', {'type': 'nosync'}
-" NeoBundle '~/dotfiles/vim/my-plugins/vim-grep-quickfix', {'type': 'nosync'}
-" NeoBundle '~/dotfiles/vim/my-plugins/vim-wiki-links', {'type': 'nosync'}
 NeoBundle 'hhff/SpacegrayEighties.vim'
 call neobundle#end()
 filetype  plugin on
@@ -245,7 +240,7 @@ let g:rbpt_colorpairs = [
     \ ['red',         'firebrick3'],
     \ ['darkgreen',   'RoyalBlue3'],
     \ ]
-nmap . :
+" nmap . :
 let g:rbpt_max = 16
 let g:rbpt_loadcmd_toggle = 0
 nnoremap <Esc><Esc> :nohlsearch<CR>
@@ -378,25 +373,14 @@ nnoremap k gk
 nnoremap J 5j
 nnoremap K 5k
 nnoremap <Leader>ff :CtrlP<CR>
-noremap <Leader>sp :set spell spelllang=en_us<CR>
-nnoremap <Leader>tb :TagbarToggle<CR>
 map <Leader>a :Ack!<space>
 map <Leader>d :NERDTreeToggle<CR>
 nmap <Leader>nt :NERDTreeFind<CR>
-map <Leader>tw :DjangoTestApp<CR>
-map <Leader>tf :DjangoTestFile<CR>
-map <Leader>tc :DjangoTestClass<CR>
-map <Leader>tm :DjangoTestMethod<CR>
-map<Leader>nf :NosetestFile<CR>
-map<Leader>nc :NosetestClass<CR>
-map<Leader>nm :NosetestMethod<CR>
-nnoremap<Leader>ta :RerunLastTests<CR>
 map <Leader>fs :CtrlPTag<CR>
 map <Leader>fd :CtrlPCurFile<CR>
 map <Leader>fb :CtrlPBuffer<CR>
 nmap <Leader><Leader> <c-^>
 nnoremap <Leader>q :call QuickfixToggle()<CR>
-nnoremap <Leader>ed <C-w><C-v><C-l>:e $MYVIMRC<CR>
 map <Leader>rf :call RenameFile()<CR>
 map <Leader>cf :call CopyFile()<CR>
 nnoremap <Leader>ri :call RenewTagsFile()<CR>
@@ -411,9 +395,6 @@ imap <C-f> <C-o>l
 imap <C-b> <C-o>h
 nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
 
-nmap <Leader>tm :RunSingleQunitTest<CR>
-nmap <Leader>tc :RunSingleQunitModule<CR>
-nmap <Leader>ta :!gulp test<CR>
 
 nmap <Leader>j :call InvokeJumpToByType()<CR>
 function! InvokeJumpToByType()

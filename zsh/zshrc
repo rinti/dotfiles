@@ -89,7 +89,7 @@ REPORTTIME=60
 # >>2
 # utf-8 in the terminal, will break stuff if your term isn't utf aware <<2
 #-------------------------------------------------------------------------------
-export LANG=en_US.UTF-8
+export LANG=sv_SE.UTF-8
 export LC_ALL=$LANG
 export LC_COLLATE=C
 # >>2
@@ -138,7 +138,7 @@ fi
 
 # EOF
 sfp() { ag --python "$*" --nocolor; }
-export GOPATH="/Users/andreas/repositories/misc/go/"
-export GOBIN="/Users/andreas/repositories/misc/go/bin/"
+export GOPATH="/Users/andreas/repositories/misc/go"
+export GOBIN="/Users/andreas/repositories/misc/go/bin"
 export PATH="$HOME/.rbenv/bin:$PATH:$HOME/.rvm/bin:$GOBIN"
 eval "$(rbenv init -)"
