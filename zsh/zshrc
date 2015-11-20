@@ -141,4 +141,3 @@ sfp() { ag --python "$*" --nocolor; }
 export GOPATH="/Users/andreas/repositories/misc/go"
 export GOBIN="/Users/andreas/repositories/misc/go/bin"
 export PATH="$HOME/.rbenv/bin:$PATH:$HOME/.rvm/bin:$GOBIN"
-eval "$(rbenv init -)"

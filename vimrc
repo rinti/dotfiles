@@ -244,6 +244,7 @@ let g:rbpt_colorpairs = [
 let g:rbpt_max = 16
 let g:rbpt_loadcmd_toggle = 0
 nnoremap <Esc><Esc> :nohlsearch<CR>
+nnoremap <Leader>m :nohlsearch<CR>
 function! RenewTagsFile()
     exe 'silent !rm -rf .ctags'
     exe 'silent !ctags -a -Rf .ctags --languages=javascript --exclude=.git --exclude="*.min.js" --exclude=node_modules --exclude=tmp 2>/dev/null'
