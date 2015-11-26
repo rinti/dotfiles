@@ -141,3 +141,67 @@ sfp() { ag --python "$*" --nocolor; }
 export GOPATH="/Users/andreas/repositories/misc/go"
 export GOBIN="/Users/andreas/repositories/misc/go/bin"
 export PATH="$HOME/.rbenv/bin:$PATH:$HOME/.rvm/bin:$GOBIN"
+
+function _omz_osx_get_frontmost_app() {
+  local the_app=$(
+    osascript 2>/dev/null <<EOF
+      tell application "System Events"
+        name of first item of (every process whose frontmost is true)
+      end tell
+EOF
+  )
+  echo "$the_app"
+}
+
+function tab() {
+  # Must not have trailing semicolon, for iTerm compatibility
+  local command="cd \\\"$PWD\\\"; clear"
+  (( $# > 0 )) && command="${command}; $*"
+
+  local the_app=$(_omz_osx_get_frontmost_app)
+
+  if [[ "$the_app" == 'Terminal' ]]; then
+    # Discarding stdout to quash "tab N of window id XXX" output
+    osascript >/dev/null <<EOF
+      tell application "System Events"
+        tell process "Terminal" to keystroke "t" using command down
+      end tell
+      tell application "Terminal" to do script "${command}" in front window
+EOF
+
+  elif [[ "$the_app" == 'iTerm' ]]; then
+    osascript <<EOF
+      tell application "iTerm"
+        set current_terminal to current terminal
+        tell current_terminal
+          launch session "Default Session"
+          set current_session to current session
+          tell current_session
+            write text "${command}"
+          end tell
+        end tell
+      end tell
+EOF
+
+  else
+    echo "tab: unsupported terminal app: $the_app"
+    false
+
+  fi
+}
+
+function wpwd() {
+  workon ${PWD##*/}
+}
+function wpwdvim() {
+  wpwd && vim
+}
+function workon_and_export_and_server() {
+  wpwd && h aws && python manage.py runserver
+}
+function envs() {
+  workon_and_export_and_server &
+  tab wpwdvim
+  tab wpwd
+  fg
+}

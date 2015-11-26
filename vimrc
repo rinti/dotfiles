@@ -42,6 +42,7 @@ NeoBundle 'wellle/targets.vim'
 NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'hhff/SpacegrayEighties.vim'
+NeoBundle 'elixir-lang/vim-elixir'
 call neobundle#end()
 filetype  plugin on
 filetype  indent on
@@ -78,7 +79,7 @@ set wildmenu                           " Command-line completion in an enhanced 
 set shell=bash                         " Required to let zsh know how to run things on command line
 set ttimeoutlen=50                     " Fix delay when escaping from insert with Esc
 set noshowmode                         " Hide the default mode text (e.g. -- INSERT -- below the statusline)
-set relativenumber                     " Relative line numbers
+" set relativenumber                     " Relative line numbers
 set showbreak=↪\
 set synmaxcol=256
 set scrolloff=3
