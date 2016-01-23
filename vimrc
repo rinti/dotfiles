@@ -13,6 +13,7 @@ if has('vim_starting')
 endif
 call neobundle#begin(expand($HOME.'/.vim/bundle/'))
 NeoBundle 'michaeljsmith/vim-indent-object'
+NeoBundle 'lambdatoast/elm.vim'
 NeoBundle 'pelodelfuego/vim-swoop'
 NeoBundle 'NLKNguyen/papercolor-theme'
 NeoBundle 'croaker/mustang-vim'
@@ -20,6 +21,7 @@ NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'bkad/CamelCaseMotion'
 NeoBundle 'Shougo/neocomplcache.vim'
 NeoBundle 'groenewege/vim-less'
+NeoBundle 'rust-lang/rust.vim'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'ervandew/supertab'
 NeoBundle 'mustache/vim-mustache-handlebars'
@@ -108,6 +110,8 @@ set background=dark
 colorscheme mustang
 
 let g:mustache_abbreviations = 1
+
+g:rustfmt_autosave = 1
 
 if has("autocmd")
   au BufNewFile,BufRead *.{mustache,handlebars,hbs}{,.erb} set filetype=html syntax=mustache | runtime! ftplugin/mustache.vim ftplugin/mustache*.vim ftplugin/mustache/*.vim

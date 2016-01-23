@@ -141,6 +141,9 @@ sfp() { ag --python "$*" --nocolor; }
 export GOPATH="/Users/andreas/repositories/misc/go"
 export GOBIN="/Users/andreas/repositories/misc/go/bin"
 export PATH="$HOME/.rbenv/bin:$PATH:$HOME/.rvm/bin:$GOBIN"
+export EDITOR="vim"
+eval "$(rbenv init -)"
+# source ~/.bin/tmuxinator.zsh
 
 function _omz_osx_get_frontmost_app() {
   local the_app=$(
@@ -200,8 +203,20 @@ function workon_and_export_and_server() {
   wpwd && h aws && python manage.py runserver
 }
 function envs() {
+  wpwd
+  h aws
   workon_and_export_and_server &
   tab wpwdvim
   tab wpwd
   fg
 }
+
+alias tmux="TERM=screen-256color tmux"
+export TERM="screen-256color"
+
+# Kill all tmux sessions
+alias tclear='tmux kill-server'
+alias tkns='tmux new -s "@1"'
+
+# Make ctrl+r work in tmux
+bindkey '^R' history-incremental-search-backward
