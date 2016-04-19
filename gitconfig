@@ -10,7 +10,7 @@
     deleted = red
     untracked = yellow
 [user]
-	name = andreas
+	name = rinti
 	email = andreas@agoodid.se
 [heroku]
     account = work

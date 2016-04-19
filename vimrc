@@ -32,6 +32,7 @@ NeoBundle 'tpope/vim-commentary'
 NeoBundle 'mhinz/vim-startify'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'bling/vim-airline'
+NeoBundle 'vim-airline/vim-airline-themes'
 NeoBundle 'justinmk/vim-sneak'
 NeoBundle 'JarrodCTaylor/vim-shell-executor'
 NeoBundle 'epeli/slimux'
@@ -53,7 +54,6 @@ syntax on
 set autoindent                         " Copy indent from current line
 set autoread                           " Read open files again when changed outside Vim
 set autowrite                          " Write a modified buffer on each :next , ...
-set regexpengine=2                      " Rumor says this is fast
 set backspace=indent,eol,start         " Backspacing over everything in insert mode
 set colorcolumn=101                    " Ruler at 101 characters in.
 set history=200                        " Keep 200 lines of command line history
@@ -110,8 +110,6 @@ set background=dark
 colorscheme mustang
 
 let g:mustache_abbreviations = 1
-
-g:rustfmt_autosave = 1
 
 if has("autocmd")
   au BufNewFile,BufRead *.{mustache,handlebars,hbs}{,.erb} set filetype=html syntax=mustache | runtime! ftplugin/mustache.vim ftplugin/mustache*.vim ftplugin/mustache/*.vim

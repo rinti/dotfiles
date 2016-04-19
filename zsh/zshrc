@@ -32,15 +32,12 @@ precmd_functions=( precmd_prompt )
 if [[ ! -f ~/.antigen.zsh ]]; then
     curl https://raw.githubusercontent.com/zsh-users/antigen/master/antigen.zsh > ~/.antigen.zsh
 fi
-
-ANTIGEN_DEFAULT_REPO_URL=https://bitbucket.org/toranb/zsh-components-osx
 source ~/.antigen.zsh
 # >>1
 
 # set antigen bundles <<1
 #-------------------------------------------------------------------------------
 # antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle workon_virtualenv
 # antigen bundle cd
 # >>1
 
@@ -66,7 +63,7 @@ zstyle -e ':completion:*:(ssh|scp|sshfs|ping|telnet|nc|rsync):*' hosts '
 #-------------------------------------------------------------------------------
 setopt  auto_cd
 setopt  auto_pushd
-setopt  noclobber
+setopt  clobber
 setopt  complete_aliases
 setopt  extended_glob
 setopt  hist_ignore_all_dups
@@ -82,9 +79,9 @@ setopt  prompt_subst
 # History settings <<2
 #-------------------------------------------------------------------------------
 HISTFILE=$HOME/.zsh_history
-HISTFILESIZE=65536
-HISTSIZE=4096
-SAVEHIST=4096
+HISTFILESIZE=6553600
+HISTSIZE=409600
+SAVEHIST=409600
 REPORTTIME=60
 # >>2
 # utf-8 in the terminal, will break stuff if your term isn't utf aware <<2
@@ -142,7 +139,6 @@ export GOPATH="/Users/andreas/repositories/misc/go"
 export GOBIN="/Users/andreas/repositories/misc/go/bin"
 export PATH="$HOME/.rbenv/bin:$PATH:$HOME/.rvm/bin:$GOBIN"
 export EDITOR="vim"
-eval "$(rbenv init -)"
 # source ~/.bin/tmuxinator.zsh
 
 function _omz_osx_get_frontmost_app() {
@@ -217,6 +213,8 @@ export TERM="screen-256color"
 # Kill all tmux sessions
 alias tclear='tmux kill-server'
 alias tkns='tmux new -s "@1"'
+
+alias act='source env/bin/activate'
 
 # Make ctrl+r work in tmux
 bindkey '^R' history-incremental-search-backward
