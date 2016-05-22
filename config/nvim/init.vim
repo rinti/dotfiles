@@ -38,7 +38,6 @@ NeoBundle 'wellle/targets.vim'
 NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'junegunn/vim-easy-align'
 call neobundle#end()
-set viminfo='100,n$HOME/.vim/files/info/viminfo'
 
 syntax enable
 set background=dark
@@ -59,6 +58,7 @@ imap <C-e> <C-o>$
 imap <C-a> <C-o>0
 imap <C-f> <C-o>l
 imap <C-b> <C-o>h
+tnoremap jj <C-\><C-n>
 
 " Work scripts
 "
