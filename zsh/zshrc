@@ -122,7 +122,7 @@ include () {
 # >>3
 # Add nvm if exists <<3
 #-------------------------------------------------------------------------------
-# include ~/.nvm/nvm.sh
+include ~/.nvm/nvm.sh
 # >>3
 # >>2
 # Tmux Ctrl-S fix for Linux <<2

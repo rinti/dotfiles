@@ -11,6 +11,9 @@ vim/bundle/tagbar/*
 vim/bundle/vim-fugitive/*
 vim/bundle/vim-javascript/*
 vim/bundle/vundle/*
+vim/.netrwhist
+config/configstore/update-notifier-bower.json
+config/configstore/bower-github.json
 
 .DS_Store
 Mac/.DS_Store
