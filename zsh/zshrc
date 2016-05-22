@@ -1,66 +1,87 @@
 #!/bin/zsh
-# vim: set foldmarker=<<,>> foldlevel=0 foldmethod=marker:
-#===================================================================================
-#                 .__
-#  ________  _____|  |_________   ____
-#  \___   / /  ___/  |  \_  __ \_/ ___\
-#   /    /  \___ \|   Y  \  | \/\  \___
-#  /_____ \/____  >___|  /__|    \___  >
-#        \/     \/     \/            \/
-#===================================================================================
-#
+# if [[ ! -n "$ZSHRUN" ]]; then
+#     source $HOME/dotfiles/zsh/zsh_prompt
+# fi
 
-# Set up the prompt <<1
-#-------------------------------------------------------------------------------
-if [[ ! -n "$ZSHRUN" ]]; then
-    source $HOME/dotfiles/zsh/zsh_prompt
-fi
-# Precmd local array variable <<2
-#-------------------------------------------------------------------------------
 local -a precmd_functions
-# >>2
-# Precmd functions <<2
-#------------------------------------------------------------------------------
-# Run precmd functions so we get our pimped out prompt
-#------------------------------------------------------------------------------
 precmd_functions=( precmd_prompt )
-# >>2
-# >>1
 
-# Setup antigen <<1
-#-------------------------------------------------------------------------------
+export ZPLUG_HOME=/usr/local/opt/zplug
+source $ZPLUG_HOME/init.zsh
+
 if [[ ! -f ~/.antigen.zsh ]]; then
     curl https://raw.githubusercontent.com/zsh-users/antigen/master/antigen.zsh > ~/.antigen.zsh
 fi
 source ~/.antigen.zsh
-# >>1
 
-# set antigen bundles <<1
-#-------------------------------------------------------------------------------
-# antigen bundle zsh-users/zsh-syntax-highlighting
+zplug "bhilburn/powerlevel9k"
+zplug "zsh-users/zsh-syntax-highlighting"
 # antigen bundle cd
-# >>1
 
-# General Settings <<1
-# Autoload colors and tab completion <<2
-#-------------------------------------------------------------------------------
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+zplug load --verbose
+
 autoload -U colors && colors
 autoload -U compinit
 compinit -C
-# >> 2
-# Modify default zsh directory coloring on ls commands <<2
-#-------------------------------------------------------------------------------
+
+
+POWERLEVEL9K_MODE='compatible'
+
+# Disable dir/git icons
+POWERLEVEL9K_HOME_ICON=''
+POWERLEVEL9K_HOME_SUB_ICON=''
+POWERLEVEL9K_FOLDER_ICON=''
+
+DISABLE_AUTO_TITLE="true"
+
+POWERLEVEL9K_VCS_GIT_ICON=''
+POWERLEVEL9K_VCS_STAGED_ICON='staged'
+POWERLEVEL9K_VCS_UNTRACKED_ICON='?'
+POWERLEVEL9K_VCS_UNSTAGED_ICON='unstaged'
+POWERLEVEL9K_VCS_INCOMING_CHANGES_ICON=''
+POWERLEVEL9K_VCS_OUTGOING_CHANGES_ICON=''
+POWERLEVEL9K_VCS_STASH_ICON=''
+POWERLEVEL9K_VCS_TAG_ICON=''
+POWERLEVEL9K_VCS_BOOKMARK_ICON=''
+POWERLEVEL9K_VCS_COMMIT_ICON=''
+POWERLEVEL9K_VCS_BRANCH_ICON=''
+POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON=''
+POWERLEVEL9K_VCS_GIT_ICON=''
+POWERLEVEL9K_VCS_HG_ICON=''
+
+POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR=''
+POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR=''
+
+POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='yellow'
+POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='yellow'
+POWERLEVEL9K_SHORTEN_DELIMITER=""
+
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(virtualenv time)
+
+POWERLEVEL9K_SHORTEN_STRATEGY="truncate_middle"
+POWERLEVEL9K_SHORTEN_DIR_LENGTH=4
+
+POWERLEVEL9K_TIME_FORMAT="%D{%H:%M %d/%m}"
+
+POWERLEVEL9K_STATUS_VERBOSE=false
+export DEFAULT_USER="$USER"
+
+
 export LSCOLORS=gxfxcxdxbxegedabagacad
-# >>2
-# Completions <<2
-#-------------------------------------------------------------------------------
+
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' list-colors "$LS_COLORS"
 zstyle -e ':completion:*:(ssh|scp|sshfs|ping|telnet|nc|rsync):*' hosts '
     reply=( ${=${${(M)${(f)"$(<~/.ssh/config)"}:#Host*}#Host }:#*\**} )'
-# >>2
-# Set the desired zsh options <<2
-#-------------------------------------------------------------------------------
+
 setopt  auto_cd
 setopt  auto_pushd
 setopt  clobber
@@ -75,146 +96,44 @@ setopt  mark_dirs
 setopt  path_dirs
 setopt  prompt_percent
 setopt  prompt_subst
-# >>2
-# History settings <<2
-#-------------------------------------------------------------------------------
+
 HISTFILE=$HOME/.zsh_history
 HISTFILESIZE=6553600
 HISTSIZE=409600
 SAVEHIST=409600
 REPORTTIME=60
-# >>2
-# utf-8 in the terminal, will break stuff if your term isn't utf aware <<2
-#-------------------------------------------------------------------------------
+
 export LANG=sv_SE.UTF-8
 export LC_ALL=$LANG
 export LC_COLLATE=C
-# >>2
-# Set grepoptions <<2
-#-------------------------------------------------------------------------------
+
 export GREP_OPTIONS='--color=auto'
-# >>2
-# Use the correct ctags <<2
-#-------------------------------------------------------------------------------
+
 PATH="/usr/local/bin:$PATH"
-# >>2
-# Editor and display configurations <<2
-#-------------------------------------------------------------------------------
-export GIT_EDITOR='vim'
+
+export GIT_EDITOR='nvim'
 export LESS='-imJMWR'
 export PAGER="less $LESS"
 export MANPAGER=$PAGER
 export GIT_PAGER=$PAGER
 export BROWSER='chromium-browser'
-# >>2
-# Specify virtualenv directories <<2
-#-------------------------------------------------------------------------------
+
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/VirtualDevEnvs
-# >>2
-# Includes <<2
+
 include () {
     [[ -s "$1" ]] && source "$1"
 }
-# Add rmv if exists <<3
-#-------------------------------------------------------------------------------
-# include ~/.rvm/scripts/rvm
-# >>3
-# Add nvm if exists <<3
-#-------------------------------------------------------------------------------
+
 include ~/.nvm/nvm.sh
-# >>3
-# >>2
-# Tmux Ctrl-S fix for Linux <<2
-#------------------------------------------------------------------------------
-if [ "$(uname)" != "Darwin" ]; then
-    stty -ixon
-fi
-# >>2
-# >>1
 
-# EOF
 sfp() { ag --python "$*" --nocolor; }
-export GOPATH="/Users/andreas/repositories/misc/go"
-export GOBIN="/Users/andreas/repositories/misc/go/bin"
-export PATH="$HOME/.rbenv/bin:$PATH:$HOME/.rvm/bin:$GOBIN"
-export EDITOR="vim"
-# source ~/.bin/tmuxinator.zsh
 
-function _omz_osx_get_frontmost_app() {
-  local the_app=$(
-    osascript 2>/dev/null <<EOF
-      tell application "System Events"
-        name of first item of (every process whose frontmost is true)
-      end tell
-EOF
-  )
-  echo "$the_app"
-}
-
-function tab() {
-  # Must not have trailing semicolon, for iTerm compatibility
-  local command="cd \\\"$PWD\\\"; clear"
-  (( $# > 0 )) && command="${command}; $*"
-
-  local the_app=$(_omz_osx_get_frontmost_app)
-
-  if [[ "$the_app" == 'Terminal' ]]; then
-    # Discarding stdout to quash "tab N of window id XXX" output
-    osascript >/dev/null <<EOF
-      tell application "System Events"
-        tell process "Terminal" to keystroke "t" using command down
-      end tell
-      tell application "Terminal" to do script "${command}" in front window
-EOF
-
-  elif [[ "$the_app" == 'iTerm' ]]; then
-    osascript <<EOF
-      tell application "iTerm"
-        set current_terminal to current terminal
-        tell current_terminal
-          launch session "Default Session"
-          set current_session to current session
-          tell current_session
-            write text "${command}"
-          end tell
-        end tell
-      end tell
-EOF
-
-  else
-    echo "tab: unsupported terminal app: $the_app"
-    false
-
-  fi
-}
-
-function wpwd() {
-  workon ${PWD##*/}
-}
-function wpwdvim() {
-  wpwd && vim
-}
-function workon_and_export_and_server() {
-  wpwd && h aws && python manage.py runserver
-}
-function envs() {
-  wpwd
-  h aws
-  workon_and_export_and_server &
-  tab wpwdvim
-  tab wpwd
-  fg
-}
+export EDITOR="nvim"
 
 alias tmux="TERM=screen-256color tmux"
 export TERM="screen-256color"
 
-# Kill all tmux sessions
-alias tclear='tmux kill-server'
-alias tkns='tmux new -s "@1"'
-
 alias act='source env/bin/activate'
 
-# Make ctrl+r work in tmux
 bindkey '^R' history-incremental-search-backward

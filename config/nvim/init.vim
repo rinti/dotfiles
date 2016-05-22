@@ -59,6 +59,7 @@ imap <C-a> <C-o>0
 imap <C-f> <C-o>l
 imap <C-b> <C-o>h
 tnoremap jj <C-\><C-n>
+set clipboard=unnamed
 
 " Work scripts
 "
