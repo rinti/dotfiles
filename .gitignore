@@ -1,4 +1,6 @@
 # Ignore all the files and folders in the bundle directory
+config/nvim/bundle/
+config/nvim/.init.vim-rplugin~
 vim/bundle/
 vim/bundle/L9/*
 vim/bundle/AutoComplPop/*

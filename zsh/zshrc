@@ -134,5 +134,8 @@ alias tmux="TERM=screen-256color tmux"
 export TERM="screen-256color"
 
 alias act='source env/bin/activate'
+alias nvimrc='nvim ~/.config/nvim/init.vim'
+alias vimrc='nvim ~/.vimrc'
+alias zshrc='nvim ~/.zshrc'
 
 bindkey '^R' history-incremental-search-backward
