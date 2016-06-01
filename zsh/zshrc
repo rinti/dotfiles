@@ -137,5 +137,6 @@ alias act='source env/bin/activate'
 alias nvimrc='nvim ~/.config/nvim/init.vim'
 alias vimrc='nvim ~/.vimrc'
 alias zshrc='nvim ~/.zshrc'
+alias nombom='npm cache clear && bower cache clean && rm -rf node_modules bower_components && npm install && bower install'
 
 bindkey '^R' history-incremental-search-backward
