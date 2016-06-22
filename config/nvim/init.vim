@@ -70,12 +70,6 @@ tnoremap jj <C-\><C-n>
 set clipboard=unnamed
 nnoremap <Esc><Esc> :nohlsearch<CR>
 
-" Work scripts
-"
-if isdirectory("xcalibur")
-  " Touch bootstrap.less if we find one in the xcalibur dir
-  autocmd BufWritePost *.less :silent !touch `find xcalibur -name "bootstrap.less" | head -1`
-endif
 
 " Scripts
 "
@@ -174,9 +168,11 @@ let g:airline#extensions#virtualenv#enabled = 0
 "
 let g:syntastic_check_on_open=1                   " check for errors when file is loaded
 let g:syntastic_loc_list_height=5                 " the height of the error list defaults to 10
-let g:syntastic_python_checkers = []      " sets flake8 as the default for checking python files
-" let g:syntastic_python_flake8_post_args='--ignore=E111'
-let g:syntastic_javascript_checkers = ['jshint']  " sets jshint as our javascript linter
+
+let g:syntastic_python_checkers = ['flake8']      " sets flake8 as the default for checking python files
+let g:syntastic_python_flake8_post_args='--ignore=E111'
+
+let g:syntastic_javascript_checkers = ['eslint']  " sets jshint as our javascript linter
 " let g:syntastic_javascript_jshint_post_args='--esversion 6'
 let g:syntastic_filetype_map = { 'handlebars.html': 'handlebars' }
 let g:syntastic_mode_map={ 'mode': 'active',
@@ -253,3 +249,13 @@ let g:jedi#rename_command = "<leader>rn"
 let g:jedi#goto_command = "<leader>f"
 let g:jedi#show_call_signatures = "0"
 let g:jedi#documentation_command = ""
+
+" Work scripts
+"
+if isdirectory("xcalibur")
+  " Touch bootstrap.less if we find one in the xcalibur dir
+  autocmd BufWritePost *.less :silent !touch `find xcalibur -name "bootstrap.less" | head -1`
+  let g:syntastic_javascript_checkers = ['jshint']  " sets jshint as our javascript linter
+  let g:syntastic_python_checkers = []      " sets flake8 as the default for checking python files
+  let g:syntastic_python_flake8_post_args=''
+endif

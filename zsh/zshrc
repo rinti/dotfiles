@@ -71,10 +71,12 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
 POWERLEVEL9K_SHORTEN_STRATEGY="truncate_middle"
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=4
 
-POWERLEVEL9K_TIME_FORMAT="%D{%H:%M %d/%m}"
+POWERLEVEL9K_TIME_FORMAT="%D{%H:%M}"
 
 POWERLEVEL9K_TIME_FOREGROUND='white'
 POWERLEVEL9K_TIME_BACKGROUND='transparent'
+POWERLEVEL9K_VIRTUALENV_FOREGROUND='yellow'
+POWERLEVEL9K_VIRTUALENV_BACKGROUND='transparent'
 POWERLEVEL9K_VCS_MODIFIED_FOREGROUND='yellow'
 POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='yellow'
 POWERLEVEL9K_VCS_CLEAN_BACKGROUND='transparent'
@@ -154,10 +156,13 @@ export EDITOR="nvim"
 alias tmux="TERM=screen-256color tmux"
 export TERM="screen-256color"
 
-alias act='source env/bin/activate'
+alias act='source env/bin/activate && export `heroku config -s | grep "^AWS"`'
 alias nvimrc='nvim ~/.config/nvim/init.vim'
 alias vimrc='nvim ~/.vimrc'
 alias zshrc='nvim ~/.zshrc'
 alias nombom='npm cache clear && bower cache clean && rm -rf node_modules bower_components && npm install && bower install'
+alias nvim='echo -ne "\033]0;nvim\007" && /usr/local/bin/nvim'
+alias vim='nvim'
 
 bindkey '^R' history-incremental-search-backward
+clear
