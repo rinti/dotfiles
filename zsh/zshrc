@@ -151,6 +151,15 @@ include ~/.nvm/nvm.sh
 
 sfp() { ag --python "$*" --nocolor; }
 
+wttr() {
+  place=$1
+  if [[ -z "$place" ]]; then
+    place='stockholm'
+  fi
+  url='http://wttr.in/'$place
+  curl $url
+}
+
 export EDITOR="nvim"
 
 alias tmux="TERM=screen-256color tmux"
