@@ -13,6 +13,7 @@ if has('vim_starting')
 endif
 call neobundle#begin(expand($HOME.'/.config/nvim/bundle/'))
 NeoBundle 'michaeljsmith/vim-indent-object'
+NeoBundle 'NLKNguyen/papercolor-theme'
 NeoBundle 'croaker/mustang-vim'
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'bkad/CamelCaseMotion'
@@ -38,6 +39,7 @@ NeoBundle 'wellle/targets.vim'
 NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'davidhalter/jedi-vim'
+NeoBundle 'junegunn/seoul256.vim'
 call neobundle#end()
 
 filetype plugin indent on
@@ -48,8 +50,18 @@ set expandtab
 set tags=./.ctags,.ctags;
 
 syntax enable
-set background=dark
-colorscheme mustang
+set t_Co=256
+
+if exists('light')
+  set background=light
+  colo PaperColor
+  let g:airline_theme='PaperColor'
+else
+  set background=dark
+  colo mustang
+  let g:airline_theme='understated'
+endif
+
 let mapleader=" "
 nnoremap j gj
 nnoremap k gk
@@ -153,7 +165,6 @@ xnoremap <Leader>fr :call VisualFindAndReplaceWithSelection()<CR>
 " Airline
 "
 set laststatus=2                                    " Make the second to last line of vim our status line
-let g:airline_theme='understated'                   " Use the custom theme I wrote
 let g:airline_left_sep=''                           " No separator as they seem to look funky
 let g:airline_right_sep=''                          " No separator as they seem to look funky
 let g:airline#extensions#branch#enabled = 0         " Do not show the git branch in the status line
@@ -248,7 +259,7 @@ let g:jedi#popup_on_dot = 0
 let g:jedi#rename_command = "<leader>rn"
 let g:jedi#goto_command = "<leader>f"
 let g:jedi#show_call_signatures = "0"
-let g:jedi#documentation_command = ""
+let g:jedi#documentation_command = "<leader>m"
 
 " Work scripts
 "
