@@ -39,7 +39,7 @@ NeoBundle 'wellle/targets.vim'
 NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'davidhalter/jedi-vim'
-NeoBundle 'junegunn/seoul256.vim'
+NeoBundle 'mileszs/ack.vim'
 call neobundle#end()
 
 filetype plugin indent on
@@ -161,6 +161,11 @@ nnoremap <Down> :resize -1<CR>
 "
 nnoremap <Leader>fr :call VisualFindAndReplace()<CR>
 xnoremap <Leader>fr :call VisualFindAndReplaceWithSelection()<CR>
+
+" Ack
+"
+let g:ackprg = 'ag --vimgrep'
+map <Leader>a :Ack!<space>
 
 " Airline
 "

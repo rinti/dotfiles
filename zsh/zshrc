@@ -170,6 +170,7 @@ alias nombom='npm cache clear && bower cache clean && rm -rf node_modules bower_
 alias nvim='echo -ne "\033]0;nvim\007" && /usr/local/bin/nvim'
 alias nviml='nvim --cmd "let light=1"'
 alias vim='nvim'
+alias expenv='export $(cat .env | xargs)'
 
 bindkey '^R' history-incremental-search-backward
 clear
