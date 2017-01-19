@@ -34,14 +34,14 @@ sudo rm -rf ~/.psqlrc
 
 
 # Symlink the new config files. Assumes files are saved in ~/dotfiles
-# ln -s ~/dotfiles/vim ~/.vim
-# ln -s ~/dotfiles/vimrc ~/.vimrc
-# if [ "$(uname)" = "Darwin" ]; then
+ln -s ~/dotfiles/vim ~/.vim
+ln -s ~/dotfiles/vimrc ~/.vimrc
+if [ "$(uname)" = "Darwin" ]; then
 #     ln -s ~/dotfiles/tmux/mac_tmux ~/.tmux
-#     ln -s ~/dotfiles/config ~/.config
-# else
-#     ln -s ~/dotfiles/tmux/linux_tmux ~/.tmux
-# fi
+    ln -s ~/dotfiles/config ~/.config
+else
+    ln -s ~/dotfiles/tmux/linux_tmux ~/.tmux
+fi
 # ln -s ~/dotfiles/tmux/tmux.conf ~/.tmux.conf
 
 ln -s ~/dotfiles/config ~/.config
