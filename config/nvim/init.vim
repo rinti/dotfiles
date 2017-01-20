@@ -40,6 +40,8 @@ NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'davidhalter/jedi-vim'
 NeoBundle 'mileszs/ack.vim'
+NeoBundle 'elixir-lang/vim-elixir'
+NeoBundle 'jdkanani/vim-material-theme'
 call neobundle#end()
 
 filetype plugin indent on
@@ -164,7 +166,8 @@ xnoremap <Leader>fr :call VisualFindAndReplaceWithSelection()<CR>
 
 " Ack
 "
-let g:ackprg = 'ag --vimgrep'
+" let g:ackprg = 'ag --vimgrep'
+let g:ackprg = 'rg --vimgrep'
 map <Leader>a :Ack!<space>
 
 " Airline
@@ -205,7 +208,8 @@ let g:ctrlp_max_height = 18
 let g:ctrlp_open_multiple_files = '1vjr'
 let g:ctrlp_buffer_func = { 'enter': 'MyCtrlPMappings' }
 let g:ctrlp_reuse_window = 'startify'
-let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden --ignore .git --ignore .DS_Store --ignore "**/*.pyc" -g ""'
+" let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden --ignore .git --ignore .DS_Store --ignore "**/*.pyc" -g ""'
+let g:ctrlp_user_command = 'rg --files --ignore-case --follow --glob "!.git/*" %s'
 
 " Startify
 "
