@@ -1,19 +1,17 @@
 [color]
-    ui = true
-    branch = true
-    diff = true
-    interactive = true
-    status = true
+  ui = true
+  branch = true
+  diff = true
+  interactive = true
+  status = true
 [color "status"]
-    added = green
-    changed = red
-    deleted = red
-    untracked = yellow
+  added = green
+  changed = red
+  deleted = red
+  untracked = yellow
 [user]
 	name = rinti
 	email = hello@rinti.se
-[heroku]
-    account = work
 [push]
 	default = simple
 [core]
