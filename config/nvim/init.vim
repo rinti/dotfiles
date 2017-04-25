@@ -272,10 +272,3 @@ let g:jedi#documentation_command = "<leader>m"
 
 " Work scripts
 "
-if isdirectory("xcalibur")
-  " Touch bootstrap.less if we find one in the xcalibur dir
-  autocmd BufWritePost *.less :silent !touch `find xcalibur -name "bootstrap.less" | head -1`
-  let g:syntastic_javascript_checkers = ['jshint']  " sets jshint as our javascript linter
-  let g:syntastic_python_checkers = []      " sets flake8 as the default for checking python files
-  let g:syntastic_python_flake8_post_args=''
-endif

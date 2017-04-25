@@ -163,7 +163,6 @@ export EDITOR="nvim"
 alias tmux="TERM=screen-256color tmux"
 export TERM="screen-256color"
 
-alias act='source env/bin/activate && export `heroku config -s | grep "^AWS"` && git pull'
 alias nvimrc='nvim ~/.config/nvim/init.vim'
 alias vimrc='nvim ~/.vimrc'
 alias zshrc='nvim ~/.zshrc'
@@ -172,6 +171,7 @@ alias nvim='echo -ne "\033]0;nvim\007" && /usr/local/bin/nvim'
 alias nviml='nvim --cmd "let light=1"'
 alias vim='nvim'
 alias expenv='export $(cat .env | xargs)'
+alias urar='unrar x `find . -type f -name "*.rar" | grep -v "sub"`'
 
 bindkey '^R' history-incremental-search-backward
 clear
