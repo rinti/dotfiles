@@ -17,8 +17,7 @@ NeoBundle 'NLKNguyen/papercolor-theme'
 NeoBundle 'croaker/mustang-vim'
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'bkad/CamelCaseMotion'
-NeoBundle 'Shougo/neocomplcache.vim'
-NeoBundle 'groenewege/vim-less'
+NeoBundle 'cakebaker/scss-syntax.vim'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'ervandew/supertab'
 NeoBundle 'mustache/vim-mustache-handlebars'
@@ -33,20 +32,18 @@ NeoBundle 'vim-airline/vim-airline-themes'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'mattn/emmet-vim'
 NeoBundle 'osyo-manga/vim-over'
-NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'kien/rainbow_parentheses.vim'
 NeoBundle 'wellle/targets.vim'
 NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'davidhalter/jedi-vim'
 NeoBundle 'mileszs/ack.vim'
-NeoBundle 'elixir-lang/vim-elixir'
-NeoBundle 'jdkanani/vim-material-theme'
+NeoBundle 'editorconfig/editorconfig-vim'
 call neobundle#end()
 
 filetype plugin indent on
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 set expandtab
 
 set tags=./.ctags,.ctags;
