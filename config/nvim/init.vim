@@ -39,12 +39,15 @@ NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'davidhalter/jedi-vim'
 NeoBundle 'mileszs/ack.vim'
 NeoBundle 'editorconfig/editorconfig-vim'
+NeoBundle 'tpope/vim-vinegar'
 call neobundle#end()
 
 filetype plugin indent on
 set tabstop=4
 set shiftwidth=4
 set expandtab
+
+set colorcolumn=80
 
 set tags=./.ctags,.ctags;
 
@@ -266,6 +269,11 @@ let g:jedi#rename_command = "<leader>rn"
 let g:jedi#goto_command = "<leader>f"
 let g:jedi#show_call_signatures = "0"
 let g:jedi#documentation_command = "<leader>m"
+
+" Netrw
+"
+let g:netrw_banner = 0
+let g:netrw_list_hide= '.*\.pyc$'
 
 " Work scripts
 "
