@@ -22,6 +22,7 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'ervandew/supertab'
 NeoBundle 'mustache/vim-mustache-handlebars'
 NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'mxw/vim-jsx'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'tpope/vim-commentary'
@@ -40,6 +41,7 @@ NeoBundle 'davidhalter/jedi-vim'
 NeoBundle 'mileszs/ack.vim'
 NeoBundle 'editorconfig/editorconfig-vim'
 NeoBundle 'tpope/vim-vinegar'
+NeoBundle 'w0ng/vim-hybrid'
 call neobundle#end()
 
 filetype plugin indent on
@@ -60,7 +62,10 @@ if exists('light')
   let g:airline_theme='PaperColor'
 else
   set background=dark
-  colo mustang
+  let g:hybrid_custom_term_colors = 1
+  let g:hybrid_reduced_contrast = 1 " Remove this line if using the default palette.
+  " colo mustang
+  colo hybrid
   let g:airline_theme='understated'
 endif
 
@@ -151,6 +156,13 @@ let g:mustache_abbreviations = 1
 if has("autocmd")
   au BufNewFile,BufRead *.{mustache,handlebars,hbs}{,.erb} set filetype=html syntax=mustache | runtime! ftplugin/mustache.vim ftplugin/mustache*.vim ftplugin/mustache/*.vim
 endif
+
+" Keybindings: Window switch
+"
+nnoremap <S-Left> :wincmd h<CR>
+nnoremap <S-Right> :wincmd l<CR>
+nnoremap <S-Up> :wincmd k<CR>
+nnoremap <S-Down> :wincmd j<CR>
 
 " Keybindings: Window resize
 "
@@ -263,7 +275,7 @@ xmap <silent> iB <Plug>CamelCaseMotion_ib
 " Jedi (needs pip install jedi and pip3 install jedi)
 " 
 let g:jedi#auto_vim_configuration = 0
-let g:jedi##use_tabs_not_buffers = 0     " Use buffers not tabs
+let g:jedi#use_tabs_not_buffers = 0     " Use buffers not tabs
 let g:jedi#popup_on_dot = 0
 let g:jedi#rename_command = "<leader>rn"
 let g:jedi#goto_command = "<leader>f"
@@ -274,6 +286,24 @@ let g:jedi#documentation_command = "<leader>m"
 "
 let g:netrw_banner = 0
 let g:netrw_list_hide= '.*\.pyc$'
+
+" jsx
+"
+let g:jsx_ext_required = 0
+
+" virtualenv for docker complete
+if has('python')
+py << EOF
+import os.path
+import sys
+import vim
+if 'VIRTUAL_ENV' in os.environ:
+    project_base_dir = os.environ['VIRTUAL_ENV']
+    sys.path.insert(0, project_base_dir)
+    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+    execfile(activate_this, dict(__file__=activate_this))
+EOF
+endif
 
 " Work scripts
 "
