@@ -3,19 +3,18 @@
 #     source $HOME/dotfiles/zsh/zsh_prompt
 # fi
 
+source $ZSH/oh-my-zsh.sh
+
 local -a precmd_functions
 precmd_functions=( precmd_prompt )
 
 export ZPLUG_HOME=/usr/local/opt/zplug
 source $ZPLUG_HOME/init.zsh
 
-# if [[ ! -f ~/.antigen.zsh ]]; then
-#     curl https://raw.githubusercontent.com/zsh-users/antigen/master/antigen.zsh > ~/.antigen.zsh
-# fi
-# source ~/.antigen.zsh
-
 zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
 zplug "zsh-users/zsh-syntax-highlighting"
+zplug "lib/completion", from:oh-my-zsh
+
 # antigen bundle cd
 ZSH_THEME="powerlevel9k/powerlevel9k"
 
@@ -32,6 +31,7 @@ autoload -U colors && colors
 autoload -U compinit
 compinit -C
 
+plugins=(git)
 
 POWERLEVEL9K_MODE='compatible'
 
@@ -178,4 +178,4 @@ alias urar='unrar x `find . -type f -name "*.rar" | grep -v "sub"`'
 
 bindkey '^R' history-incremental-search-backward
 clear
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PATH="/usr/local/opt/curl/bin:$PATH"
