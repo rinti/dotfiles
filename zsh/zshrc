@@ -157,6 +157,7 @@ wttr() {
   url='http://wttr.in/'$place
   curl $url
 }
+eval $(thefuck --alias)
 
 export EDITOR="nvim"
 

@@ -17,7 +17,7 @@ NeoBundle 'NLKNguyen/papercolor-theme'
 NeoBundle 'croaker/mustang-vim'
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'bkad/CamelCaseMotion'
-NeoBundle 'cakebaker/scss-syntax.vim'
+NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'ervandew/supertab'
 NeoBundle 'mustache/vim-mustache-handlebars'
@@ -68,6 +68,12 @@ else
   colo hybrid
   let g:airline_theme='understated'
 endif
+
+augroup VimCSS3Syntax
+  autocmd!
+
+  autocmd FileType css setlocal iskeyword+=-
+augroup END
 
 let mapleader=" "
 nnoremap j gj
