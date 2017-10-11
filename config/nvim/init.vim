@@ -41,6 +41,7 @@ NeoBundle 'davidhalter/jedi-vim'
 NeoBundle 'mileszs/ack.vim'
 NeoBundle 'editorconfig/editorconfig-vim'
 NeoBundle 'tpope/vim-vinegar'
+NeoBundle 'ElmCast/elm-vim'
 NeoBundle 'w0ng/vim-hybrid'
 call neobundle#end()
 
@@ -205,6 +206,8 @@ let g:airline#extensions#virtualenv#enabled = 0
 "
 let g:syntastic_check_on_open=1                   " check for errors when file is loaded
 let g:syntastic_loc_list_height=5                 " the height of the error list defaults to 10
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
 
 let g:syntastic_python_checkers = ['flake8']      " sets flake8 as the default for checking python files
 let g:syntastic_python_flake8_post_args='--ignore=E111'
@@ -215,6 +218,8 @@ let g:syntastic_filetype_map = { 'handlebars.html': 'handlebars' }
 let g:syntastic_mode_map={ 'mode': 'active',
                      \ 'active_filetypes': [],
                      \ 'passive_filetypes': ['html', 'handlebars'] }
+
+let g:elm_syntastic_show_warnings = 1
 
 " CTRLP
 "
