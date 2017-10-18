@@ -1,74 +1,71 @@
-set nocompatible
-let iCanHazNeoBundle=1
-let neobundle_readme=expand($HOME.'/.config/nvim/bundle/neobundle.vim/README.md')
-if !filereadable(neobundle_readme)
-    echo "Installing NeoBundle.."
-    echo ""
-    silent !mkdir -p $HOME/.config/nvim/bundle
-    silent !git clone https://github.com/Shougo/neobundle.vim $HOME/.config/nvim/bundle/neobundle.vim
-    let iCanHazNeoBundle=0
+if &compatible
+  set nocompatible
 endif
-if has('vim_starting')
-    set rtp+=$HOME/.config/nvim/bundle/neobundle.vim/
+
+set runtimepath+=/Users/andreas/.vim/bundles/repos/github.com/Shougo/dein.vim
+
+if dein#load_state('/Users/andreas/.vim/bundles')
+  call dein#begin('/Users/andreas/.vim/bundles')
+
+  " Let dein manage dein
+  " Required:
+  call dein#add('Shougo/dein.vim')
+  call dein#add('michaeljsmith/vim-indent-object')
+  call dein#add('trevordmiller/nova-vim')
+  call dein#add('Shougo/deoplete.nvim')
+  call dein#add('bkad/CamelCaseMotion')
+  call dein#add('hail2u/vim-css3-syntax')
+  call dein#add('tpope/vim-fugitive')
+  call dein#add('ervandew/supertab')
+  call dein#add('pangloss/vim-javascript')
+  call dein#add('mxw/vim-jsx')
+  call dein#add('scrooloose/syntastic')
+  call dein#add('kien/ctrlp.vim')
+  call dein#add('tpope/vim-commentary')
+  call dein#add('mhinz/vim-startify')
+  call dein#add('tpope/vim-surround')
+  call dein#add('bling/vim-airline')
+  call dein#add('vim-airline/vim-airline-themes')
+  call dein#add('airblade/vim-gitgutter')
+  call dein#add('mattn/emmet-vim')
+  call dein#add('kien/rainbow_parentheses.vim')
+  call dein#add('wellle/targets.vim')
+  call dein#add('junegunn/vim-easy-align')
+  call dein#add('davidhalter/jedi-vim')
+  call dein#add('mileszs/ack.vim')
+  call dein#add('editorconfig/editorconfig-vim')
+  call dein#add('tpope/vim-vinegar')
+  call dein#add('w0ng/vim-hybrid')
+
+  " Required:
+  call dein#end()
+  call dein#save_state()
 endif
-call neobundle#begin(expand($HOME.'/.config/nvim/bundle/'))
-NeoBundle 'michaeljsmith/vim-indent-object'
-NeoBundle 'NLKNguyen/papercolor-theme'
-NeoBundle 'croaker/mustang-vim'
-NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'bkad/CamelCaseMotion'
-NeoBundle 'hail2u/vim-css3-syntax'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'ervandew/supertab'
-NeoBundle 'mustache/vim-mustache-handlebars'
-NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'mxw/vim-jsx'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'tpope/vim-commentary'
-NeoBundle 'mhinz/vim-startify'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'bling/vim-airline'
-NeoBundle 'vim-airline/vim-airline-themes'
-NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'mattn/emmet-vim'
-NeoBundle 'osyo-manga/vim-over'
-NeoBundle 'kien/rainbow_parentheses.vim'
-NeoBundle 'wellle/targets.vim'
-NeoBundle 'thinca/vim-qfreplace'
-NeoBundle 'junegunn/vim-easy-align'
-NeoBundle 'davidhalter/jedi-vim'
-NeoBundle 'mileszs/ack.vim'
-NeoBundle 'editorconfig/editorconfig-vim'
-NeoBundle 'tpope/vim-vinegar'
-NeoBundle 'ElmCast/elm-vim'
-NeoBundle 'w0ng/vim-hybrid'
-call neobundle#end()
+
+" Required:
+filetype plugin indent on
+syntax enable
+
+if dein#check_install()
+  call dein#install()
+endif
 
 filetype plugin indent on
 set tabstop=4
 set shiftwidth=4
 set expandtab
+set inccommand=nosplit
 
 set colorcolumn=80
-
-set tags=./.ctags,.ctags;
 
 syntax enable
 set t_Co=256
 
-if exists('light')
-  set background=light
-  colo PaperColor
-  let g:airline_theme='PaperColor'
-else
-  set background=dark
-  let g:hybrid_custom_term_colors = 1
-  let g:hybrid_reduced_contrast = 1 " Remove this line if using the default palette.
-  " colo mustang
-  colo hybrid
-  let g:airline_theme='understated'
-endif
+set background=dark
+let g:hybrid_custom_term_colors = 1
+let g:hybrid_reduced_contrast = 1 " Remove this line if using the default palette.
+colo hybrid
+let g:airline_theme='understated'
 
 augroup VimCSS3Syntax
   autocmd!
@@ -82,29 +79,42 @@ nnoremap k gk
 nnoremap J 5j
 nnoremap K 5k
 nnoremap <Leader>ff :CtrlP<CR>
-map <Leader>fs :CtrlPTag<CR>
-map <Leader>fd :CtrlPCurFile<CR>
-map <Leader>fb :CtrlPBuffer<CR>
 nmap <Leader><Leader> <c-^>
-inoremap jj <ESC>
-inoremap jk <ESC>
 imap <C-e> <C-o>$
 imap <C-a> <C-o>0
 imap <C-f> <C-o>l
 imap <C-b> <C-o>h
-tnoremap jj <C-\><C-n>
 set clipboard=unnamed
+tnoremap jj <C-\><C-n>
+
+" Exit insert mode with jj or jk
+inoremap jj <ESC>
+inoremap jk <ESC>
+
+" Esc-Esc = Remove highlight
 nnoremap <Esc><Esc> :nohlsearch<CR>
+
+" Bind Alt-j and Alt-k to insert blank lines
+function! AddEmptyLineBelow()
+  call append(line("."), "")
+endfunction
+
+function! AddEmptyLineAbove()
+  let l:scrolloffsave = &scrolloff
+  " Avoid jerky scrolling with ^E at top of window
+  set scrolloff=0
+  call append(line(".") - 1, "")
+  if winline() != winheight(0)
+    silent normal! <C-e>
+  end
+  let &scrolloff = l:scrolloffsave
+endfunction
+noremap <silent> <C-j> :call AddEmptyLineBelow()<CR>
+noremap <silent> <C-k> :call AddEmptyLineAbove()<CR>
 
 
 " Scripts
 "
-function! RenewTagsFile()
-    exe 'silent !rm -rf .ctags'
-    exe 'silent !ctags -a -Rf .ctags --languages=javascript --exclude=.git --exclude="*.min.js" --exclude=node_modules --exclude=tmp 2>/dev/null'
-    exe 'redraw!'
-endfunction
-
 function! CopyFile()
     let old_name = expand('%')
     let new_name = input('New file name: ', expand('%'), 'file')
@@ -126,18 +136,6 @@ function! RenameFile()
 endfunction
 map <Leader>rf :call RenameFile()<CR>
 
-function! VisualFindAndReplace()
-    :OverCommandLine%s/
-    :w
-endfunction
-nnoremap <Leader>fr :call VisualFindAndReplace()<CR>
-
-function! VisualFindAndReplaceWithSelection() range
-    :'<,'>OverCommandLine s/
-    :w
-endfunction
-xnoremap <Leader>fr :call VisualFindAndReplaceWithSelection()<CR>
-
 function! Incr()
     let a = line('.') - line("'<")
     let c = virtcol("'<")
@@ -148,13 +146,18 @@ function! Incr()
 endfunction
 vnoremap <C-a> :call Incr()<CR>
 
+set tags=./.ctags,.ctags;
 function! RenewTagsFile()
     exe 'silent !rm -rf .ctags'
-    exe 'silent !ctags -a -Rf .ctags --languages=javascript --exclude=.git --exclude="*.min.js" --exclude=node_modules --exclude=tmp 2>/dev/null'
+    exe 'silent !ctags -a -Rf .ctags --languages=javascript,python --exclude=.git --exclude="*.min.js" --exclude=node_modules --exclude=tmp 2>/dev/null'
     exe 'redraw!'
 endfunction
 nnoremap <Leader>ri :call RenewTagsFile()<CR>
 
+
+" Deoplete
+"
+let g:deoplete#enable_at_startup = 1
 
 " Mustache
 "
@@ -166,22 +169,17 @@ endif
 
 " Keybindings: Window switch
 "
-nnoremap <S-Left> :wincmd h<CR>
-nnoremap <S-Right> :wincmd l<CR>
-nnoremap <S-Up> :wincmd k<CR>
-nnoremap <S-Down> :wincmd j<CR>
+nnoremap <Left> :wincmd h<CR>
+nnoremap <Right> :wincmd l<CR>
+nnoremap <Up> :wincmd k<CR>
+nnoremap <Down> :wincmd j<CR>
 
 " Keybindings: Window resize
 "
-nnoremap <Left> :vertical resize +1<CR>
-nnoremap <Right> :vertical resize -1<CR>
-nnoremap <Up> :resize +1<CR>
-nnoremap <Down> :resize -1<CR>
-
-" Keybindings: Visual Find Replace
-"
-nnoremap <Leader>fr :call VisualFindAndReplace()<CR>
-xnoremap <Leader>fr :call VisualFindAndReplaceWithSelection()<CR>
+nnoremap <S-Left> :vertical resize +1<CR>
+nnoremap <S-Right> :vertical resize -1<CR>
+nnoremap <S-Up> :resize +1<CR>
+nnoremap <S-Down> :resize -1<CR>
 
 " Ack
 "
@@ -205,7 +203,7 @@ let g:airline#extensions#virtualenv#enabled = 0
 " Syntastic
 "
 let g:syntastic_check_on_open=1                   " check for errors when file is loaded
-let g:syntastic_loc_list_height=5                 " the height of the error list defaults to 10
+let g:syntastic_loc_list_height=1                 " the height of the error list defaults to 10
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 
@@ -231,7 +229,6 @@ let g:ctrlp_max_height = 18
 let g:ctrlp_open_multiple_files = '1vjr'
 let g:ctrlp_buffer_func = { 'enter': 'MyCtrlPMappings' }
 let g:ctrlp_reuse_window = 'startify'
-" let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden --ignore .git --ignore .DS_Store --ignore "**/*.pyc" -g ""'
 let g:ctrlp_user_command = 'rg --files --ignore-case --follow --glob "!.git/*" %s'
 
 " Startify
