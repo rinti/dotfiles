@@ -26,7 +26,7 @@ if dein#load_state('/Users/andreas/.vim/bundles')
   call dein#add('tpope/vim-surround')
   call dein#add('bling/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
-  call dein#add('airblade/vim-gitgutter')
+  " call dein#add('airblade/vim-gitgutter')
   call dein#add('mattn/emmet-vim')
   call dein#add('kien/rainbow_parentheses.vim')
   call dein#add('wellle/targets.vim')
@@ -59,12 +59,13 @@ set inccommand=nosplit
 set colorcolumn=80
 
 syntax enable
-set t_Co=256
+" set t_Co=256
 
 set background=dark
+set termguicolors
 let g:hybrid_custom_term_colors = 1
 let g:hybrid_reduced_contrast = 1 " Remove this line if using the default palette.
-colo hybrid
+colo nova
 let g:airline_theme='understated'
 
 augroup VimCSS3Syntax

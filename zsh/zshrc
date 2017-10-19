@@ -161,9 +161,6 @@ eval $(thefuck --alias)
 
 export EDITOR="nvim"
 
-alias tmux="TERM=screen-256color tmux"
-export TERM="screen-256color"
-
 alias dcp='docker-compose'
 alias dcpe='dcp exec'
 
