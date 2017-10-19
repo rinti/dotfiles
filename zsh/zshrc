@@ -1,9 +1,11 @@
 #!/bin/zsh
+touch .hushlogin
+
 # if [[ ! -n "$ZSHRUN" ]]; then
 #     source $HOME/dotfiles/zsh/zsh_prompt
 # fi
 
-source $ZSH/oh-my-zsh.sh
+# source $ZSH/oh-my-zsh.sh
 
 local -a precmd_functions
 precmd_functions=( precmd_prompt )
@@ -140,9 +142,6 @@ export PAGER="less $LESS"
 export MANPAGER=$PAGER
 export GIT_PAGER=$PAGER
 export BROWSER='chromium-browser'
-
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/VirtualDevEnvs
 
 include () {
     [[ -s "$1" ]] && source "$1"
