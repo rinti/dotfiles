@@ -1,5 +1,5 @@
 #!/bin/zsh
-touch .hushlogin
+touch ~/.hushlogin
 
 # if [[ ! -n "$ZSHRUN" ]]; then
 #     source $HOME/dotfiles/zsh/zsh_prompt

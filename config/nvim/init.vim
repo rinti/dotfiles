@@ -26,12 +26,13 @@ if dein#load_state('/Users/andreas/.vim/bundles')
   call dein#add('tpope/vim-surround')
   call dein#add('bling/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
-  " call dein#add('airblade/vim-gitgutter')
+  call dein#add('airblade/vim-gitgutter')
   call dein#add('mattn/emmet-vim')
   call dein#add('kien/rainbow_parentheses.vim')
   call dein#add('wellle/targets.vim')
   call dein#add('junegunn/vim-easy-align')
   call dein#add('davidhalter/jedi-vim')
+  call dein#add('zchee/deoplete-jedi')
   call dein#add('mileszs/ack.vim')
   call dein#add('editorconfig/editorconfig-vim')
   call dein#add('tpope/vim-vinegar')
@@ -64,6 +65,7 @@ syntax enable
 set background=dark
 set termguicolors
 colo nova
+hi ColorColumn guibg=#334149
 " let g:airline_theme='understated'
 
 augroup VimCSS3Syntax
