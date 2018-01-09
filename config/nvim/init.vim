@@ -23,7 +23,6 @@ if dein#load_state('/Users/andreas/.vim/bundles')
   call dein#add('kien/ctrlp.vim')
   call dein#add('tpope/vim-commentary')
   call dein#add('mhinz/vim-startify')
-  call dein#add('tpope/vim-surround')
   call dein#add('bling/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
   call dein#add('airblade/vim-gitgutter')
@@ -37,6 +36,7 @@ if dein#load_state('/Users/andreas/.vim/bundles')
   call dein#add('editorconfig/editorconfig-vim')
   call dein#add('tpope/vim-vinegar')
   call dein#add('w0ng/vim-hybrid')
+  call dein#add('ap/vim-css-color')
 
   " Required:
   call dein#end()
@@ -205,8 +205,8 @@ let g:airline#extensions#virtualenv#enabled = 0
 "
 let g:syntastic_check_on_open=1                   " check for errors when file is loaded
 let g:syntastic_loc_list_height=1                 " the height of the error list defaults to 10
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_auto_loc_list=0
 
 let g:syntastic_python_checkers = ['flake8']      " sets flake8 as the default for checking python files
 let g:syntastic_python_flake8_post_args='--ignore=E111'

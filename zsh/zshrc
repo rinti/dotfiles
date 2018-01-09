@@ -14,8 +14,8 @@ export ZPLUG_HOME=/usr/local/opt/zplug
 source $ZPLUG_HOME/init.zsh
 
 zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
-zplug "zsh-users/zsh-syntax-highlighting"
-zplug "lib/completion", from:oh-my-zsh
+# zplug "zsh-users/zsh-syntax-highlighting"
+# zplug "lib/completion", from:oh-my-zsh
 
 # antigen bundle cd
 ZSH_THEME="powerlevel9k/powerlevel9k"
@@ -29,9 +29,11 @@ fi
 
 zplug load
 
-autoload -U colors && colors
-autoload -U compinit
-compinit -C
+# autoload -U colors && colors
+# autoload -U compinit
+# compinit -C
+
+export tmux="TERM=xterm-256color tmux"
 
 plugins=(git)
 
@@ -156,9 +158,19 @@ wttr() {
   url='http://wttr.in/'$place
   curl $url
 }
-eval $(thefuck --alias)
+
+perf() {
+  curl -o /dev/null -s -w "%{time_connect} + %{time_starttransfer} = %{time_total}\n" "$1"
+}
 
 export EDITOR="nvim"
+
+alias gs='git status'
+alias gc='git commit'
+alias ga='git add'
+alias gp='git push'
+alias gd='git diff'
+
 
 alias dcp='docker-compose'
 alias dcpe='dcp exec'
@@ -166,13 +178,13 @@ alias dcpe='dcp exec'
 alias nvimrc='nvim ~/.config/nvim/init.vim'
 alias vimrc='nvim ~/.vimrc'
 alias zshrc='nvim ~/.zshrc'
-alias nombom='npm cache clear && bower cache clean && rm -rf node_modules bower_components && npm install && bower install'
+alias nom='npm cache clear && rm -rf node_modules && npm install'
 alias nvim='echo -ne "\033]0;nvim\007" && /usr/local/bin/nvim'
 alias nviml='nvim --cmd "let light=1"'
 alias vim='nvim'
 alias expenv='export $(cat .env | xargs)'
 alias urar='unrar x `find . -type f -name "*.rar" | grep -v "sub"`'
+alias uchrome='open -a Google\ Chrome --args --disable-web-security --allow-insecure-localhost https://localhost:7350'
 
 bindkey '^R' history-incremental-search-backward
-clear
 export PATH="/usr/local/opt/curl/bin:$PATH"
