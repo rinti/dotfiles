@@ -7,6 +7,8 @@ touch ~/.hushlogin
 
 # source $ZSH/oh-my-zsh.sh
 
+export TERM="xterm-256color"
+
 local -a precmd_functions
 precmd_functions=( precmd_prompt )
 
@@ -149,7 +151,8 @@ include () {
     [[ -s "$1" ]] && source "$1"
 }
 
-include ~/.nvm/nvm.sh
+export NVM_DIR="$HOME/.nvm"
+alias nvms='. /usr/local/opt/nvm/nvm.sh'
 
 sfp() { ag --python "$*" --nocolor; }
 
@@ -169,7 +172,8 @@ alias gs='git status'
 alias gc='git commit'
 alias ga='git add'
 alias gp='git push'
-alias gd='git diff'
+alias gd='git dsf'
+alias glt='git describe --tags `git rev-list --tags --max-count=1`'
 
 
 alias dcp='docker-compose'
@@ -187,4 +191,4 @@ alias urar='unrar x `find . -type f -name "*.rar" | grep -v "sub"`'
 alias uchrome='open -a Google\ Chrome --args --disable-web-security --allow-insecure-localhost https://localhost:7350'
 
 bindkey '^R' history-incremental-search-backward
-export PATH="/usr/local/opt/curl/bin:$PATH"
+export PATH="/usr/local/opt/python/libexec/bin/:Users/andreas/.nimble/bin:/usr/local/opt/curl/bin:$PATH"

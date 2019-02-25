@@ -24,6 +24,7 @@ if dein#load_state('/Users/andreas/.vim/bundles')
   call dein#add('tpope/vim-commentary')
   call dein#add('mhinz/vim-startify')
   call dein#add('bling/vim-airline')
+  call dein#add('ElmCast/elm-vim')
   call dein#add('vim-airline/vim-airline-themes')
   call dein#add('airblade/vim-gitgutter')
   call dein#add('mattn/emmet-vim')
@@ -37,6 +38,8 @@ if dein#load_state('/Users/andreas/.vim/bundles')
   call dein#add('tpope/vim-vinegar')
   call dein#add('w0ng/vim-hybrid')
   call dein#add('ap/vim-css-color')
+  call dein#add('leafgarland/typescript-vim')
+  call dein#add('ianks/vim-tsx')
 
   " Required:
   call dein#end()
@@ -60,7 +63,7 @@ set inccommand=nosplit
 set colorcolumn=80
 
 syntax enable
-" set t_Co=256
+set t_Co=256
 
 set background=dark
 set termguicolors
@@ -185,7 +188,7 @@ nnoremap <S-Down> :resize -1<CR>
 " Ack
 "
 " let g:ackprg = 'ag --vimgrep'
-let g:ackprg = 'rg --vimgrep'
+let g:ackprg = 'rg --vimgrep -g "!*migration*"'
 map <Leader>a :Ack!<space>
 
 " Airline
@@ -293,8 +296,11 @@ let g:jedi#documentation_command = "<leader>m"
 
 " Netrw
 "
+let g:netrw_liststyle = 3
 let g:netrw_banner = 0
-let g:netrw_list_hide= '.*\.pyc$'
+set wildignore=*.pyc,__pycache__/ "stuff to ignore when tab completing
+set wildignore+=*DS_Store*
+set wildignore+=.git,.gitkeep
 
 " jsx
 "
