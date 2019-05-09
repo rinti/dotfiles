@@ -24,10 +24,8 @@ if dein#load_state('/Users/andreas/.vim/bundles')
   call dein#add('tpope/vim-commentary')
   call dein#add('mhinz/vim-startify')
   call dein#add('bling/vim-airline')
-  call dein#add('ElmCast/elm-vim')
   call dein#add('vim-airline/vim-airline-themes')
   call dein#add('airblade/vim-gitgutter')
-  call dein#add('mattn/emmet-vim')
   call dein#add('kien/rainbow_parentheses.vim')
   call dein#add('wellle/targets.vim')
   call dein#add('junegunn/vim-easy-align')
@@ -38,8 +36,8 @@ if dein#load_state('/Users/andreas/.vim/bundles')
   call dein#add('tpope/vim-vinegar')
   call dein#add('w0ng/vim-hybrid')
   call dein#add('ap/vim-css-color')
-  call dein#add('leafgarland/typescript-vim')
-  call dein#add('ianks/vim-tsx')
+  call dein#add('elixir-editors/vim-elixir')
+  call dein#add('neoclide/coc.nvim', {'merge':0, 'build': './install.sh nightly'})
 
   " Required:
   call dein#end()
@@ -171,6 +169,10 @@ if has("autocmd")
   au BufNewFile,BufRead *.{mustache,handlebars,hbs}{,.erb} set filetype=html syntax=mustache | runtime! ftplugin/mustache.vim ftplugin/mustache*.vim ftplugin/mustache/*.vim
 endif
 
+if has("autocmd")
+  au BufNewFile,BufRead *.{svelte} set filetype=html
+endif
+
 " Keybindings: Window switch
 "
 nnoremap <Left> :wincmd h<CR>
@@ -245,9 +247,9 @@ let g:startify_bookmarks = [ '~/.vimrc' ]
 
 " Emmet
 "
-let g:user_emmet_install_global = 0
-autocmd FileType html,htmldjango,handlebars EmmetInstall
-let g:user_emmet_leader_key=','
+" let g:user_emmet_install_global = 0
+" autocmd FileType html,htmldjango,handlebars EmmetInstall
+" let g:user_emmet_leader_key=','
 
 " Rainbow parentheses
 "
@@ -296,7 +298,7 @@ let g:jedi#documentation_command = "<leader>m"
 
 " Netrw
 "
-let g:netrw_liststyle = 3
+let g:netrw_liststyle = 4
 let g:netrw_banner = 0
 set wildignore=*.pyc,__pycache__/ "stuff to ignore when tab completing
 set wildignore+=*DS_Store*
@@ -320,5 +322,15 @@ if 'VIRTUAL_ENV' in os.environ:
 EOF
 endif
 
-" Work scripts
+" Coc
 "
+
+nnoremap <silent> D :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction

@@ -183,8 +183,9 @@ alias nvimrc='nvim ~/.config/nvim/init.vim'
 alias vimrc='nvim ~/.vimrc'
 alias zshrc='nvim ~/.zshrc'
 alias nom='npm cache clear && rm -rf node_modules && npm install'
-alias nvim='echo -ne "\033]0;nvim\007" && /usr/local/bin/nvim'
-alias nviml='nvim --cmd "let light=1"'
+# alias nvim='echo -ne "\033]0;nvim\007" && /usr/local/bin/nvim'
+# alias nviml='nvim --cmd "let light=1"'
+alias ll='ls -la'
 alias vim='nvim'
 alias expenv='export $(cat .env | xargs)'
 alias urar='unrar x `find . -type f -name "*.rar" | grep -v "sub"`'
@@ -192,3 +193,7 @@ alias uchrome='open -a Google\ Chrome --args --disable-web-security --allow-inse
 
 bindkey '^R' history-incremental-search-backward
 export PATH="/usr/local/opt/python/libexec/bin/:Users/andreas/.nimble/bin:/usr/local/opt/curl/bin:$PATH"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
