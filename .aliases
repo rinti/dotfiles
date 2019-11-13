@@ -6,9 +6,17 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
+# dotfiles
+alias dotfilespush="cd ~/dotfiles && git add . && git commit -m 'Update' && git push origin master && cd -"
+alias dotfilespull="cd ~/dotfiles && git pull origin master --rebase"
+alias dotfiles="cd ~/dotfiles"
+
+
 # Shortcuts
 alias g="git"
 alias vim="nvim"
+alias dcp="docker-compose"
+alias dcpe="docker-compose exec"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`

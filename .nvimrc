@@ -10,6 +10,7 @@ if dein#load_state('~/.cache/dein')
   " Let dein manage dein
   " Required:
   call dein#add('Shougo/dein.vim')
+  call dein#add('reasonml-editor/vim-reason-plus')
   call dein#add('michaeljsmith/vim-indent-object')
   call dein#add('trevordmiller/nova-vim')
   call dein#add('Shougo/deoplete.nvim')
@@ -43,6 +44,10 @@ if dein#load_state('~/.cache/dein')
   call dein#end()
   call dein#save_state()
 endif
+
+let g:LanguageClient_serverCommands = {
+    \ 'reason': ['/Users/andreas/reason-language-server'],
+    \ }
 
 " Required:
 filetype plugin indent on
