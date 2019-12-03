@@ -2,22 +2,21 @@ if &compatible
   set nocompatible
 endif
 
-set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+set runtimepath+=/Users/andreas/.vim/bundles/repos/github.com/Shougo/dein.vim,/usr/local/Cellar/neovim/0.4.2/share/nvim/runtime
 
-if dein#load_state('~/.cache/dein')
-  call dein#begin('~/.cache/dein')
+if dein#load_state('/Users/andreas/.vim/bundles')
+  call dein#begin('/Users/andreas/.vim/bundles')
 
   " Let dein manage dein
   " Required:
   call dein#add('Shougo/dein.vim')
-  call dein#add('reasonml-editor/vim-reason-plus')
   call dein#add('michaeljsmith/vim-indent-object')
   call dein#add('trevordmiller/nova-vim')
   call dein#add('Shougo/deoplete.nvim')
   call dein#add('bkad/CamelCaseMotion')
   call dein#add('hail2u/vim-css3-syntax')
   call dein#add('tpope/vim-fugitive')
-  call dein#add('ervandew/supertab')
+  " call dein#add('ervandew/supertab')
   call dein#add('pangloss/vim-javascript')
   call dein#add('mxw/vim-jsx')
   call dein#add('scrooloose/syntastic')
@@ -30,24 +29,21 @@ if dein#load_state('~/.cache/dein')
   call dein#add('kien/rainbow_parentheses.vim')
   call dein#add('wellle/targets.vim')
   call dein#add('junegunn/vim-easy-align')
-  call dein#add('davidhalter/jedi-vim')
-  call dein#add('zchee/deoplete-jedi')
+  " call dein#add('davidhalter/jedi-vim')
+  " call dein#add('zchee/deoplete-jedi')
   call dein#add('mileszs/ack.vim')
   call dein#add('editorconfig/editorconfig-vim')
   call dein#add('tpope/vim-vinegar')
   call dein#add('w0ng/vim-hybrid')
-  call dein#add('ap/vim-css-color')
+  call dein#add('RRethy/vim-hexokinase', {'build': 'make hexokinase'})
   call dein#add('elixir-editors/vim-elixir')
   call dein#add('neoclide/coc.nvim', {'merge':0, 'build': './install.sh nightly'})
+  " call dein#add('SkyLeach/pudb.vim')
 
   " Required:
   call dein#end()
   call dein#save_state()
 endif
-
-let g:LanguageClient_serverCommands = {
-    \ 'reason': ['/Users/andreas/reason-language-server'],
-    \ }
 
 " Required:
 filetype plugin indent on
@@ -66,11 +62,13 @@ set inccommand=nosplit
 set colorcolumn=80
 
 syntax enable
-set t_Co=256
-
 set background=dark
-set termguicolors
 colo nova
+set termguicolors
+
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
 hi ColorColumn guibg=#334149
 " let g:airline_theme='understated'
 
@@ -93,6 +91,7 @@ imap <C-f> <C-o>l
 imap <C-b> <C-o>h
 set clipboard=unnamed
 tnoremap jj <C-\><C-n>
+
 
 " Exit insert mode with jj or jk
 inoremap jj <ESC>
@@ -161,6 +160,9 @@ function! RenewTagsFile()
 endfunction
 nnoremap <Leader>ri :call RenewTagsFile()<CR>
 
+" Hexokinase
+let g:Hexokinase_optInPatterns = 'full_hex,triple_hex,rgb,rgba,hsl,hsla,colour_names'
+let g:Hexokinase_ftEnabled = ['css', 'scss']
 
 " Deoplete
 "
@@ -200,16 +202,17 @@ map <Leader>a :Ack!<space>
 
 " Airline
 "
-set laststatus=2                                    " Make the second to last line of vim our status line
-let g:airline_left_sep=''                           " No separator as they seem to look funky
-let g:airline_right_sep=''                          " No separator as they seem to look funky
-let g:airline#extensions#branch#enabled = 0         " Do not show the git branch in the status line
-let g:airline#extensions#syntastic#enabled = 1      " Do show syntastic warnings in the status line
-let g:airline#extensions#tabline#show_buffers = 0   " Do not list buffers in the status line
-let g:airline_section_x = ''                        " Do not list the filetype or virtualenv in the status line
-let g:airline_section_y = '[R%04l,C%04v] [LEN=%L]'  " Replace file encoding and file format info with file position
-let g:airline_section_z = ''                        " Do not show the default file position info
-let g:airline#extensions#virtualenv#enabled = 0
+" set laststatus=2                                    " Make the second to last line of vim our status line
+" let g:airline_left_sep=''                           " No separator as they seem to look funky
+" let g:airline_right_sep=''                          " No separator as they seem to look funky
+" let g:airline#extensions#branch#enabled = 0         " Do not show the git branch in the status line
+" let g:airline#extensions#syntastic#enabled = 1      " Do show syntastic warnings in the status line
+" let g:airline#extensions#tabline#show_buffers = 0   " Do not list buffers in the status line
+" let g:airline_section_x = ''                        " Do not list the filetype or virtualenv in the status line
+" let g:airline_section_y = '[R%04l,C%04v] [LEN=%L]'  " Replace file encoding and file format info with file position
+" let g:airline_section_z = ''                        " Do not show the default file position info
+" let g:airline#extensions#virtualenv#enabled = 0
+set statusline^=%{coc#status()}
 
 " Syntastic
 "
@@ -219,7 +222,7 @@ let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list=0
 
 let g:syntastic_python_checkers = ['flake8']      " sets flake8 as the default for checking python files
-let g:syntastic_python_flake8_post_args='--ignore=E111'
+let g:syntastic_python_flake8_post_args='--ignore=W503'
 
 let g:syntastic_javascript_checkers = ['eslint']  " sets jshint as our javascript linter
 " let g:syntastic_javascript_jshint_post_args='--esversion 6'
@@ -255,6 +258,8 @@ let g:startify_bookmarks = [ '~/.vimrc' ]
 " let g:user_emmet_install_global = 0
 " autocmd FileType html,htmldjango,handlebars EmmetInstall
 " let g:user_emmet_leader_key=','
+
+set signcolumn=yes
 
 " Rainbow parentheses
 "
@@ -293,14 +298,49 @@ xmap <silent> iB <Plug>CamelCaseMotion_ib
 
 " Jedi (needs pip install jedi and pip3 install jedi)
 " 
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#use_tabs_not_buffers = 0     " Use buffers not tabs
-let g:jedi#popup_on_dot = 0
-let g:jedi#rename_command = "<leader>rn"
-let g:jedi#goto_command = "<leader>f"
-let g:jedi#show_call_signatures = "0"
-let g:jedi#documentation_command = "<leader>m"
-
+" let g:jedi#auto_vim_configuration = 0
+" let g:jedi#use_tabs_not_buffers = 0     " Use buffers not tabs
+" let g:jedi#popup_on_dot = 0
+" let g:jedi#rename_command = "<leader>rn"
+" let g:jedi#goto_command = "<leader>f"
+" let g:jedi#show_call_signatures = "0"
+" let g:jedi#documentation_command = "<leader>m"
+"
+"
+let g:coc_global_extensions = [
+    \ 'coc-css',
+    \ 'coc-elixir',
+    \ 'coc-emmet',
+    \ 'coc-eslint',
+    \ 'coc-html',
+    \ 'coc-pairs',
+    \ 'coc-phpls',
+    \ 'coc-prettier',
+    \ 'coc-python',
+    \ 'coc-snippets',
+    \ 'coc-stylelint',
+    \ 'coc-svg',
+    \ 'coc-tsserver',
+    \ 'coc-yank',
+\ ]
+nmap <silent> ff <Plug>(coc-definition)
+nmap <silent> fy <Plug>(coc-type-definition)
+nmap <silent> fi <Plug>(coc-implementation)
+nmap <silent> fr <Plug>(coc-references)
+inoremap <silent><expr> <c-space> coc#refresh()
+command! -nargs=0 Format :call CocAction('format')
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+autocmd CursorHold * silent call CocActionAsync('highlight')
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 " Netrw
 "
 let g:netrw_liststyle = 4
@@ -338,4 +378,4 @@ function! s:show_documentation()
   else
     call CocAction('doHover')
   endif
-endfunction#
+endfunction
