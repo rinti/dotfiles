@@ -1,6 +1,8 @@
 # Add `~/bin` to the `$PATH`
-export PATH="$HOME/bin:$PATH";
+export PATH="~/.composer/vendor/bin:$(pyenv root)/shims:$HOME/bin:$PATH";
 export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+
+export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
@@ -39,6 +41,10 @@ elif [ -f /etc/bash_completion ]; then
 	source /etc/bash_completion;
 fi;
 
+bind 'set show-all-if-ambiguous on'
+bind 'TAB:menu-complete'
+bind 'set completion-ignore-case on'
+
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
 
@@ -46,5 +52,12 @@ fi;
 # You could just use `-g` instead, but I like being explicit
 complete -W "NSGlobalDomain" defaults;
 
+HISTFILESIZE=6553600
+HISTSIZE=409600
+SAVEHIST=409600
+REPORTTIME=60
+
 # Add `killall` tab completion for common apps
 complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall;
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
