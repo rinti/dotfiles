@@ -26,4 +26,14 @@ fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-alias gs="git status"
+alias g="git"
+alias gs='git status'
+alias gc='git commit'
+alias ga='git add'
+alias gp='git push'
+alias gd='git dsf'
+alias glt='git describe --tags `git rev-list --tags --max-count=1`'
+
+alias vim="nvim"
+alias dcp="docker-compose"
+alias dcpe="docker-compose exec"
