@@ -7,9 +7,8 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 # NVM
-export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
 
 # fzf
 export FZF_DEFAULT_COMMAND='rg --files --ignore-case --follow --glob "!.git/*" '
@@ -25,6 +24,8 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+alias nvms='. /usr/local/opt/nvm/nvm.sh'
 
 alias g="git"
 alias gs='git status'
