@@ -34,6 +34,7 @@ alias ga='git add'
 alias gp='git push'
 alias gd='git dsf'
 alias glt='git describe --tags `git rev-list --tags --max-count=1`'
+alias repo='~/repositories'
 
 alias vim="nvim"
 alias dcp="docker-compose"
