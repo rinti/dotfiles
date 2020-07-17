@@ -2,52 +2,36 @@ if &compatible
   set nocompatible
 endif
 
-set runtimepath+=/Users/andreas/.vim/bundles/repos/github.com/Shougo/dein.vim,/usr/local/Cellar/neovim/0.4.2/share/nvim/runtime
-
-if dein#load_state('/Users/andreas/.vim/bundles')
-  call dein#begin('/Users/andreas/.vim/bundles')
-
-  " Let dein manage dein
-  " Required:
-  call dein#add('Shougo/dein.vim')
-  call dein#add('michaeljsmith/vim-indent-object')
-  call dein#add('trevordmiller/nova-vim')
-  call dein#add('Shougo/deoplete.nvim')
-  call dein#add('bkad/CamelCaseMotion')
-  call dein#add('hail2u/vim-css3-syntax')
-  call dein#add('tpope/vim-fugitive')
-  call dein#add('pangloss/vim-javascript')
-  call dein#add('mxw/vim-jsx')
-  call dein#add('scrooloose/syntastic')
-  call dein#add('kien/ctrlp.vim')
-  call dein#add('tpope/vim-commentary')
-  call dein#add('mhinz/vim-startify')
-  call dein#add('bling/vim-airline')
-  call dein#add('vim-airline/vim-airline-themes')
-  call dein#add('airblade/vim-gitgutter')
-  call dein#add('kien/rainbow_parentheses.vim')
-  call dein#add('wellle/targets.vim')
-  call dein#add('junegunn/vim-easy-align')
-  call dein#add('mileszs/ack.vim')
-  call dein#add('editorconfig/editorconfig-vim')
-  call dein#add('tpope/vim-vinegar')
-  call dein#add('w0ng/vim-hybrid')
-  call dein#add('RRethy/vim-hexokinase', {'build': 'make hexokinase'})
-  call dein#add('elixir-editors/vim-elixir')
-  call dein#add('neoclide/coc.nvim', {'merge':0, 'build': './install.sh nightly'})
-
-  " Required:
-  call dein#end()
-  call dein#save_state()
-endif
+call plug#begin('~/.vim/plugged')
+  Plug 'michaeljsmith/vim-indent-object'
+  Plug 'trevordmiller/nova-vim'
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'bkad/CamelCaseMotion'
+  Plug 'hail2u/vim-css3-syntax'
+  Plug 'tpope/vim-fugitive'
+  Plug 'pangloss/vim-javascript'
+  Plug 'mxw/vim-jsx'
+  Plug 'scrooloose/syntastic'
+  Plug 'tpope/vim-commentary'
+  Plug 'mhinz/vim-startify'
+  Plug 'bling/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+  Plug 'airblade/vim-gitgutter'
+  Plug 'kien/rainbow_parentheses.vim'
+  Plug 'wellle/targets.vim'
+  Plug 'junegunn/vim-easy-align'
+  Plug 'mileszs/ack.vim'
+  Plug 'editorconfig/editorconfig-vim'
+  Plug 'tpope/vim-vinegar'
+  Plug 'w0ng/vim-hybrid'
+  Plug 'RRethy/vim-hexokinase', {'do': 'make hexokinase'}
+  Plug 'elixir-editors/vim-elixir'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+call plug#end()
 
 " Required:
 filetype plugin indent on
 syntax enable
-
-if dein#check_install()
-  call dein#install()
-endif
 
 filetype plugin indent on
 set tabstop=4
@@ -79,7 +63,7 @@ nnoremap j gj
 nnoremap k gk
 nnoremap J 5j
 nnoremap K 5k
-nnoremap <Leader>ff :CtrlP<CR>
+nnoremap <Leader>ff :Files<CR>
 nmap <Leader><Leader> <c-^>
 imap <C-e> <C-o>$
 imap <C-a> <C-o>0
@@ -228,18 +212,6 @@ let g:syntastic_mode_map={ 'mode': 'active',
                      \ 'passive_filetypes': ['html', 'handlebars'] }
 
 let g:elm_syntastic_show_warnings = 1
-
-" CTRLP
-"
-let g:ctrlp_use_caching=0
-let g:ctrlp_custom_ignore = '\v[\/](transpiled)|dist|tmp|env|node_modules|(\.(swp|git|bak|pyc|DS_Store))$'
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_max_files=0
-let g:ctrlp_max_height = 18
-let g:ctrlp_open_multiple_files = '1vjr'
-let g:ctrlp_buffer_func = { 'enter': 'MyCtrlPMappings' }
-let g:ctrlp_reuse_window = 'startify'
-let g:ctrlp_user_command = 'rg --files --ignore-case --follow --glob "!.git/*" %s'
 
 " Startify
 "
