@@ -28,5 +28,6 @@ brew install git-flow
 brew install tree
 brew install ripgrep
 brew install fzf
+brew install fd
 
 brew cleanup
