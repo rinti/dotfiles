@@ -5,7 +5,7 @@ endif
 call plug#begin('~/.vim/plugged')
   Plug 'michaeljsmith/vim-indent-object'
   Plug 'trevordmiller/nova-vim'
-  Plug 'Shougo/deoplete.nvim'
+  " Plug 'Shougo/deoplete.nvim'
   Plug 'bkad/CamelCaseMotion'
   Plug 'hail2u/vim-css3-syntax'
   Plug 'tpope/vim-fugitive'
@@ -27,6 +27,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'RRethy/vim-hexokinase', {'do': 'make hexokinase'}
   Plug 'elixir-editors/vim-elixir'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+  Plug 'junegunn/fzf.vim'
 call plug#end()
 
 " Required:
@@ -46,8 +48,11 @@ set background=dark
 colo nova
 set termguicolors
 
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+set backup
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set backupskip=/tmp/*,/private/tmp/*
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set writebackup
 
 hi ColorColumn guibg=#334149
 " let g:airline_theme='understated'
@@ -146,7 +151,7 @@ let g:Hexokinase_ftEnabled = ['css', 'scss']
 
 " Deoplete
 "
-let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_at_startup = 1
 
 " Mustache
 "
@@ -182,16 +187,16 @@ map <Leader>a :Ack!<space>
 
 " Airline
 "
-" set laststatus=2                                    " Make the second to last line of vim our status line
-" let g:airline_left_sep=''                           " No separator as they seem to look funky
-" let g:airline_right_sep=''                          " No separator as they seem to look funky
-" let g:airline#extensions#branch#enabled = 0         " Do not show the git branch in the status line
-" let g:airline#extensions#syntastic#enabled = 1      " Do show syntastic warnings in the status line
-" let g:airline#extensions#tabline#show_buffers = 0   " Do not list buffers in the status line
-" let g:airline_section_x = ''                        " Do not list the filetype or virtualenv in the status line
-" let g:airline_section_y = '[R%04l,C%04v] [LEN=%L]'  " Replace file encoding and file format info with file position
-" let g:airline_section_z = ''                        " Do not show the default file position info
-" let g:airline#extensions#virtualenv#enabled = 0
+set laststatus=2                                    " Make the second to last line of vim our status line
+let g:airline_left_sep=''                           " No separator as they seem to look funky
+let g:airline_right_sep=''                          " No separator as they seem to look funky
+let g:airline#extensions#branch#enabled = 0         " Do not show the git branch in the status line
+let g:airline#extensions#syntastic#enabled = 1      " Do show syntastic warnings in the status line
+let g:airline#extensions#tabline#show_buffers = 0   " Do not list buffers in the status line
+let g:airline_section_x = ''                        " Do not list the filetype or virtualenv in the status line
+let g:airline_section_y = '[R%04l,C%04v] [LEN=%L]'  " Replace file encoding and file format info with file position
+let g:airline_section_z = ''                        " Do not show the default file position info
+let g:airline#extensions#virtualenv#enabled = 0
 set statusline^=%{coc#status()}
 
 " Syntastic
@@ -206,10 +211,9 @@ let g:syntastic_python_flake8_post_args='--ignore=W503'
 
 let g:syntastic_javascript_checkers = ['eslint']  " sets jshint as our javascript linter
 " let g:syntastic_javascript_jshint_post_args='--esversion 6'
-let g:syntastic_filetype_map = { 'handlebars.html': 'handlebars' }
 let g:syntastic_mode_map={ 'mode': 'active',
                      \ 'active_filetypes': [],
-                     \ 'passive_filetypes': ['html', 'handlebars'] }
+                     \ 'passive_filetypes': ['html'] }
 
 let g:elm_syntastic_show_warnings = 1
 
@@ -313,13 +317,20 @@ endfunction
 "
 let g:netrw_liststyle = 4
 let g:netrw_banner = 0
+let g:netrw_list_hide='\.pyc$,^\.DS_Store$,^\.git/$'
 set wildignore=*.pyc,__pycache__/ "stuff to ignore when tab completing
 set wildignore+=*DS_Store*
+set wildignore+=*/node_modules
 set wildignore+=.git,.gitkeep
 
 " jsx
 "
 let g:jsx_ext_required = 0
+
+"
+" Fzf
+let g:fzf_nvim_statusline=0
+let g:fzf_files_options='--preview "cat {}"'
 
 " virtualenv for docker complete
 if has('python')
