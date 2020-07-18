@@ -40,3 +40,5 @@ alias repo='~/repositories'
 alias vim="nvim"
 alias dcp="docker-compose"
 alias dcpe="docker-compose exec"
+
+unalias rm
