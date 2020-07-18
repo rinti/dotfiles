@@ -1,0 +1,5 @@
+Library/
+!/.dotfiles/
+node_modules
+esy.lock
+venv

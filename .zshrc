@@ -12,7 +12,7 @@ export LANG=en_US.UTF-8
 
 # fzf
 export FZF_DEFAULT_COMMAND='rg --files --ignore-case --follow --glob "!.git/*" '
-export FZF_CTRL_T_COMMAND='fd -a -t d . $HOME | grep -Ev "node_modules|esy.lock|venv|Library"'
+export FZF_CTRL_T_COMMAND='fd -a -t d . $HOME'
 
 # vim bindings
 bindkey -v

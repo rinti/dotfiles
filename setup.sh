@@ -4,11 +4,12 @@ touch ~/.hushlogin
 # Git
 ln -sf ~/dotfiles/.gitconfig ~/.gitconfig
 
-# Bash
-ln -sf ~/dotfiles/.bash_prompt ~/.bash_prompt
-ln -sf ~/dotfiles/.bash_profile ~/.bash_profile
-ln -sf ~/dotfiles/.bashrc ~/.bashrc
-ln -sf ~/dotfiles/.aliases ~/.aliases
+# zsh
+ln -sf ~/dotfiles/.zshrc ~/.zshrc
+ln -sf ~/dotfiles/.zpreztorc ~/.zpreztorc
+
+# fd
+ln -sf ~/dotfiles/.fdinore ~/.fdignore
 
 # Nvm
 mkdir ~/.nvm 2> /dev/null || true
