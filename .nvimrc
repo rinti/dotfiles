@@ -5,7 +5,6 @@ endif
 call plug#begin('~/.vim/plugged')
   Plug 'michaeljsmith/vim-indent-object'
   Plug 'trevordmiller/nova-vim'
-  " Plug 'Shougo/deoplete.nvim'
   Plug 'bkad/CamelCaseMotion'
   Plug 'hail2u/vim-css3-syntax'
   Plug 'tpope/vim-fugitive'
@@ -14,8 +13,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'scrooloose/syntastic'
   Plug 'tpope/vim-commentary'
   Plug 'mhinz/vim-startify'
-  Plug 'bling/vim-airline'
-  Plug 'vim-airline/vim-airline-themes'
   Plug 'airblade/vim-gitgutter'
   Plug 'kien/rainbow_parentheses.vim'
   Plug 'wellle/targets.vim'
@@ -35,18 +32,15 @@ call plug#end()
 filetype plugin indent on
 syntax enable
 
+set background=dark
+colo nova
+set termguicolors
+
 filetype plugin indent on
 set tabstop=4
 set shiftwidth=4
 set expandtab
 set inccommand=nosplit
-
-set colorcolumn=80
-
-syntax enable
-set background=dark
-colo nova
-set termguicolors
 
 set backup
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
@@ -54,8 +48,10 @@ set backupskip=/tmp/*,/private/tmp/*
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set writebackup
 
+set colorcolumn=100
 hi ColorColumn guibg=#334149
-" let g:airline_theme='understated'
+set signcolumn=yes
+hi SignColumn guibg=clear
 
 augroup VimCSS3Syntax
   autocmd!
@@ -185,18 +181,6 @@ nnoremap <S-Down> :resize -1<CR>
 let g:ackprg = 'rg --vimgrep -g "!*migration*"'
 map <Leader>a :Ack!<space>
 
-" Airline
-"
-set laststatus=2                                    " Make the second to last line of vim our status line
-let g:airline_left_sep=''                           " No separator as they seem to look funky
-let g:airline_right_sep=''                          " No separator as they seem to look funky
-let g:airline#extensions#branch#enabled = 0         " Do not show the git branch in the status line
-let g:airline#extensions#syntastic#enabled = 1      " Do show syntastic warnings in the status line
-let g:airline#extensions#tabline#show_buffers = 0   " Do not list buffers in the status line
-let g:airline_section_x = ''                        " Do not list the filetype or virtualenv in the status line
-let g:airline_section_y = '[R%04l,C%04v] [LEN=%L]'  " Replace file encoding and file format info with file position
-let g:airline_section_z = ''                        " Do not show the default file position info
-let g:airline#extensions#virtualenv#enabled = 0
 set statusline^=%{coc#status()}
 
 " Syntastic
@@ -215,8 +199,6 @@ let g:syntastic_mode_map={ 'mode': 'active',
                      \ 'active_filetypes': [],
                      \ 'passive_filetypes': ['html'] }
 
-let g:elm_syntastic_show_warnings = 1
-
 " Startify
 "
 let g:startify_change_to_dir = 0
@@ -225,13 +207,6 @@ let g:startify_show_files = 1
 let g:startify_show_files_number = 10
 let g:startify_bookmarks = [ '~/.vimrc' ]
 
-" Emmet
-"
-" let g:user_emmet_install_global = 0
-" autocmd FileType html,htmldjango,handlebars EmmetInstall
-" let g:user_emmet_leader_key=','
-
-set signcolumn=yes
 
 " Rainbow parentheses
 "
@@ -268,17 +243,6 @@ xmap <silent> iE <Plug>CamelCaseMotion_ie
 omap <silent> iB <Plug>CamelCaseMotion_ib
 xmap <silent> iB <Plug>CamelCaseMotion_ib
 
-" Jedi (needs pip install jedi and pip3 install jedi)
-" 
-" let g:jedi#auto_vim_configuration = 0
-" let g:jedi#use_tabs_not_buffers = 0     " Use buffers not tabs
-" let g:jedi#popup_on_dot = 0
-" let g:jedi#rename_command = "<leader>rn"
-" let g:jedi#goto_command = "<leader>f"
-" let g:jedi#show_call_signatures = "0"
-" let g:jedi#documentation_command = "<leader>m"
-"
-"
 let g:coc_global_extensions = [
     \ 'coc-css',
     \ 'coc-elixir',
