@@ -9,7 +9,7 @@ ln -sf ~/dotfiles/.zshrc ~/.zshrc
 ln -sf ~/dotfiles/.zpreztorc ~/.zpreztorc
 
 # fd
-ln -sf ~/dotfiles/.fdinore ~/.fdignore
+ln -sf ~/dotfiles/.fdignore ~/.fdignore
 
 # Nvm
 mkdir ~/.nvm 2> /dev/null || true
