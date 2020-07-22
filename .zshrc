@@ -41,3 +41,6 @@ alias repo='~/repositories'
 alias vim="nvim"
 alias dcp="docker-compose"
 alias dcpe="docker-compose exec"
+
+bindkey "^A" vi-beginning-of-line
+bindkey "^E" vi-end-of-line

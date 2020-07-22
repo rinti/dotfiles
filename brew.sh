@@ -29,5 +29,6 @@ brew install tree
 brew install ripgrep
 brew install fzf
 brew install fd
+brew install reattach-to-user-namespace
 
 brew cleanup

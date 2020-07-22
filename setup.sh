@@ -10,6 +10,9 @@ fi
 # Git
 ln -sf ~/dotfiles/.gitconfig ~/.gitconfig
 
+# tmux
+ln -sf ~/dotfiles/.tmux.conf ~/.tmux.conf
+
 # zsh
 ln -sf ~/dotfiles/.zshrc ~/.zshrc
 ln -sf ~/dotfiles/.zpreztorc ~/.zpreztorc
