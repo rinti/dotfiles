@@ -26,14 +26,15 @@ call plug#begin('~/.vim/plugged')
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
+  Plug 'dracula/vim', { 'as': 'dracula' }
 call plug#end()
 
 " Required:
 filetype plugin indent on
 syntax enable
 
-set background=dark
-colo nova
+" set background=dark
+colo dracula
 set termguicolors
 
 filetype plugin indent on

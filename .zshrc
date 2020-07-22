@@ -26,7 +26,8 @@ fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-alias nvms='. /usr/local/opt/nvm/nvm.sh'
+export NVM_DIR="$HOME/.nvm"
+alias nvms='. $NVM_DIR/nvm.sh'
 
 alias g="git"
 alias gs='git status'
