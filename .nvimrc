@@ -30,14 +30,21 @@ call plug#begin('~/.vim/plugged')
 call plug#end()
 
 " Required:
-filetype plugin indent on
+"
 syntax enable
 
-" set background=dark
-colo dracula
+if exists('$TMUX')
+    let &t_8f = "<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "<Esc>[48;2;%lu;%lu;%lum"
+    set t_ut=
+endif
+    
+set t_Co=256
 set termguicolors
+set background=dark
+colo dracula
 
-filetype plugin indent on
+filetype plugin indent off
 set tabstop=4
 set shiftwidth=4
 set expandtab
