@@ -27,6 +27,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
   Plug 'dracula/vim', { 'as': 'dracula' }
+  Plug 'tweekmonster/braceless.vim'
+  Plug 'psf/black'
 call plug#end()
 
 " Required:
@@ -60,6 +62,9 @@ set colorcolumn=100
 hi ColorColumn guibg=#334149
 set signcolumn=yes
 hi SignColumn guibg=clear
+autocmd FileType python BracelessEnable +indent +fold
+autocmd FileType python setlocal commentstring=#\ %s
+
 
 augroup VimCSS3Syntax
   autocmd!
@@ -260,13 +265,14 @@ let g:coc_global_extensions = [
     \ 'coc-pairs',
     \ 'coc-phpls',
     \ 'coc-prettier',
-    \ 'coc-python',
     \ 'coc-snippets',
     \ 'coc-stylelint',
     \ 'coc-svg',
     \ 'coc-tsserver',
     \ 'coc-yank',
+    \ 'coc-python',
 \ ]
+nmap <silent> fa <Plug>(coc-fix-current)
 nmap <silent> ff <Plug>(coc-definition)
 nmap <silent> fy <Plug>(coc-type-definition)
 nmap <silent> fi <Plug>(coc-implementation)
