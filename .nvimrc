@@ -189,7 +189,9 @@ nnoremap <S-Down> :resize -1<CR>
 let g:ackprg = 'rg --vimgrep -g "!*migration*"'
 map <Leader>a :Ack!<space>
 
-set statusline^=%{coc#status()}
+set statusline=%{coc#status()}
+set statusline+=%{\"\\ua0\"}
+set statusline+=%t
 
 " Syntastic
 "

@@ -42,9 +42,11 @@ alias gd='git dsf'
 alias glt='git describe --tags `git rev-list --tags --max-count=1`'
 alias repo='~/repositories'
 
-alias vim="nvms && nvim"
+alias vim="nvim"
 alias dcp="docker-compose"
 alias dcpe="docker-compose exec"
 
 bindkey "^A" vi-beginning-of-line
 bindkey "^E" vi-end-of-line
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
