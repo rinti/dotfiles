@@ -1,11 +1,11 @@
 # Remove date at top of terminal
 touch ~/.hushlogin
 
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    ./linux.sh
-else
-    ./brew.sh
-fi
+#if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+#    ./linux.sh
+#else
+#    ./brew.sh
+#fi
 
 # Git
 ln -sf ~/dotfiles/.gitconfig ~/.gitconfig

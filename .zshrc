@@ -30,6 +30,18 @@ fi
 export NVM_DIR="$HOME/.nvm"
 alias nvms='. $NVM_DIR/nvm.sh'
 
+HISTFILE=$HOME/.zsh_history
+HISTFILESIZE=6553600
+HISTSIZE=409600
+SAVEHIST=409600
+REPORTTIME=60
+
+export GIT_EDITOR='nvim'
+export LESS='-imJMWR'
+export PAGER="less $LESS"
+export MANPAGER=$PAGER
+export GIT_PAGER=$PAGER
+
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
@@ -38,6 +50,7 @@ alias gs='git status'
 alias gc='git commit'
 alias ga='git add'
 alias gp='git push'
+alias gpra='git pull --rebase --autostash'
 alias gd='git dsf'
 alias glt='git describe --tags `git rev-list --tags --max-count=1`'
 alias repo='~/repositories'
