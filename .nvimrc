@@ -3,13 +3,16 @@ if &compatible
 endif
 
 call plug#begin('~/.vim/plugged')
-  Plug 'michaeljsmith/vim-indent-object'
-  Plug 'trevordmiller/nova-vim'
+  " Plug 'michaeljsmith/vim-indent-object'
   Plug 'bkad/CamelCaseMotion'
   Plug 'hail2u/vim-css3-syntax'
   Plug 'tpope/vim-fugitive'
-  Plug 'pangloss/vim-javascript'
-  Plug 'mxw/vim-jsx'
+  Plug 'chuling/equinusocio-material.vim'
+  "Plug 'pangloss/vim-javascript'
+  " Plug 'peitalin/vim-jsx-typescript'
+  Plug 'HerringtonDarkholme/yats.vim'
+  Plug 'yuezk/vim-js'
+  Plug 'MaxMEllon/vim-jsx-pretty'
   Plug 'scrooloose/syntastic'
   Plug 'tpope/vim-commentary'
   Plug 'mhinz/vim-startify'
@@ -31,6 +34,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'psf/black'
 call plug#end()
 
+
 " Required:
 "
 syntax enable
@@ -44,7 +48,9 @@ endif
 set t_Co=256
 set termguicolors
 set background=dark
-colo dracula
+let g:equinusocio_material_bracket_improved = 1
+set fillchars+=vert:│
+colo equinusocio_material
 
 filetype plugin indent off
 set tabstop=4
@@ -265,15 +271,15 @@ let g:coc_global_extensions = [
     \ 'coc-eslint',
     \ 'coc-html',
     \ 'coc-pairs',
-    \ 'coc-phpls',
     \ 'coc-prettier',
     \ 'coc-snippets',
     \ 'coc-stylelint',
     \ 'coc-svg',
     \ 'coc-tsserver',
-    \ 'coc-yank',
     \ 'coc-python',
 \ ]
+    ""\ 'coc-phpls',
+    ""\ 'coc-yank',
 nmap <silent> fa <Plug>(coc-fix-current)
 nmap <silent> ff <Plug>(coc-definition)
 nmap <silent> fy <Plug>(coc-type-definition)

@@ -1,7 +1,7 @@
 touch ~/.hushlogin
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-export PATH="$HOME/bin:$HOME/.pyenv/bin:$PATH";
+export PATH="$HOME/bin:$HOME/.pyenv/bin:$HOME/Library/Android/sdk/tools:$PATH";
 export PATH="/Users/andreas/repositories/flutter/bin:/usr/local/opt/python/libexec/bin:$PATH"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
