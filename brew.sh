@@ -8,10 +8,7 @@ BREW_PREFIX=$(brew --prefix)
 
 # Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
 brew install coreutils
-ln -s "${BREW_PREFIX}/bin/gsha256sum" "${BREW_PREFIX}/bin/sha256sum"
-
 brew install zsh
-brew install gnupg
 brew install neovim
 brew install grep
 brew install openssh

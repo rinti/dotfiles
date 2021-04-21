@@ -32,6 +32,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'dracula/vim', { 'as': 'dracula' }
   Plug 'tweekmonster/braceless.vim'
   Plug 'psf/black'
+
+  Plug 'leafOfTree/vim-svelte-plugin'
 call plug#end()
 
 
@@ -267,6 +269,7 @@ xmap <silent> iB <Plug>CamelCaseMotion_ib
 let g:coc_global_extensions = [
     \ 'coc-css',
     \ 'coc-elixir',
+    \ 'coc-svelte',
     \ 'coc-emmet',
     \ 'coc-eslint',
     \ 'coc-html',
