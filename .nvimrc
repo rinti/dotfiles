@@ -3,20 +3,20 @@ if &compatible
 endif
 
 call plug#begin('~/.vim/plugged')
-  " Plug 'michaeljsmith/vim-indent-object'
   Plug 'bkad/CamelCaseMotion'
-  Plug 'hail2u/vim-css3-syntax'
   Plug 'tpope/vim-fugitive'
+  Plug 'airblade/vim-gitgutter'
   Plug 'chuling/equinusocio-material.vim'
-  "Plug 'pangloss/vim-javascript'
-  " Plug 'peitalin/vim-jsx-typescript'
-  Plug 'HerringtonDarkholme/yats.vim'
-  Plug 'yuezk/vim-js'
-  Plug 'MaxMEllon/vim-jsx-pretty'
+  Plug 'dracula/vim', { 'as': 'dracula' }
+  Plug 'RRethy/vim-hexokinase', {'do': 'make hexokinase'}
   Plug 'scrooloose/syntastic'
+  Plug 'yuezk/vim-js'
+  Plug 'HerringtonDarkholme/yats.vim'
+  Plug 'MaxMEllon/vim-jsx-pretty'
+  Plug 'hail2u/vim-css3-syntax'
+  Plug 'elixir-editors/vim-elixir'
   Plug 'tpope/vim-commentary'
   Plug 'mhinz/vim-startify'
-  Plug 'airblade/vim-gitgutter'
   Plug 'kien/rainbow_parentheses.vim'
   Plug 'wellle/targets.vim'
   Plug 'junegunn/vim-easy-align'
@@ -24,15 +24,11 @@ call plug#begin('~/.vim/plugged')
   Plug 'editorconfig/editorconfig-vim'
   Plug 'tpope/vim-vinegar'
   Plug 'w0ng/vim-hybrid'
-  Plug 'RRethy/vim-hexokinase', {'do': 'make hexokinase'}
-  Plug 'elixir-editors/vim-elixir'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
-  Plug 'dracula/vim', { 'as': 'dracula' }
   Plug 'tweekmonster/braceless.vim'
   Plug 'psf/black'
-
   Plug 'leafOfTree/vim-svelte-plugin'
 call plug#end()
 
@@ -60,11 +56,22 @@ set shiftwidth=4
 set expandtab
 set inccommand=nosplit
 
+
 set backup
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+if !isdirectory($HOME."/.vim/backupdir")
+    silent! execute "!mkdir ~/.vim/backupdir"
+endif
+if !isdirectory($HOME."/.vim/undodir")
+    silent! execute "!mkdir ~/.vim/undodir"
+endif
+set backupdir=~/.vim/backupdir
+set directory=~/.vim/backupdir
+set undodir=~/.vim/undodir
 set backupskip=/tmp/*,/private/tmp/*
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+"not generate .swap
+set noswapfile
 set writebackup
+set undofile
 
 set colorcolumn=100
 hi ColorColumn guibg=#334149
@@ -72,6 +79,11 @@ set signcolumn=yes
 hi SignColumn guibg=clear
 autocmd FileType python BracelessEnable +indent +fold
 autocmd FileType python setlocal commentstring=#\ %s
+
+augroup local_env
+  au!
+  autocmd BufNewFile,BufRead .env.local   set syntax=sh
+augroup END
 
 
 augroup VimCSS3Syntax
@@ -279,17 +291,18 @@ let g:coc_global_extensions = [
     \ 'coc-stylelint',
     \ 'coc-svg',
     \ 'coc-tsserver',
-    \ 'coc-python',
+    \ 'coc-pyright',
 \ ]
-    ""\ 'coc-phpls',
-    ""\ 'coc-yank',
+
 nmap <silent> fa <Plug>(coc-fix-current)
 nmap <silent> ff <Plug>(coc-definition)
 nmap <silent> fy <Plug>(coc-type-definition)
 nmap <silent> fi <Plug>(coc-implementation)
 nmap <silent> fr <Plug>(coc-references)
+
 inoremap <silent><expr> <c-space> coc#refresh()
 command! -nargs=0 Format :call CocAction('format')
+command! -nargs=0 Org :CocCommand pyright.organizeimports
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 autocmd CursorHold * silent call CocActionAsync('highlight')
