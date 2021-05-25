@@ -30,6 +30,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'tweekmonster/braceless.vim'
   Plug 'psf/black'
   Plug 'leafOfTree/vim-svelte-plugin'
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 call plug#end()
 
 
@@ -360,3 +361,14 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = { "python", "javascript", "typescript" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ignore_install = { }, -- List of parsers to ignore installing
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    disable = { },  -- list of language that will be disabled
+  },
+}
+EOF
