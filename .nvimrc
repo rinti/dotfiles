@@ -5,9 +5,10 @@ endif
 call plug#begin('~/.vim/plugged')
   Plug 'bkad/CamelCaseMotion'
   Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-sensible'
   Plug 'airblade/vim-gitgutter'
-  Plug 'chuling/equinusocio-material.vim'
-  Plug 'dracula/vim', { 'as': 'dracula' }
+  " Plug 'chuling/equinusocio-material.vim'
+  " Plug 'dracula/vim', { 'as': 'dracula' }
   Plug 'RRethy/vim-hexokinase', {'do': 'make hexokinase'}
   Plug 'scrooloose/syntastic'
   Plug 'yuezk/vim-js'
@@ -24,13 +25,15 @@ call plug#begin('~/.vim/plugged')
   Plug 'editorconfig/editorconfig-vim'
   Plug 'tpope/vim-vinegar'
   Plug 'w0ng/vim-hybrid'
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  " Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'neovim/nvim-lspconfig'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
   Plug 'tweekmonster/braceless.vim'
   Plug 'psf/black'
   Plug 'leafOfTree/vim-svelte-plugin'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'folke/tokyonight.nvim'
 call plug#end()
 
 
@@ -38,18 +41,22 @@ call plug#end()
 "
 syntax enable
 
-if exists('$TMUX')
-    let &t_8f = "<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "<Esc>[48;2;%lu;%lu;%lum"
-    set t_ut=
-endif
+let &t_8f = "<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "<Esc>[48;2;%lu;%lu;%lum"
+set t_ut=
     
-set t_Co=256
+"let g:equinusocio_material_bracket_improved = 1
+" set fillchars+=vert:│
+
+"colo equinusocio_material
+
+let g:tokyonight_style = "night"
+" let g:tokyonight_italic_functions = 1
+" let g:tokyonight_terminal_colors = 0
 set termguicolors
 set background=dark
-let g:equinusocio_material_bracket_improved = 1
-set fillchars+=vert:│
-colo equinusocio_material
+colorscheme tokyonight
+set t_Co=256
 
 filetype plugin indent off
 set tabstop=4
@@ -78,8 +85,8 @@ set colorcolumn=100
 hi ColorColumn guibg=#334149
 set signcolumn=yes
 hi SignColumn guibg=clear
-autocmd FileType python BracelessEnable +indent +fold
-autocmd FileType python setlocal commentstring=#\ %s
+"autocmd FileType python BracelessEnable +indent +fold
+"autocmd FileType python setlocal commentstring=#\ %s
 
 augroup local_env
   au!
@@ -215,9 +222,9 @@ nnoremap <S-Down> :resize -1<CR>
 let g:ackprg = 'rg --vimgrep -g "!*migration*"'
 map <Leader>a :Ack!<space>
 
-set statusline=%{coc#status()}
-set statusline+=%{\"\\ua0\"}
-set statusline+=%t
+" set statusline=%{coc#status()}
+" set statusline+=%{\"\\ua0\"}
+" set statusline+=%t
 
 " Syntastic
 "
@@ -279,43 +286,45 @@ xmap <silent> iE <Plug>CamelCaseMotion_ie
 omap <silent> iB <Plug>CamelCaseMotion_ib
 xmap <silent> iB <Plug>CamelCaseMotion_ib
 
-let g:coc_global_extensions = [
-    \ 'coc-css',
-    \ 'coc-elixir',
-    \ 'coc-svelte',
-    \ 'coc-emmet',
-    \ 'coc-eslint',
-    \ 'coc-html',
-    \ 'coc-pairs',
-    \ 'coc-prettier',
-    \ 'coc-snippets',
-    \ 'coc-stylelint',
-    \ 'coc-svg',
-    \ 'coc-tsserver',
-    \ 'coc-pyright',
-\ ]
+" let g:coc_global_extensions = [
+"     \ 'coc-css',
+"     \ 'coc-elixir',
+"     \ 'coc-svelte',
+"     \ 'coc-emmet',
+"     \ 'coc-eslint',
+"     \ 'coc-html',
+"     \ 'coc-pairs',
+"     \ 'coc-prettier',
+"     \ 'coc-snippets',
+"     \ 'coc-stylelint',
+"     \ 'coc-svg',
+"     \ 'coc-tsserver',
+"     \ 'coc-pyright',
+" \ ]
 
-nmap <silent> fa <Plug>(coc-fix-current)
-nmap <silent> ff <Plug>(coc-definition)
-nmap <silent> fy <Plug>(coc-type-definition)
-nmap <silent> fi <Plug>(coc-implementation)
-nmap <silent> fr <Plug>(coc-references)
+" nmap <silent> fa <Plug>(coc-fix-current)
+" nmap <silent> ff <Plug>(coc-definition)
+" nmap <silent> fy <Plug>(coc-type-definition)
+" nmap <silent> fi <Plug>(coc-implementation)
+" nmap <silent> fr <Plug>(coc-references)
 
-inoremap <silent><expr> <c-space> coc#refresh()
-command! -nargs=0 Format :call CocAction('format')
-command! -nargs=0 Org :CocCommand pyright.organizeimports
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-autocmd CursorHold * silent call CocActionAsync('highlight')
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" inoremap <silent><expr> <c-space> coc#refresh()
+" command! -nargs=0 Format :call CocAction('format')
+" command! -nargs=0 F :call CocAction('format')
+" command! -nargs=0 POrg :CocCommand pyright.organizeimports
+" command! -nargs=0 TOrg :CocCommand tsserver.organizeimports
+" command! -nargs=0 Prettier :CocCommand prettier.formatFile
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" autocmd CursorHold * silent call CocActionAsync('highlight')
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
 " Netrw
 "
 let g:netrw_liststyle = 4
@@ -371,4 +380,15 @@ require'nvim-treesitter.configs'.setup {
     disable = { },  -- list of language that will be disabled
   },
 }
+EOF
+
+
+" npm i -g pyright
+" npm install -g typescript typescript-language-server diagnostic-languageserver eslint_d
+"
+lua << EOF
+local nvim_lsp = require("lspconfig")
+
+nvim_lsp.pyright.setup{}
+nvim_lsp.tsserver.setup {}
 EOF

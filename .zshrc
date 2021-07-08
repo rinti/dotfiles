@@ -6,7 +6,7 @@ export PATH="$HOME/bin:$HOME/.pyenv__/bin:$HOME/Library/Android/sdk/tools:$PATH"
 export PATH="/Users/andreas/.composer/vendor/bin:/Users/andreas/flutter/bin:/usr/local/opt/python/libexec/bin:$PATH"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-export TERM="xterm-256color"
+# export TERM="xterm-256color"
 
 export LDFLAGS="-L/opt/homebrew/opt/openssl@1.1/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/openssl@1.1/include"
