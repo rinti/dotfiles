@@ -25,7 +25,7 @@ require('packer').startup(function()
   end
 )
 
-require 'settings'
+require'plugin_settings'
 require'keybinds'
 require'treesitter'
 require'lsp'

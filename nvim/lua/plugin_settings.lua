@@ -6,7 +6,7 @@ vim.o.background = "dark"
 vim.g.tokyonight_style = "night"
 vim.cmd [[colorscheme tokyonight]]
 vim.o.colorcolumn = "100"
-vim.cmd[[au VimEnter * highlight ColorColumn guibg=#2c2c3b]]
+vim.cmd [[au VimEnter * highlight ColorColumn guibg=#2c2c3b]]
 
 -- Netrw
 vim.g.netrw_liststyle = "4"
