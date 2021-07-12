@@ -22,6 +22,7 @@ require('packer').startup(function()
   use 'mileszs/ack.vim'
   use 'tpope/vim-vinegar'
   use 'junegunn/fzf.vim'
+  use 'glepnir/lspsaga.nvim'
   end
 )
 
