@@ -25,7 +25,12 @@ require('packer').startup(function()
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use 'tpope/vim-commentary'
   use 'wellle/targets.vim'
-  use 'mileszs/ack.vim'
+  use {
+    'mileszs/ack.vim',
+    config = function()
+      vim.g.ackprg = 'rg --vimgrep -g "!*migration*"'
+    end
+  }
   use 'tpope/vim-vinegar'
   use {
     "junegunn/fzf.vim",
@@ -34,6 +39,8 @@ require('packer').startup(function()
     },
     config = function()
         vim.g.fzf_buffers_jump = true
+        vim.g.fzf_nvim_statusline = "0"
+        vim.g.fzf_files_options = "--preview 'cat {}'"
         vim.g.fzf_layout = {window = {width = 0.8, height = 0.4, yoffset = 0.2}}
         vim.cmd [[let $FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS . ' --reverse --ansi']]
     end
@@ -47,7 +54,7 @@ require('packer').startup(function()
   end
 )
 
-require'plugin_settings'
+require'settings'
 require'keybinds'
 require'treesitter'
 require'lsp'
