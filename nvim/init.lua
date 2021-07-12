@@ -27,6 +27,7 @@ require('packer').startup(function()
   'hoob3rt/lualine.nvim',
     requires = {'kyazdani42/nvim-web-devicons', opt = true}
   }
+  use 'ggandor/lightspeed.nvim'
   end
 )
 
