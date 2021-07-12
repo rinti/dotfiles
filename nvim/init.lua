@@ -23,6 +23,10 @@ require('packer').startup(function()
   use 'tpope/vim-vinegar'
   use 'junegunn/fzf.vim'
   use 'glepnir/lspsaga.nvim'
+  use {
+  'hoob3rt/lualine.nvim',
+    requires = {'kyazdani42/nvim-web-devicons', opt = true}
+  }
   end
 )
 
@@ -30,3 +34,4 @@ require'plugin_settings'
 require'keybinds'
 require'treesitter'
 require'lsp'
+require'evil_lualine'
