@@ -14,7 +14,13 @@ require('packer').startup(function()
   use 'tpope/vim-fugitive'
   use 'tpope/vim-sensible'
   use 'airblade/vim-gitgutter'
-  use { 'RRethy/vim-hexokinase', run = 'make hexokinase'}
+  use {
+    "rrethy/vim-hexokinase",
+    run = "make hexokinase",
+    config = function()
+        vim.g.Hexokinase_optInPatterns = "full_hex,rgb,rgba,hsl,hsla"
+    end
+  }
   use 'scrooloose/syntastic'
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use 'tpope/vim-commentary'
