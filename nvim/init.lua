@@ -21,7 +21,17 @@ require('packer').startup(function()
   use 'wellle/targets.vim'
   use 'mileszs/ack.vim'
   use 'tpope/vim-vinegar'
-  use 'junegunn/fzf.vim'
+  use {
+    "junegunn/fzf.vim",
+    requires = {
+        {"junegunn/fzf"}
+    },
+    config = function()
+        vim.g.fzf_buffers_jump = true
+        vim.g.fzf_layout = {window = {width = 0.8, height = 0.4, yoffset = 0.2}}
+        vim.cmd [[let $FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS . ' --reverse --ansi']]
+    end
+  }
   use 'glepnir/lspsaga.nvim'
   use {
   'hoob3rt/lualine.nvim',
