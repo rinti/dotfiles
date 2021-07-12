@@ -25,7 +25,7 @@ mkdir ~/.nvm 2> /dev/null || true
 
 # Nvim
 mkdir -p ~/.config/nvim 2> /dev/null || true
-ln -sf ~/dotfiles/.nvimrc ~/.config/nvim/init.vim
+ln -sf ~/dotfiles/init.lua ~/.config/nvim/init.lua
 
 # vimplug
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
