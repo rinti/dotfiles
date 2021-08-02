@@ -11,8 +11,8 @@ local nvim_lsp = require("lspconfig")
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
--- nvim_lsp.pyright.setup {}
-nvim_lsp.jedi_language_server.setup {}
+nvim_lsp.pyright.setup {}
+-- nvim_lsp.jedi_language_server.setup {}
 nvim_lsp.tsserver.setup {}
 nvim_lsp.jsonls.setup {}
 nvim_lsp.svelte.setup {}

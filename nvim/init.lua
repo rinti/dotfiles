@@ -46,11 +46,18 @@ require('packer').startup(function()
     end
   }
   use 'glepnir/lspsaga.nvim'
+  use 'nvim-lua/plenary.nvim'
+  use 'nvim-lua/popup.nvim'
+  use 'windwp/nvim-spectre'
   use {
   'hoob3rt/lualine.nvim',
     requires = {'kyazdani42/nvim-web-devicons', opt = true}
   }
   use 'ggandor/lightspeed.nvim'
+  use {
+  'folke/trouble.nvim',
+    requires = {'kyazdani42/nvim-web-devicons', opt = true}
+  }
   end
 )
 
