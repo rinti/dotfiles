@@ -3,18 +3,26 @@ vim.o.shiftwidth = 4
 vim.o.expandtab = true
 vim.o.inccommand = "nosplit"
 vim.o.clipboard = "unnamed"
+vim.o.completeopt = "menuone,noselect"
 
 vim.g.mapleader = " "
 
 require('packer').startup(function()
   use 'wbthomason/packer.nvim'
+  use {
+    "hrsh7th/nvim-cmp",
+    requires = {
+      "hrsh7th/vim-vsnip",
+      "hrsh7th/cmp-buffer",
+    }
+  }
+  use 'editorconfig/editorconfig-vim'
   use 'neovim/nvim-lspconfig'
   use 'folke/tokyonight.nvim'
   use 'bkad/CamelCaseMotion'
   use 'tpope/vim-fugitive'
   use 'tpope/vim-sensible'
   use 'airblade/vim-gitgutter'
-  use 'hrsh7th/nvim-compe'
   use {
     "rrethy/vim-hexokinase",
     run = "make hexokinase",
@@ -67,3 +75,4 @@ require'keybinds'
 require'treesitter'
 require'lsp'
 require'evil_lualine'
+require'compe_settings'

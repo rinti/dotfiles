@@ -30,6 +30,8 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+alias activate_asdf='. /opt/homebrew/opt/asdf/libexec/asdf.sh'
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export NVM_DIR="$HOME/.nvm"
@@ -68,6 +70,3 @@ alias activate="source venv/bin/activate"
 bindkey "^A" vi-beginning-of-line
 bindkey "^E" vi-end-of-line
 export PATH="/opt/homebrew/sbin:$PATH"
-
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"

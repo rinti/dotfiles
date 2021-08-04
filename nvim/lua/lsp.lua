@@ -24,3 +24,6 @@ nvim_lsp.cssls.setup {
 nvim_lsp.html.setup {
   capabilities = capabilities,
 }
+-- nvim_lsp.elixirls.setup {
+--     cmd = { "/Users/andreas/languageservers/elixir-ls/language_server.sh" };
+-- }
