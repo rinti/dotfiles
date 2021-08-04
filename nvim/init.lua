@@ -14,6 +14,7 @@ require('packer').startup(function()
   use 'tpope/vim-fugitive'
   use 'tpope/vim-sensible'
   use 'airblade/vim-gitgutter'
+  use 'hrsh7th/nvim-compe'
   use {
     "rrethy/vim-hexokinase",
     run = "make hexokinase",
