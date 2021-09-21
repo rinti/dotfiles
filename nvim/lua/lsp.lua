@@ -48,6 +48,32 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+nvim_lsp.intelephense.setup({
+    settings = {
+        intelephense = {
+            stubs = { 
+                "bcmath",
+                "bz2",
+                "calendar",
+                "Core",
+                "curl",
+                "zip",
+                "zlib",
+                "wordpress",
+                "woocommerce",
+                "acf-pro",
+                "wordpress-globals",
+                "wp-cli",
+                "genesis",
+                "polylang"
+            },
+            files = {
+                maxSize = 5000000;
+            };
+        };
+    }
+});
+
 -- nvim_lsp.pyright.setup {}
 -- -- nvim_lsp.jedi_language_server.setup {}
 -- -- nvim_lsp.pyright.setup {}

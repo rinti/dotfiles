@@ -3,7 +3,7 @@ touch ~/.hushlogin
 export PATH="/opt/homebrew/opt/openssl@1.1/bin:$PATH"
 export PATH="/opt/homebrew/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="$HOME/bin:$HOME/.pyenv__/bin:$HOME/Library/Android/sdk/tools:$PATH";
-export PATH="/Users/andreas/.composer/vendor/bin:/Users/andreas/flutter/bin:/usr/local/opt/python/libexec/bin:$PATH"
+export PATH="/Users/andreas/.composer/bin:/Users/andreas/flutter/bin:/usr/local/opt/python/libexec/bin:$PATH"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 # export TERM="xterm-256color"
