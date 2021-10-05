@@ -1,6 +1,6 @@
 -- color
 vim.o.background = "dark"
-vim.g.tokyonight_style = "night"
+vim.g.tokyonight_style = "storm"
 vim.cmd [[colorscheme tokyonight]]
 vim.o.colorcolumn = "100"
 vim.cmd [[au VimEnter * highlight ColorColumn guibg=#2c2c3b]]

@@ -61,7 +61,7 @@ require('packer').startup(function()
   use 'windwp/nvim-spectre'
   use {
   'hoob3rt/lualine.nvim',
-    requires = {'kyazdani42/nvim-web-devicons', opt = true}
+    requires = {'kyazdani42/nvim-web-devicons', opt = true} -- https://www.nerdfonts.com/font-downloads
   }
   use 'ggandor/lightspeed.nvim'
   use {
@@ -75,5 +75,5 @@ require'settings'
 require'keybinds'
 require'treesitter'
 require'lsp'
-require'evil_lualine'
 require'compe_settings'
+require'lualine_settings'

@@ -1,21 +1,21 @@
 -- Eviline config for lualine
 -- Author: shadmansaleh
 -- Credit: glepnir
-local lualine = require'lualine'
+local lualine = require 'lualine'
 
 -- Color table for highlights
 local colors = {
-  bg = '#202328',
-  fg = '#bbc2cf',
-  yellow = '#ECBE7B',
-  cyan = '#008080',
-  darkblue = '#081633',
-  green = '#98be65',
-  orange = '#FF8800',
-  violet = '#a9a1e1',
-  magenta = '#c678dd',
-  blue = '#51afef',
-  red = '#ec5f67'
+  bg = '#1f2335',
+  fg = '#a9b1d6',
+  yellow = '#e0af68',
+  cyan = '#7dcfff',
+  darkblue = '#1f2335',
+  green = '#9ece6a',
+  orange = '#ff9e64',
+  violet = '#9d7cd8',
+  magenta = '#bb9af7',
+  blue = '#7aa2f7',
+  red = '#f7768e'
 }
 
 local conditions = {
@@ -73,11 +73,11 @@ local function ins_right(component)
   table.insert(config.sections.lualine_x, component)
 end
 
-ins_left {
-  function() return '▊' end,
-  color = {fg = colors.blue}, -- Sets highlighting of component
-  left_padding = 0 -- We don't need space before this
-}
+-- ins_left {
+--   function() return '▊' end,
+--   color = {fg = colors.blue}, -- Sets highlighting of component
+--   left_padding = 0 -- We don't need space before this
+-- }
 
 ins_left {
   -- mode component
@@ -108,42 +108,42 @@ ins_left {
     vim.api.nvim_command(
         'hi! LualineMode guifg=' .. mode_color[vim.fn.mode()] .. " guibg=" ..
             colors.bg)
-    return ''
+    return vim.fn.mode()
   end,
   color = "LualineMode",
   left_padding = 0
 }
 
-ins_left {
-  -- filesize component
-  function()
-    local function format_file_size(file)
-      local size = vim.fn.getfsize(file)
-      if size <= 0 then return '' end
-      local sufixes = {'b', 'k', 'm', 'g'}
-      local i = 1
-      while size > 1024 do
-        size = size / 1024
-        i = i + 1
-      end
-      return string.format('%.1f%s', size, sufixes[i])
-    end
-    local file = vim.fn.expand('%:p')
-    if string.len(file) == 0 then return '' end
-    return format_file_size(file)
-  end,
-  condition = conditions.buffer_not_empty
-}
+-- ins_left {
+--   -- filesize component
+--   function()
+--     local function format_file_size(file)
+--       local size = vim.fn.getfsize(file)
+--       if size <= 0 then return '' end
+--       local sufixes = {'b', 'k', 'm', 'g'}
+--       local i = 1
+--       while size > 1024 do
+--         size = size / 1024
+--         i = i + 1
+--       end
+--       return string.format('%.1f%s', size, sufixes[i])
+--     end
+--     local file = vim.fn.expand('%:p')
+--     if string.len(file) == 0 then return '' end
+--     return format_file_size(file)
+--   end,
+--   condition = conditions.buffer_not_empty
+-- }
 
 ins_left {
   'filename',
   condition = conditions.buffer_not_empty,
-  color = {fg = colors.magenta, gui = 'bold'}
+  color = {fg = colors.magenta}
 }
 
 ins_left {'location'}
 
-ins_left {'progress', color = {fg = colors.fg, gui = 'bold'}}
+-- ins_left {'progress', color = {fg = colors.fg, gui = 'bold'}}
 
 ins_left {
   'diagnostics',
@@ -156,12 +156,12 @@ ins_left {
 
 -- Insert mid section. You can make any number of sections in neovim :)
 -- for lualine it's any number greater then 2
-ins_left {function() return '%=' end}
+-- ins_left {function() return '%=' end}
 
 ins_left {
   -- Lsp server name .
   function()
-    local msg = 'No Active Lsp'
+    local msg = 'Not active'
     local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
     local clients = vim.lsp.get_active_clients()
     if next(clients) == nil then return msg end
@@ -173,30 +173,30 @@ ins_left {
     end
     return msg
   end,
-  icon = ' LSP:',
-  color = {fg = '#ffffff', gui = 'bold'}
+  icon = ' ',
+  color = {fg = colors.green}
 }
 
 -- Add components to right sections
-ins_right {
-  'o:encoding', -- option component same as &encoding in viml
-  upper = true, -- I'm not sure why it's upper case either ;)
-  condition = conditions.hide_in_width,
-  color = {fg = colors.green, gui = 'bold'}
-}
+-- ins_right {
+--   'o:encoding', -- option component same as &encoding in viml
+--   upper = true, -- I'm not sure why it's upper case either ;)
+--   condition = conditions.hide_in_width,
+--   color = {fg = colors.green, gui = 'bold'}
+-- }
 
-ins_right {
-  'fileformat',
-  upper = true,
-  icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
-  color = {fg = colors.green, gui = 'bold'}
-}
+-- ins_right {
+--   'fileformat',
+--   upper = true,
+--   icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
+--   color = {fg = colors.green}
+-- }
 
 ins_right {
   'branch',
   icon = '',
   condition = conditions.check_git_workspace,
-  color = {fg = colors.violet, gui = 'bold'}
+  color = {fg = colors.violet}
 }
 
 ins_right {
@@ -209,11 +209,11 @@ ins_right {
   condition = conditions.hide_in_width
 }
 
-ins_right {
-  function() return '▊' end,
-  color = {fg = colors.blue},
-  right_padding = 0
-}
+-- ins_right {
+--   function() return '▊' end,
+--   color = {fg = colors.blue},
+--   right_padding = 0
+-- }
 
 -- Now don't forget to initialize lualine
 lualine.setup(config)

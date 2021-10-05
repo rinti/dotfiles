@@ -2,8 +2,8 @@
 vim.g.ackprg = 'rg --vimgrep -g "!*migration*"'
 
 -- Color
-vim.o.background = "dark"
-vim.g.tokyonight_style = "night"
+--vim.o.background = "dark"
+vim.g.tokyonight_style = "storm"
 vim.cmd [[colorscheme tokyonight]]
 vim.o.colorcolumn = "100"
 vim.cmd[[au VimEnter * highlight ColorColumn guibg=#2c2c3b]]
