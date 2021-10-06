@@ -62,6 +62,7 @@ require('packer').startup(function()
   use {
   'hoob3rt/lualine.nvim',
     requires = {'kyazdani42/nvim-web-devicons', opt = true} -- https://www.nerdfonts.com/font-downloads
+    -- https://github.com/epk/SF-Mono-Nerd-Font
   }
   use 'ggandor/lightspeed.nvim'
   use {

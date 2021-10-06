@@ -30,7 +30,6 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-alias activate_asdf='. /opt/homebrew/opt/asdf/libexec/asdf.sh'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -66,6 +65,10 @@ alias vim="nvim"
 alias dcp="docker compose"
 alias dcpe="docker compose exec"
 alias activate="source venv/bin/activate"
+
+alias activate_asdf='. /opt/homebrew/opt/asdf/libexec/asdf.sh'
+
+alias install_lsp='activate_asdf; npm i -g pyright typescript typescript-language-server diagnostic-languageserver eslint_d vscode-langservers-extracted svelte-language-server'
 
 bindkey "^A" vi-beginning-of-line
 bindkey "^E" vi-end-of-line
