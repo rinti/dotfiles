@@ -66,6 +66,9 @@ alias dcp="docker compose"
 alias dcpe="docker compose exec"
 alias activate="source venv/bin/activate"
 
+alias rns="tmux rename-session"
+alias rnw="tmux rename-window"
+
 alias activate_asdf='. /opt/homebrew/opt/asdf/libexec/asdf.sh'
 
 alias install_lsp='activate_asdf; npm i -g pyright typescript typescript-language-server diagnostic-languageserver eslint_d vscode-langservers-extracted svelte-language-server'
