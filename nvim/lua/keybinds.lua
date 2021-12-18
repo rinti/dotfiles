@@ -5,6 +5,10 @@ vim.api.nvim_set_keymap('n', 'k', 'gk', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', 'J', '5j', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', 'K', '5k', {noremap = true, silent = true})
 
+-- Ctrl + J/K moves selected lines down/up in visual mode
+vim.api.nvim_set_keymap('v', '<C-j>', ':m \'>+1<CR>gv=gv', {noremap = true})
+vim.api.nvim_set_keymap('v', '<C-k>', ':m \'<-2<CR>gv=gv', {noremap = true})
+
 -- Switch windows with arrows
 vim.api.nvim_set_keymap('n', '<Left>', ':wincmd h<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<Right>', ':wincmd l<CR>', {noremap = true, silent = true})
