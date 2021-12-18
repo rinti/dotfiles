@@ -12,9 +12,14 @@ require('packer').startup(function()
   use {
     "hrsh7th/nvim-cmp",
     requires = {
+      "hrsh7th/cmp-vsnip",
       "hrsh7th/vim-vsnip",
       "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
       "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-cmdline",
+      "neovim/nvim-lspconfig",
+      "onsails/lspkind-nvim",
     }
   }
   use 'editorconfig/editorconfig-vim'
@@ -30,6 +35,9 @@ require('packer').startup(function()
     config = function()
         vim.g.Hexokinase_optInPatterns = "full_hex,rgb,rgba,hsl,hsla"
     end
+  }
+  use {
+    "kuator/some-python-plugin.nvim",
   }
   use 'scrooloose/syntastic'
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
@@ -55,7 +63,7 @@ require('packer').startup(function()
         vim.cmd [[let $FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS . ' --reverse --ansi']]
     end
   }
-  use 'glepnir/lspsaga.nvim'
+  -- use 'glepnir/lspsaga.nvim'
   use 'nvim-lua/plenary.nvim'
   use 'nvim-lua/popup.nvim'
   use 'windwp/nvim-spectre'

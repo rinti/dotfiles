@@ -9,10 +9,15 @@
 local nvim_lsp = require("lspconfig")
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
 -- capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+vim.lsp.set_log_level("debug")
 
 local on_attach = function(_, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -39,7 +44,15 @@ local on_attach = function(_, bufnr)
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
 end
 
-local servers = { 'pyright', 'tsserver', 'jsonls', 'svelte', 'cssls', 'html' }
+local servers = {
+    -- 'pyright',
+    -- 'jedi_language_server',
+    'tsserver',
+    'jsonls',
+    'svelte',
+    'cssls',
+    'html'
+}
 
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
@@ -73,6 +86,19 @@ nvim_lsp.intelephense.setup({
         };
     }
 });
+
+require 'pylance'
+nvim_lsp.pylance.setup{
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+        python = {
+            analysis = {
+                typeCheckingMode = "off"
+            },
+        }
+    }
+}
 
 -- nvim_lsp.pyright.setup {}
 -- -- nvim_lsp.jedi_language_server.setup {}
