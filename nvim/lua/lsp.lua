@@ -5,6 +5,22 @@
 -- json: npm i -g vscode-langservers-extracted
 -- svelte: npm install -g svelte-language-server
 -- css, html: npm i -g vscode-langservers-extracted
+--
+vim.diagnostic.config({
+  virtual_text = false, -- Turn off inline diagnostics
+})
+vim.api.nvim_set_keymap(
+  'n', '<Leader>d', ':lua vim.diagnostic.open_float()<CR>', 
+  { noremap = true, silent = true }
+)
+vim.api.nvim_set_keymap(
+  'n', '<Leader>n', ':lua vim.diagnostic.goto_next()<CR>',
+  { noremap = true, silent = true }
+)
+vim.api.nvim_set_keymap(
+  'n', '<Leader>p', ':lua vim.diagnostic.goto_prev()<CR>',
+  { noremap = true, silent = true }
+)
 
 local nvim_lsp = require("lspconfig")
 
