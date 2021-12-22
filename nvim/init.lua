@@ -24,7 +24,8 @@ require('packer').startup(function()
   }
   use 'editorconfig/editorconfig-vim'
   use 'neovim/nvim-lspconfig'
-  use 'folke/tokyonight.nvim'
+  -- use 'folke/tokyonight.nvim'
+  use 'rebelot/kanagawa.nvim'
   use 'bkad/CamelCaseMotion'
   use 'tpope/vim-fugitive'
   use 'tpope/vim-sensible'
