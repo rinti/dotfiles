@@ -9,6 +9,7 @@ vim.g.mapleader = " "
 
 require('packer').startup(function()
   use 'wbthomason/packer.nvim'
+  use 'mhartington/formatter.nvim'
   use {
     "hrsh7th/nvim-cmp",
     requires = {
@@ -64,7 +65,7 @@ require('packer').startup(function()
         vim.cmd [[let $FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS . ' --reverse --ansi']]
     end
   }
-  -- use 'glepnir/lspsaga.nvim'
+  use 'glepnir/lspsaga.nvim'
   use 'nvim-lua/plenary.nvim'
   use 'nvim-lua/popup.nvim'
   use 'windwp/nvim-spectre'
@@ -87,3 +88,4 @@ require'treesitter'
 require'lsp'
 require'compe_settings'
 require'lualine_settings'
+require'formatter_nvim'
