@@ -103,18 +103,45 @@ nvim_lsp.intelephense.setup({
     }
 });
 
-require 'pylance'
-nvim_lsp.pylance.setup{
-    on_attach = on_attach,
-    capabilities = capabilities,
+local util = require 'lspconfig/util'
+
+nvim_lsp.pyright.setup({
+    root_dir = function(fname)
+        local root_files = {
+            'docker-compose.yml',
+            'pyproject.toml',
+            'setup.py',
+            'setup.cfg',
+            'requirements.txt',
+            'Pipfile',
+            'pyrightconfig.json',
+        }
+        return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname) or util.path.dirname(fname)
+    end,
     settings = {
         python = {
             analysis = {
-                typeCheckingMode = "off"
+                autoSearchPaths = true,
+                diagnosticMode = "workspace",
+                useLibraryCodeForTypes = false,
+                typeCheckingMode = "off",
             },
-        }
+        },
     }
-}
+});
+
+-- require 'pylance'
+-- nvim_lsp.pylance.setup{
+--     on_attach = on_attach,
+--     capabilities = capabilities,
+--     settings = {
+--         python = {
+--             analysis = {
+--                 typeCheckingMode = "off"
+--             },
+--         }
+--     }
+-- }
 
 -- nvim_lsp.pyright.setup {}
 -- -- nvim_lsp.jedi_language_server.setup {}
