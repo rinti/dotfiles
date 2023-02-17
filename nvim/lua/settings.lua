@@ -13,3 +13,8 @@ vim.g.netrw_list_hide = '.pyc,.DS_Store,.git'
 
 -- stuff to ignore when tab completing
 vim.o.wildignore = "*.pyc,__pycache__/,*DS_Store*,*/node_modules,.git,.gitkeep"
+
+-- vim.cmd [[
+--   autocmd!
+--   autocmd BufWritePost * FormatWrite
+-- ]]

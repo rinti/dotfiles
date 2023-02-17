@@ -65,6 +65,7 @@ alias vim="nvim"
 alias dcp="docker compose"
 alias dcpe="docker compose exec"
 alias activate="source venv/bin/activate"
+alias oci="cd $(git rev-parse --show-toplevel) && make open_ci && cd -"
 
 alias rns="tmux rename-session"
 alias rnw="tmux rename-window"
@@ -76,3 +77,5 @@ alias install_lsp='activate_asdf; npm i -g pyright typescript typescript-languag
 bindkey "^A" vi-beginning-of-line
 bindkey "^E" vi-end-of-line
 export PATH="/opt/homebrew/sbin:$PATH"
+
+source /Users/andreas/.docker/init-zsh.sh || true # Added by Docker Desktop

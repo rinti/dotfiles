@@ -1,3 +1,15 @@
+local api, g = vim.api, vim.g
+local function map(mode, lhs, rhs, opts)
+    local options = { noremap = true }
+    if opts then
+        options = vim.tbl_extend("force", options, opts)
+    end
+    api.nvim_set_keymap(mode, lhs, rhs, options)
+end
+
+g["mapleader"] = " " -- Map space as leader
+
+--
 -- Keybinds
 -----------
 vim.api.nvim_set_keymap('n', 'j', 'gj', {noremap = true, silent = true})
@@ -64,3 +76,14 @@ vim.api.nvim_set_keymap('v', '<leader>ca', ':<C-U>Lspsaga range_code_action<CR>'
 vim.api.nvim_set_keymap('n', 'K', ':Lspsaga hover_doc<CR>', {silent = true, noremap = true})
 vim.api.nvim_set_keymap('n', 'fr', ':Lspsaga rename<CR>', {silent = true, noremap = true})
 vim.api.nvim_set_keymap('n', 'fd', ':Lspsaga preview_definition<CR>', {silent = true, noremap = true})
+
+
+map("n", "ff", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true }) -- lsp
+-- map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true }) -- lsp
+map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", { noremap = true, silent = true }) -- lsp
+map("n", "fi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { noremap = true, silent = true }) -- lsp
+map("n", "fr", "<cmd>lua vim.lsp.buf.references()<CR>", { noremap = true, silent = true }) -- lsp
+map("n", "KK", "<cmd>lua vim.diagnostic.open_float({scope='line', width=80})<CR>", { noremap = true, silent = true }) -- lsp
+map("n", "<leader>f", "<cmd>lua vim.lsp.buf.format { async = true }<CR>", { noremap = true, silent = true }) -- lsp
+map("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", { noremap = true, silent = true }) --lsp
+map("n", "<leader>x", "<cmd>TroubleToggle<cr>", { noremap = true, silent = true }) --lsp-trouble

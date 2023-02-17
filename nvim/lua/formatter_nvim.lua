@@ -1,7 +1,7 @@
 local prettierFmt = function()
   return {
     exe = "prettier",
-    args = {"--stdin-filepath", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)), "--single-quote"},
+    args = {"--stdin-filepath", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)), "--single-quote", "--tab-width 2"},
     stdin = true
   }
 end
@@ -25,7 +25,16 @@ end
 require('formatter').setup({
   logging = true,
   filetype = {
+    scss = {
+        prettierFmt
+    },
+    css = {
+        prettierFmt
+    },
     javascript = {
+        prettierFmt
+    },
+    json = {
         prettierFmt
     },
     python = {
