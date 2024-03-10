@@ -1,6 +1,6 @@
 touch ~/.hushlogin
 
-export PATH="/opt/homebrew/opt/openssl@1.1/bin:$PATH"
+export PATH="/usr/local/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/opt/homebrew/opt/openssl@1.1/bin:$PATH"
 export PATH="/opt/homebrew/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="$HOME/bin:$HOME/.pyenv__/bin:$HOME/Library/Android/sdk/tools:$PATH";
 export PATH="/Users/andreas/.composer/bin:/Users/andreas/flutter/bin:/usr/local/opt/python/libexec/bin:$PATH"
@@ -65,6 +65,7 @@ alias vim="nvim"
 alias dcp="docker compose"
 alias dcpe="docker compose exec"
 alias activate="source venv/bin/activate"
+alias aa="activate_asdf; activate"
 alias oci="cd $(git rev-parse --show-toplevel) && make open_ci && cd -"
 
 alias rns="tmux rename-session"
@@ -79,3 +80,10 @@ bindkey "^E" vi-end-of-line
 export PATH="/opt/homebrew/sbin:$PATH"
 
 source /Users/andreas/.docker/init-zsh.sh || true # Added by Docker Desktop
+
+# bun completions
+[ -s "/Users/andreas/.bun/_bun" ] && source "/Users/andreas/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

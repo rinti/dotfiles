@@ -27,5 +27,10 @@ mkdir -p ~/.nvm 2> /dev/null || true
 mkdir -p ~/.config/nvim 2> /dev/null || true
 ln -sf ~/dotfiles/nvim ~/.config/nvim
 
+# vscode
+ln -sf ~/dotfiles/vscode/snippets/ ~/Library/Application\ Support/Code/User/
+ln -sf ~/dotfiles/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
+ln -sf ~/dotfiles/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
+
 # tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm

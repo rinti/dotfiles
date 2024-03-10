@@ -8,6 +8,7 @@ vim.o.completeopt = "menuone,noselect"
 vim.g.mapleader = " "
 
 require('packer').startup(function()
+    use 'github/copilot.vim'
     use 'wbthomason/packer.nvim'
     use 'mhartington/formatter.nvim'
     use {
@@ -27,6 +28,8 @@ require('packer').startup(function()
     use 'neovim/nvim-lspconfig'
     -- use 'folke/tokyonight.nvim'
     use 'rebelot/kanagawa.nvim'
+    -- use 'AlexvZyl/nordic.nvim'
+
     use 'bkad/CamelCaseMotion'
     use 'tpope/vim-fugitive'
     use 'tpope/vim-sensible'
@@ -86,8 +89,21 @@ require('packer').startup(function()
         'hoob3rt/lualine.nvim',
         requires = {'kyazdani42/nvim-web-devicons', opt = true} -- https://www.nerdfonts.com/font-downloads
         -- https://github.com/epk/SF-Mono-Nerd-Font
+        -- https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Iosevka/Regular/complete/Iosevka%20Nerd%20Font%20Complete%20Mono.ttf
     }
     use 'ggandor/lightspeed.nvim'
+    use {
+        -- requires `brew install gnu-sed`
+        "nvim-neotest/neotest",
+        requires = {
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-neotest/neotest-plenary",
+            "nvim-neotest/neotest-vim-test",
+            "nvim-neotest/neotest-python",
+            "antoinemadec/FixCursorHold.nvim"
+        }
+    }
     use {
         "folke/lsp-trouble.nvim",
         requires = "kyazdani42/nvim-web-devicons",
@@ -107,3 +123,4 @@ require'lsp'
 require'compe_settings'
 require'lualine_settings'
 require'formatter_nvim'
+require'neotest_settings'

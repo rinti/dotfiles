@@ -1,0 +1,158 @@
+{
+  "terminal.integrated.profiles.osx": {
+    "bash": {
+      "path": "bash",
+      "args": [
+        "-l"
+      ],
+      "icon": "terminal-bash"
+    },
+    "zsh": {
+      "path": "zsh",
+      "args": [
+        "-l"
+      ]
+    },
+    "tmux": {
+      "path": "tmux",
+      "icon": "terminal-tmux",
+      "args": ["new-session", "-A", "-s", "vscode:${workspaceFolder}"]
+    },
+  },
+  "terminal.integrated.defaultProfile.osx": "tmux",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.cursorSurroundingLines": 5,
+  "editor.wordWrap": "on",
+  "vim.useSystemClipboard": true,
+  "vim.insertModeKeyBindings": [
+    {
+      "before": ["j", "j"],
+      "after": ["<Esc>"]
+    }
+  ],
+  "ruff.organizeImports": false,
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<leader>", "r", "f"],
+      "commands": ["ruff.executeAutofix"]
+    },
+    {
+      "before": ["<leader>", "c", "a"],
+      "commands": ["editor.action.quickFix"]
+    },
+    {
+      "before": ["leader", "f", "f"],
+      "commands": ["workbench.action.quickOpen"]
+    },
+    { "before": ["leader", "p"], "commands": ["editor.action.formatDocument"] },
+    {
+      "before": ["g", "h"],
+      "commands": ["editor.action.showDefinitionPreviewHover"]
+    },
+    {
+      "before": ["g", "d"],
+      "commands": ["editor.action.goToDeclaration"]
+    },
+    {
+      "before": ["<leader>", "<leader>"],
+      "commands": [
+        {
+          "command": "workbench.action.openPreviousEditorFromHistory"
+        },
+        {
+          "command": "workbench.action.acceptSelectedQuickOpenItem"
+        }
+      ]
+    }
+  ],
+  "vim.visualModeKeyBindings": [
+    // Stay in visual mode while indenting
+    { "before": ["<"], "commands": ["editor.action.outdentLines"] },
+    { "before": [">"], "commands": ["editor.action.indentLines"] },
+    // Move selected lines while staying in visual mode
+    { "before": ["J"], "commands": ["editor.action.moveLinesDownAction"] },
+    { "before": ["K"], "commands": ["editor.action.moveLinesUpAction"] },
+    // toggle comment selection
+    { "before": ["leader", "c"], "commands": ["editor.action.commentLine"] }
+  ],
+  "breadcrumbs.enabled": true,
+  "breadcrumbs.symbolPath": "off",
+  "python.languageServer": "Pylance",
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "window.density.editorTabHeight": "compact",
+  "workbench.activityBar.location": "top",
+  "workbench.editor.showTabs": "none",
+  "editor.rulers": [100],
+  "workbench.panel.defaultLocation": "right",
+  "editor.inlineSuggest.enabled": true,
+  "editor.lineNumbers": "relative",
+  "search.useReplacePreview": false,
+  "editor.linkedEditing": true,
+  "editor.minimap.enabled": false,
+  "editor.smoothScrolling": true,
+  "editor.stickyScroll.enabled": true,
+  "editor.suggest.insertMode": "replace",
+  "editor.fontFamily": "'Monaspace Neon', monospace",
+  "editor.fontSize": 14,
+  "editor.suggestFontSize": 12,
+  "editor.tabSize": 2,
+  "git.enabled": true,
+  "extensions.autoUpdate": "onlyEnabledExtensions",
+  "extensions.ignoreRecommendations": false,
+  "files.exclude": {
+    "**/node_modules": true
+  },
+  "projectManager.git.baseFolders": ["$home/dev"],
+  "projectManager.sortList": "Recent",
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "update.showReleaseNotes": false,
+  "vim.foldfix": true,
+  "vim.highlightedyank.color": "rgba(230, 97, 89, 0.7)",
+  "vim.highlightedyank.enable": true,
+  "vim.highlightedyank.textColor": "white",
+  "vim.hlsearch": true,
+  "vim.leader": "<space>",
+  "window.zoomLevel": -1,
+  "workbench.settings.editor": "json",
+  "workbench.startupEditor": "readme",
+  "zenMode.hideLineNumbers": false,
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.colorTheme": "Catppuccin Mocha",
+  "extensions.experimental.affinity": {
+    "vscodevim.vim": 1
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "diffEditor.ignoreTrimWhitespace": false,
+    "gitlens.codeLens.symbolScopes": ["!Module"],
+    "editor.formatOnType": false,
+    "editor.formatOnSave": false,
+    "editor.wordBasedSuggestions": "off",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  },
+  "isort.args": ["--profile", "black"],
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

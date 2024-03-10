@@ -1,0 +1,73 @@
+// Place your key bindings in this file to override the defaults
+[
+  {
+    "command": "editor.toggleFold",
+    "key": "cmd+k å"
+  },
+  {
+    "command": "projectManager.listGitProjects#sideBarGit",
+    "key": "cmd+o"
+  },
+  {
+    "command": "workbench.action.toggleSidebarVisibility",
+    "key": "ctrl+e"
+  },
+  {
+    "command": "vsnetrw.open",
+    "key": "-",
+    "when": "vim.mode == 'Normal' && editorLangId != vsnetrw"
+  },
+  // {
+  //   "command": "workbench.files.action.focusFilesExplorer",
+  //   "key": "-",
+  //   "when": "editorTextFocus && vim.mode == 'Normal'"
+  // },
+  {
+    "command": "explorer.newFile",
+    "key": "shift+5",
+    "when": "filesExplorerFocus && !inputFocus"
+  },
+  {
+    "command": "renameFile",
+    "key": "r",
+    "when": "filesExplorerFocus && !inputFocus"
+  },
+  {
+    "command": "filesExplorer.copy",
+    "key": "c",
+    "when": "filesExplorerFocus && !inputFocus"
+  },
+  {
+    "command": "filesExplorer.paste",
+    "key": "p",
+    "when": "filesExplorerFocus && !inputFocus"
+  },
+  {
+    "command": "deleteFile",
+    "key": "shift+d",
+    "when": "filesExplorerFocus && !inputFocus"
+  },
+  {
+    "command": "explorer.newFolder",
+    "key": "d",
+    "when": "filesExplorerFocus && !inputFocus"
+  },
+  {
+    "command": "workbench.action.toggleZenMode",
+    "key": "cmd+shift+z"
+  },
+  {
+    "key": "cmd+l",
+    "command": "workbench.action.terminal.toggleTerminal"
+  },
+  {
+    "key": "cmd+j",
+    "command": "selectNextSuggestion",
+    "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
+  },
+  {
+    "key": "cmd+k",
+    "command": "selectPrevSuggestion",
+    "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
+  },
+]
