@@ -87,3 +87,5 @@ source /Users/andreas/.docker/init-zsh.sh || true # Added by Docker Desktop
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+PATH=~/.console-ninja/.bin:$PATH
