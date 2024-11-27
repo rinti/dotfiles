@@ -19,5 +19,7 @@ brew install ripgrep
 brew install fzf
 brew install fd
 brew install reattach-to-user-namespace
+brew install --cask alt-tab
+brew install --cask hiddenbar
 
 brew cleanup

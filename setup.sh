@@ -34,3 +34,6 @@ ln -sf ~/dotfiles/vscode/keybindings.json ~/Library/Application\ Support/Code/Us
 
 # tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+# mise
+curl https://mise.run | sh
