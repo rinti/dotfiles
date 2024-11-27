@@ -1,6 +1,21 @@
 // Place your key bindings in this file to override the defaults
 [
   {
+    "key": "cmd+1",
+    "command": "workbench.action.terminal.focusAtIndex1",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "cmd+2",
+    "command": "workbench.action.terminal.focusAtIndex2",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "cmd+3",
+    "command": "workbench.action.terminal.focusAtIndex3",
+    "when": "terminalFocus"
+  },
+  {
     "command": "editor.toggleFold",
     "key": "cmd+k å"
   },
@@ -70,4 +85,8 @@
     "command": "selectPrevSuggestion",
     "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
   },
+  {
+    "key": "cmd+[Semicolon]",
+    "command": "aichat.focuschatpaneaction"
+  }
 ]

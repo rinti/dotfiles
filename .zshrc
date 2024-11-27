@@ -1,5 +1,7 @@
 touch ~/.hushlogin
 
+
+alias dn='vim ~/notes/$(date +%F).txt'
 export PATH="/usr/local/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/opt/homebrew/opt/openssl@1.1/bin:$PATH"
 export PATH="/opt/homebrew/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="$HOME/bin:$HOME/.pyenv__/bin:$HOME/Library/Android/sdk/tools:$PATH";
@@ -67,6 +69,12 @@ alias dcpe="docker compose exec"
 alias activate="source venv/bin/activate"
 alias aa="activate_asdf; activate"
 alias oci="cd $(git rev-parse --show-toplevel) && make open_ci && cd -"
+# alias fc='pushd $(git rev-parse --show-toplevel) > /dev/null && FILES=$(git diff --name-only -- "*.py"; git ls-files --others --exclude-standard -- "*.py") && echo "$FILES" | xargs black && echo "$FILES" | xargs isort --profile black && popd > /dev/null'
+alias fc='ROOT_DIR=$(git rev-parse --show-toplevel) && CURRENT_DIR=$(pwd) && \
+[ "$ROOT_DIR" != "$CURRENT_DIR" ] && pushd "$ROOT_DIR" > /dev/null; \
+FILES=$(git diff --name-only -- "*.py"; git ls-files --others --exclude-standard -- "*.py") && \
+echo "$FILES" | xargs black && echo "$FILES" | xargs isort --profile black; \
+[ "$ROOT_DIR" != "$CURRENT_DIR" ] && popd > /dev/null'
 
 alias rns="tmux rename-session"
 alias rnw="tmux rename-window"
@@ -89,3 +97,5 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 PATH=~/.console-ninja/.bin:$PATH
+
+. "$HOME/.local/bin/env"

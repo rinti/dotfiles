@@ -2,20 +2,26 @@
   "terminal.integrated.profiles.osx": {
     "bash": {
       "path": "bash",
-      "args": ["-l"],
-      "icon": "terminal-bash"
+      "icon": "terminal-bash",
+      "args": ["-l"]
     },
     "zsh": {
       "path": "zsh",
+      "icon": "terminal-bash",
       "args": ["-l"]
     },
-    "tmux": {
+    "tmux-shell": {
       "path": "tmux",
       "icon": "terminal-tmux",
-      "args": ["new-session", "-A", "-s", "vscode:${workspaceFolder}"]
+      "args": ["new-session", "-A", "-s", "${workspaceFolder}"]
     }
   },
-  "terminal.integrated.defaultProfile.osx": "tmux",
+  "terminal.integrated.env.osx": {
+    "TERM": "term-256color"
+  },
+  "terminal.integrated.defaultProfile.osx": "tmux-shell",
+  "javascript.suggest.autoImports": true,
+  "javascript.suggest.includeAutomaticOptionalChainCompletions": true,
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -28,10 +34,10 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "editor.codeActionsOnSave": {
-    "source.addMissingImports": "explicit",
-    "source.organizeImports": "explicit"
-  },
+  // "editor.codeActionsOnSave": {
+  //   "source.addMissingImports": "explicit",
+  //   "source.organizeImports": "explicit"
+  // },
   "editor.cursorSmoothCaretAnimation": "on",
   "editor.cursorSurroundingLines": 5,
   "editor.wordWrap": "on",
@@ -70,6 +76,14 @@
       "commands": [{ "command": ":nohl" }]
     },
     {
+      "before": ["g", "b"],
+      "commands": [{ "command": "gitlens.toggleFileBlame" }]
+    },
+    {
+      "before": ["g", "d", "p"],
+      "commands": [{ "command": "gitlens.diffWithPrevious" }]
+    },
+    {
       "before": ["<leader>", "<leader>"],
       "commands": [
         {
@@ -93,10 +107,6 @@
   ],
   "breadcrumbs.enabled": true,
   "breadcrumbs.symbolPath": "off",
-  "python.languageServer": "Pylance",
-  "python.analysis.indexing": true,
-  "python.analysis.packageIndexDepths": [["", 20, true]],
-  "python.analysis.autoImportCompletions": true,
   "editor.acceptSuggestionOnCommitCharacter": false,
   "window.density.editorTabHeight": "compact",
   "workbench.activityBar.location": "top",
@@ -114,7 +124,6 @@
   "editor.fontFamily": "'Monaspace Neon', monospace",
   "editor.fontSize": 14,
   "editor.suggestFontSize": 12,
-  "editor.tabSize": 2,
   "git.enabled": true,
   "extensions.autoUpdate": "onlyEnabledExtensions",
   "extensions.ignoreRecommendations": false,
@@ -144,7 +153,7 @@
     "vscodevim.vim": 1
   },
   "[python]": {
-    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.defaultFormatter": "ms-python.black-formatter",
     "diffEditor.ignoreTrimWhitespace": false,
     "gitlens.codeLens.symbolScopes": ["!Module"],
     "editor.formatOnType": false,
@@ -154,9 +163,17 @@
       // "source.organizeImports": "explicit"
     }
   },
-  "isort.args": ["--profile", "black"],
+  "python.languageServer": "Pylance",
+  "python.analysis.indexing": true,
+  "python.analysis.packageIndexDepths": [["", 20, true]],
+  "python.analysis.autoImportCompletions": true,
+  // "isort.args": ["--profile", "black"],
   "[scss]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "terminal.integrated.env.osx": {}
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "console-ninja.featureSet": "Community",
+  "github.copilot.editor.enableAutoCompletions": true,
+  "makefile.configureOnOpen": true
 }
