@@ -35,13 +35,6 @@ require('packer').startup(function()
     use 'tpope/vim-sensible'
     use 'airblade/vim-gitgutter'
     use {
-        "rrethy/vim-hexokinase",
-        run = "make hexokinase",
-        config = function()
-            vim.g.Hexokinase_optInPatterns = "full_hex,rgb,rgba,hsl,hsla"
-        end
-    }
-    use {
         "kuator/some-python-plugin.nvim",
     }
     use 'scrooloose/syntastic'
@@ -93,18 +86,6 @@ require('packer').startup(function()
     }
     use 'ggandor/lightspeed.nvim'
     use {
-        -- requires `brew install gnu-sed`
-        "nvim-neotest/neotest",
-        requires = {
-            "nvim-lua/plenary.nvim",
-            "nvim-treesitter/nvim-treesitter",
-            "nvim-neotest/neotest-plenary",
-            "nvim-neotest/neotest-vim-test",
-            "nvim-neotest/neotest-python",
-            "antoinemadec/FixCursorHold.nvim"
-        }
-    }
-    use {
         "folke/lsp-trouble.nvim",
         requires = "kyazdani42/nvim-web-devicons",
         config = function()
@@ -123,4 +104,3 @@ require'lsp'
 require'compe_settings'
 require'lualine_settings'
 require'formatter_nvim'
-require'neotest_settings'

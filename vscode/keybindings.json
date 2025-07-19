@@ -88,5 +88,9 @@
   {
     "key": "cmd+[Semicolon]",
     "command": "aichat.focuschatpaneaction"
+  },
+  {
+    "key": "cmd+i",
+    "command": "composerMode.agent"
   }
 ]

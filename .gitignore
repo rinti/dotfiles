@@ -2,3 +2,4 @@ config/
 vim/
 nvim/plugin/packer_compiled.lua
 nvim/.netrwhist
+*.log

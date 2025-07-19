@@ -65,7 +65,7 @@ end
 local servers = {
     -- 'pyright',
     -- 'jedi_language_server',
-    'tsserver',
+    'ts_ls',
     'jsonls',
     'svelte',
     'cssls',
