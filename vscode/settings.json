@@ -112,7 +112,7 @@
   "workbench.activityBar.location": "top",
   "workbench.editor.showTabs": "none",
   "editor.rulers": [100],
-  "workbench.panel.defaultLocation": "right",
+  "workbench.panel.defaultLocation": "bottom",
   "editor.inlineSuggest.enabled": true,
   "editor.lineNumbers": "relative",
   "search.useReplacePreview": false,

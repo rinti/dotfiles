@@ -76,6 +76,10 @@
     "command": "workbench.action.terminal.toggleTerminal"
   },
   {
+    "key": "cmd+shift+l",
+    "command": "workbench.action.toggleMaximizedPanel"
+  },
+  {
     "key": "cmd+j",
     "command": "selectNextSuggestion",
     "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
