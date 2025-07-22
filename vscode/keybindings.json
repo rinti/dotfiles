@@ -95,6 +95,7 @@
   },
   {
     "key": "cmd+i",
-    "command": "composerMode.agent"
+    "command": "workbench.panel.chat",
+    "when": "workbench.panel.chat.view.copilot.active"
   }
 ]
