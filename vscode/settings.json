@@ -11,9 +11,9 @@
       "args": ["-l"]
     },
     "tmux-shell": {
-      "path": "tmux",
+      "path": "zsh",
       "icon": "terminal-tmux",
-      "args": ["new-session", "-A", "-s", "${workspaceFolder}"]
+      "args": ["-l", "-c", "tmux new-session -A -s \"$(basename '${workspaceFolder}')\""]
     }
   },
   "terminal.integrated.env.osx": {
@@ -114,21 +114,27 @@
   "editor.rulers": [100],
   "workbench.panel.defaultLocation": "bottom",
   "editor.inlineSuggest.enabled": true,
-  "editor.lineNumbers": "relative",
+  "editor.lineDecorationsWidth": 10,
+  "editor.lineNumbers": "on",
+  "editor.showFoldingControls": "never",
+  "git.decorations.enabled": true,
+  "editor.glyphMargin": false,
   "search.useReplacePreview": false,
   "editor.linkedEditing": true,
   "editor.minimap.enabled": false,
   "editor.smoothScrolling": true,
   "editor.stickyScroll.enabled": true,
   "editor.suggest.insertMode": "replace",
-  "editor.fontFamily": "'Monaspace Neon', monospace",
+  "editor.fontFamily": "'Google Sans Code', 'Geist Mono', 'Luxi Mono', 'MonoLisa', 'Monaspace Neon', monospace",
+  "editor.letterSpacing": 0.05,
   "editor.fontSize": 14,
-  "editor.suggestFontSize": 12,
+  "editor.suggestFontSize": 11,
   "git.enabled": true,
   "extensions.autoUpdate": "onlyEnabledExtensions",
   "extensions.ignoreRecommendations": false,
   "files.exclude": {
-    "**/node_modules": true
+    "**/node_modules": true,
+    "**/venv": true,
   },
   "projectManager.git.baseFolders": ["$home/dev"],
   "projectManager.sortList": "Recent",
@@ -148,7 +154,13 @@
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "workbench.colorTheme": "Catppuccin Mocha",
+  "workbench.colorTheme": "Catppuccin Macchiato",
+  "editor.semanticHighlighting.enabled": true,
+  // prevent VSCode from modifying the terminal colors
+  "terminal.integrated.minimumContrastRatio": 1,
+  // make the window's titlebar use the workbench colors
+  "window.titleBarStyle": "custom",
+
   "extensions.experimental.affinity": {
     "vscodevim.vim": 1
   },
