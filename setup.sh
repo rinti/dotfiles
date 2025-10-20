@@ -37,3 +37,8 @@ ln -sfn ~/dotfiles/nvim ~/.config/nvim
 
 # mise
 #curl https://mise.run | sh
+
+# launchd agents
+mkdir -p ~/Library/LaunchAgents 2> /dev/null || true
+ln -sf ~/dotfiles/launchd/com.user.twd.plist ~/Library/LaunchAgents/com.user.twd.plist
+launchctl load ~/Library/LaunchAgents/com.user.twd.plist 2> /dev/null || true
