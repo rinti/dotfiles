@@ -97,5 +97,21 @@
     "key": "cmd+i",
     "command": "workbench.panel.chat",
     "when": "workbench.panel.chat.view.copilot.active"
+  },
+  {
+    "key": "ctrl+space",
+    "command": "-editor.action.triggerSuggest",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+space",
+    "command": "-workbench.action.terminal.suggestShow",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+space",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": { "text": "\u0000" },
+    "when": "terminalFocus"
   }
 ]
