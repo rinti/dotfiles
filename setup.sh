@@ -38,6 +38,10 @@ ln -sfn ~/dotfiles/nvim ~/.config/nvim
 # mise
 #curl https://mise.run | sh
 
+# ghostty
+mkdir -p ~/.config/ghostty 2> /dev/null || true
+ln -sf ~/dotfiles/ghostty/config ~/.config/ghostty/config
+
 # launchd agents
 mkdir -p ~/Library/LaunchAgents 2> /dev/null || true
 ln -sf ~/dotfiles/launchd/com.user.twd.plist ~/Library/LaunchAgents/com.user.twd.plist
