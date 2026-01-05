@@ -26,7 +26,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-vim.lsp.set_log_level("debug")
+vim.lsp.set_log_level("warn")
 
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
@@ -89,7 +89,7 @@ vim.lsp.config('intelephense', {
     }
 })
 
-vim.lsp.config('pyright', {
+vim.lsp.config('basedpyright', {
     root_markers = {
         'docker-compose.yml',
         'pyproject.toml',
@@ -102,17 +102,21 @@ vim.lsp.config('pyright', {
     },
     settings = {
         python = {
+            venvPath = ".",
+            venv = "venv",
+        },
+        basedpyright = {
             analysis = {
                 autoSearchPaths = true,
                 diagnosticMode = "workspace",
-                useLibraryCodeForTypes = false,
+                useLibraryCodeForTypes = true,
                 typeCheckingMode = "off",
             },
         },
     }
 })
 
-vim.lsp.enable({ 'ts_ls', 'jsonls', 'svelte', 'cssls', 'html', 'intelephense', 'pyright' })
+vim.lsp.enable({ 'ts_ls', 'jsonls', 'svelte', 'cssls', 'html', 'intelephense', 'basedpyright' })
 
 -- require 'pylance'
 -- nvim_lsp.pylance.setup{
