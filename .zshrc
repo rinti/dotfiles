@@ -87,6 +87,7 @@ alias repo='~/dev'
 alias vim="nvim"
 alias dcp="docker compose"
 alias dcpe="docker compose exec"
+alias cs="docker sandbox run claude"
 alias activate="source venv/bin/activate"
 # alias aa="activate_asdf; activate"
 alias aa="activate"
