@@ -29,7 +29,7 @@ export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin"
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-# export TERM="xterm-256color"
+export TERM="xterm-256color"
 
 export LDFLAGS="-L/opt/homebrew/opt/openssl@1.1/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/openssl@1.1/include"
@@ -110,6 +110,7 @@ alias fc='
 alias rns="tmux rename-session"
 alias rnw="tmux rename-window"
 alias tms="/Users/andreas/dotfiles/twd.sh && /Users/andreas/dotfiles/tmuxsession.sh"
+alias clocu="tmux send-keys -t 1 C-c && tmux send-keys -t 2 C-c"
 
 # alias activate_asdf='. /opt/homebrew/opt/asdf/libexec/asdf.sh'
 
@@ -137,4 +138,16 @@ eval "$(/Users/andreas/.local/bin/mise activate zsh)"
 # Scaleway CLI autocomplete initialization.
 eval "$(scw autocomplete script shell=zsh)"
 
-alias claude="/Users/andreas/.claude/local/claude"
+
+
+cdx() {
+  if [[ "$1" == "update" ]]; then
+    npm install -g @openai/codex@latest
+  else
+    CODEX_UNSAFE_ALLOW_NO_SANDBOX=1 codex --full-auto --search
+    #codex -m gpt-5 -c model_reasoning_effort="high" --search "$@"
+  fi
+}
+
+source ~/.safe-chain/scripts/init-posix.sh # Safe-chain Zsh initialization script
+export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"

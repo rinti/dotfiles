@@ -187,5 +187,6 @@
   "git.confirmSync": false,
   "console-ninja.featureSet": "Community",
   "github.copilot.editor.enableAutoCompletions": true,
-  "makefile.configureOnOpen": true
+  "makefile.configureOnOpen": true,
+  "claudeCode.preferredLocation": "panel"
 }
