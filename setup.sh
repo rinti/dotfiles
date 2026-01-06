@@ -42,6 +42,12 @@ ln -sfn ~/dotfiles/nvim ~/.config/nvim
 mkdir -p ~/.config/ghostty 2> /dev/null || true
 ln -sf ~/dotfiles/ghostty/config ~/.config/ghostty/config
 
+# claude
+mkdir -p ~/.claude 2> /dev/null || true
+ln -sf ~/dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
+ln -sf ~/dotfiles/claude/settings.json ~/.claude/settings.json
+ln -sfn ~/dotfiles/claude/skills ~/.claude/skills
+
 # launchd agents
 mkdir -p ~/Library/LaunchAgents 2> /dev/null || true
 ln -sf ~/dotfiles/launchd/com.user.twd.plist ~/Library/LaunchAgents/com.user.twd.plist
