@@ -136,8 +136,12 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # . "$HOME/.local/bin/env"
 eval "$(/Users/andreas/.local/bin/mise activate zsh)"
 
-# Scaleway CLI autocomplete initialization.
-eval "$(scw autocomplete script shell=zsh)"
+# Scaleway CLI autocomplete (lazy-loaded)
+scw() {
+  unfunction scw
+  eval "$(command scw autocomplete script shell=zsh)"
+  scw "$@"
+}
 
 
 
