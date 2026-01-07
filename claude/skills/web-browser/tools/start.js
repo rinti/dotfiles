@@ -31,7 +31,7 @@ execSync("mkdir -p ~/.cache/scraping", { stdio: "ignore" });
 if (useProfile) {
   // Sync profile with rsync (much faster on subsequent runs)
   execSync(
-    'rsync -a --delete "/Users/badlogic/Library/Application Support/Google/Chrome/" ~/.cache/scraping/',
+    `rsync -a --delete "${process.env["HOME"]}/Library/Application Support/Google/Chrome/" ~/.cache/scraping/`,
     { stdio: "pipe" },
   );
 }
@@ -42,6 +42,7 @@ spawn(
   [
     "--remote-debugging-port=9222",
     `--user-data-dir=${process.env["HOME"]}/.cache/scraping`,
+    "--profile-directory=Default",
   ],
   { detached: true, stdio: "ignore" },
 ).unref();
