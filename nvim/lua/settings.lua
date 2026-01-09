@@ -4,7 +4,9 @@
 -- vim.cmd [[colorscheme tokyonight]]
 
 -- vim.cmd.colorscheme 'nordic'
-vim.cmd.colorscheme 'kanagawa'
+-- vim.cmd.colorscheme 'kanagawa'
+require("teide").setup({ style = "dimmed" })
+vim.cmd.colorscheme 'teide'
 
 vim.o.colorcolumn = "100"
 vim.cmd [[au VimEnter * highlight ColorColumn guibg=#2c2c3b]]

@@ -47,6 +47,7 @@ mkdir -p ~/.claude 2> /dev/null || true
 ln -sf ~/dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
 ln -sf ~/dotfiles/claude/settings.json ~/.claude/settings.json
 ln -sfn ~/dotfiles/claude/skills ~/.claude/skills
+ln -sfn ~/dotfiles/claude/commands ~/.claude/commands
 
 # launchd agents
 mkdir -p ~/Library/LaunchAgents 2> /dev/null || true
