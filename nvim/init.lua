@@ -29,7 +29,8 @@ require('packer').startup(function()
     -- use 'folke/tokyonight.nvim'
     -- use 'rebelot/kanagawa.nvim'
     -- use 'AlexvZyl/nordic.nvim'
-    use 'serhez/teide.nvim'
+    -- use 'serhez/teide.nvim'
+    use { "catppuccin/nvim", as = "catppuccin" }
 
     use 'bkad/CamelCaseMotion'
     use 'tpope/vim-fugitive'

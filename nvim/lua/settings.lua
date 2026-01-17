@@ -5,8 +5,10 @@
 
 -- vim.cmd.colorscheme 'nordic'
 -- vim.cmd.colorscheme 'kanagawa'
-require("teide").setup({ style = "dimmed" })
-vim.cmd.colorscheme 'teide'
+-- require("teide").setup({ style = "dimmed" })
+-- vim.cmd.colorscheme 'teide'
+require("catppuccin").setup({ flavour = "mocha" })
+vim.cmd.colorscheme 'catppuccin'
 
 vim.o.colorcolumn = "100"
 vim.cmd [[au VimEnter * highlight ColorColumn guibg=#2c2c3b]]
