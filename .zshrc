@@ -92,7 +92,8 @@ alias cyolo="claude --dangerously-skip-permissions"
 alias activate="source venv/bin/activate"
 # alias aa="activate_asdf; activate"
 alias aa="activate"
-alias oci="cd $(git rev-parse --show-toplevel) && make open_ci && cd -"
+alias oci='cd $(git rev-parse --show-toplevel) && make open_ci && cd -'
+alias tdf='~/dotfiles/tmux-sessions.sh && tmux attach -t dotfiles'
 # alias fc='pushd $(git rev-parse --show-toplevel) > /dev/null && FILES=$(git diff --name-only -- "*.py"; git ls-files --others --exclude-standard -- "*.py") && echo "$FILES" | xargs black && echo "$FILES" | xargs isort --profile black && popd > /dev/null'
 # alias fc='ROOT_DIR=$(git rev-parse --show-toplevel) && CURRENT_DIR=$(pwd) && \
 # [ "$ROOT_DIR" != "$CURRENT_DIR" ] && pushd "$ROOT_DIR" > /dev/null; \

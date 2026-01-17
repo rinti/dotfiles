@@ -2,6 +2,7 @@
 
 # Define sessions: "path:session-name"
 SESSIONS=(
+    "~/dotfiles:dotfiles"
     "~/dev/delight:lådan"
     "~/dev/ladan-delight-iac:lådan-iac"
     "~/dev/amex:amex"
@@ -14,7 +15,7 @@ SESSIONS=(
 
 WINDOWS=("vim" "be" "fe" "cc")
 
-EXEMPT=("dotfiles")
+EXEMPT=()
 
 # Get list of allowed session names
 allowed_sessions=()

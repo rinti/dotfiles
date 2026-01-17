@@ -2,3 +2,4 @@ keybind = shift+enter=text:\n
 keybind = cmd+l=text:\x1bl
 keybind = cmd+j=text:\x1bj
 keybind = cmd+k=text:\x1bk
+theme = catppuccin-mocha

@@ -1,15 +1,24 @@
-#!/bin/sh
+#!/bin/bash
 #
-# Setup a work space called `work` with two windows
-# first window has 3 panes. 
-# The first pane set at 65%, split horizontally, set to api root and running vim
-# pane 2 is split at 25% and running redis-server 
-# pane 3 is set to api root and bash prompt.
-# note: `api` aliased to `cd ~/path/to/work`
+# Setup tmux workspace with multiple windows
+# Can be run outside tmux - will create session and attach
 #
 
-# create a new tmux session, starting vim from a saved session in the new window
-# Select pane 1, set dir to api, run vim
+SESSION="dotfiles"
+
+# If not inside tmux, create session and attach
+if [ -z "$TMUX" ]; then
+  tmux has-session -t "$SESSION" 2>/dev/null
+  if [ $? != 0 ]; then
+    tmux new-session -d -s "$SESSION"
+  fi
+  # Run this script inside the session, then attach
+  tmux send-keys -t "$SESSION" "$0 --inside" Enter
+  exec tmux attach -t "$SESSION"
+fi
+
+# Skip setup if called with --inside (already running via send-keys)
+[ "$1" = "--inside" ] && sleep 0.1
 
 # Only rename/create windows if they don't already exist
 tmux rename-window py 2>/dev/null || true
