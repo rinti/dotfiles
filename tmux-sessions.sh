@@ -60,3 +60,6 @@ for entry in "${SESSIONS[@]}"; do
 
     echo "Created session: $name"
 done
+
+# Attach to dotfiles session
+tmux attach-session -t "=dotfiles"
