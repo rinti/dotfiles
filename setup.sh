@@ -49,6 +49,13 @@ ln -sf ~/dotfiles/claude/settings.json ~/.claude/settings.json
 ln -sfn ~/dotfiles/claude/skills ~/.claude/skills
 ln -sfn ~/dotfiles/claude/commands ~/.claude/commands
 
+# agents (mirror claude skills into ~/.agents/skills without replacing ~/.agents)
+mkdir -p ~/.agents/skills 2> /dev/null || true
+for skill_dir in ~/dotfiles/claude/skills/*; do
+  [ -d "$skill_dir" ] || continue
+  ln -sfn "$skill_dir" "$HOME/.agents/skills/$(basename "$skill_dir")"
+done
+
 # launchd agents
 mkdir -p ~/Library/LaunchAgents 2> /dev/null || true
 ln -sf ~/dotfiles/launchd/com.user.twd.plist ~/Library/LaunchAgents/com.user.twd.plist

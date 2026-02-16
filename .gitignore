@@ -3,6 +3,7 @@ vim/
 nvim/plugin/packer_compiled.lua
 nvim/.netrwhist
 *.log
+.DS_STORE
 
 # Override global gitignore for claude config
 !claude/CLAUDE.md
