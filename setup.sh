@@ -48,6 +48,7 @@ ln -sf ~/dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
 ln -sf ~/dotfiles/claude/settings.json ~/.claude/settings.json
 ln -sfn ~/dotfiles/claude/skills ~/.claude/skills
 ln -sfn ~/dotfiles/claude/commands ~/.claude/commands
+ln -sfn ~/dotfiles/claude/hooks ~/.claude/hooks
 
 # agents (mirror claude skills into ~/.agents/skills without replacing ~/.agents)
 mkdir -p ~/.agents/skills 2> /dev/null || true

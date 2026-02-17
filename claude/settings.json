@@ -3,5 +3,18 @@
     "safety-net@cc-marketplace": true,
     "code-simplifier@claude-plugins-official": true
   },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/save-session-id.sh"
+          }
+        ]
+      }
+    ]
+  },
   "skipDangerousModePermissionPrompt": true
 }

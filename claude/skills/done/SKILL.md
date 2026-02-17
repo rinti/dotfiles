@@ -19,7 +19,7 @@ Create a concise but complete session note and save it locally.
 - Files changed
 - Important commands
 3. Resolve metadata:
-- `session_id`: use `CLAUDE_SESSION_ID`; if missing, use `unknown-session`
+- `session_id`: walk up the process tree from `$$` and look for `/tmp/claude-session-<PID>.id` (written by the `UserPromptSubmit` hook). Fallback: `unknown-session`.
 - `branch`: run `git rev-parse --abbrev-ref HEAD 2>/dev/null || echo no-git`
 - `timestamp`: run `date +"%Y-%m-%d_%H-%M-%S"`
 - `project_name`: run `basename "$(git rev-parse --show-toplevel 2>/dev/null || pwd)"`
@@ -33,7 +33,13 @@ branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo no-git)"
 safe_branch="$(printf '%s' "$branch" | tr -cs '[:alnum:]._-' '-')"
 project_name="$(basename "$(git rev-parse --show-toplevel 2>/dev/null || pwd)")"
 safe_project="$(printf '%s' "$project_name" | tr -cs '[:alnum:]._-' '-')"
-session_id="${CLAUDE_SESSION_ID:-unknown-session}"
+session_id=""
+_pid=$$
+while [ "$_pid" != "1" ] && [ -n "$_pid" ]; do
+  [ -f "/tmp/claude-session-${_pid}.id" ] && session_id=$(cat "/tmp/claude-session-${_pid}.id") && break
+  _pid=$(ps -o ppid= -p "$_pid" 2>/dev/null | tr -d ' ')
+done
+session_id="${session_id:-unknown-session}"
 ts="$(date +%Y-%m-%d_%H-%M-%S)"
 out_dir="$HOME/.claude-sessions/${safe_project}"
 mkdir -p "$out_dir"
