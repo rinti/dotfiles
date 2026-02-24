@@ -13,7 +13,6 @@
 - NEVER create duplicate files with version numbers or suffixes
 - Always keep functionality, when doing edits make sure the current functionality is not removed, if not explicity told to
 - Only use comments when needed to explain code. Never remove existing comments unless they are factually wrong.
+- NEVER run formatters on files you didn't modify. Only format specific files you changed.
 - When commiting, DO NOT add any authored with claude code or co-creator anthropic etc.
 - You never have to run the dev servers, I will have them running.
-- You can often find backend logs in the current tmux session's window "be"
-- You can often find frontend logs in the current tmux session's window "fe"

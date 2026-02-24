@@ -3,7 +3,7 @@ touch ~/.hushlogin
 
 # eval "$(~/.local/bin/mise activate zsh)"
 
-alias dn='vim ~/notes/$(date +%F).txt'
+alias dn='open "obsidian://daily?vault=Obsidian%20iCloud"'
 
 # export PATH="/usr/local/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/opt/homebrew/opt/openssl@1.1/bin:$PATH"
 # export PATH="/opt/homebrew/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
