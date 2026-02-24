@@ -66,20 +66,8 @@ require('packer').startup(function()
     use 'nvim-lua/plenary.nvim'
     use 'nvim-lua/popup.nvim'
     use 'windwp/nvim-spectre'
-    use {
-        "williamboman/mason.nvim",
-        config = function()
-            require("mason").setup {}
-        end
-    }
-    use {
-        "williamboman/mason-lspconfig.nvim",
-        config = function()
-            require("mason-lspconfig").setup {
-                automatic_installation = true,
-            }
-        end
-    }
+    use "williamboman/mason.nvim"
+    use "williamboman/mason-lspconfig.nvim"
     use {
         'hoob3rt/lualine.nvim',
         requires = {'kyazdani42/nvim-web-devicons', opt = true} -- https://www.nerdfonts.com/font-downloads
@@ -98,6 +86,9 @@ require('packer').startup(function()
     }
 end
 )
+
+require("mason").setup()
+require("mason-lspconfig").setup()
 
 require'settings'
 require'keybinds'
