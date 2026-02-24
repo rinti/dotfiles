@@ -12,6 +12,7 @@ Options:
   --query, -q <query>      Search query (Sentry issue search syntax)
   --status <status>        Filter by status (unresolved, resolved, ignored)
   --level <level>          Filter by level (error, warning, info, fatal)
+  --category <cat>         Filter by category (error, performance)
   --period, -t <period>    Time period (default: 14d, e.g., 24h, 7d, 14d)
   --limit, -n <n>          Max results (default: 25)
   --sort <sort>            Sort order (date, new, priority, freq, user)
@@ -56,6 +57,9 @@ Examples:
 
   # Find issues with many events
   list-issues.js --org myorg --query "times_seen:>50" --sort freq
+
+  # List performance issues (N+1, slow DB, etc.)
+  list-issues.js --org myorg --category performance
 `;
 
 function parseArgs(args) {
@@ -65,6 +69,7 @@ function parseArgs(args) {
     query: null,
     status: null,
     level: null,
+    category: null,
     period: "14d",
     limit: 25,
     sort: null,
@@ -100,6 +105,9 @@ function parseArgs(args) {
         break;
       case "--level":
         options.level = args[++i];
+        break;
+      case "--category":
+        options.category = args[++i];
         break;
       case "--period":
       case "-t":
@@ -204,6 +212,10 @@ async function main() {
 
   if (options.level) {
     queryParts.push(`level:${options.level}`);
+  }
+
+  if (options.category) {
+    queryParts.push(`issue.category:${options.category}`);
   }
 
   if (queryParts.length > 0) {

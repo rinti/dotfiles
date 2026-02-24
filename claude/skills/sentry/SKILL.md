@@ -1,6 +1,6 @@
 ---
 name: sentry
-description: "Fetch and analyze Sentry issues, events, transactions, and logs. Helps agents debug errors, find root causes, and understand what happened at specific times."
+description: "Fetch and analyze Sentry issues, events, transactions, logs, and performance data. Helps agents debug errors, find root causes, investigate slow transactions, and monitor web vitals."
 ---
 
 # Sentry Skill
@@ -16,6 +16,9 @@ Access Sentry data via the API for debugging and investigation. Uses auth token 
 | Get issue details | `fetch-issue.js <issue-id-or-url> --latest` |
 | Get event details | `fetch-event.js <event-id> --org X --project Y` |
 | Search logs | `search-logs.js --org X --project Y "level:error"` |
+| Perf summary | `perf-summary.js --org X --period 7d` |
+| Web vitals | `web-vitals.js --org X --period 7d` |
+| Performance issues | `list-issues.js --org X --category performance` |
 
 ## Common Debugging Workflows
 
@@ -60,6 +63,42 @@ Find events around a specific timestamp:
 
 # Get specific event with all breadcrumbs
 ./scripts/fetch-event.js abc123def456 --org myorg --project backend --breadcrumbs
+```
+
+### "What's slow?"
+
+```bash
+# Slowest transactions by p95
+./scripts/perf-summary.js --org myorg --period 7d
+
+# Transactions with highest failure rate
+./scripts/perf-summary.js --org myorg --sort "-failure_rate"
+
+# Specific transaction details
+./scripts/perf-summary.js --org myorg --transaction "GET /api/users"
+```
+
+### "How are web vitals?"
+
+```bash
+# Web vitals for all pages
+./scripts/web-vitals.js --org myorg --period 7d
+
+# Specific page at p95
+./scripts/web-vitals.js --org myorg --transaction "GET /home" --percentile p95
+
+# Frontend project only
+./scripts/web-vitals.js --org myorg --project frontend
+```
+
+### "Any performance issues (N+1, slow DB)?"
+
+```bash
+# List performance-detected issues
+./scripts/list-issues.js --org myorg --category performance
+
+# Unresolved performance issues sorted by frequency
+./scripts/list-issues.js --org myorg --category performance --status unresolved --sort freq
 ```
 
 ### "Find events with a specific tag"
@@ -176,6 +215,7 @@ List and search issues (grouped errors) in a project.
 - `--query, -q <query>` - Issue search query
 - `--status <status>` - unresolved, resolved, ignored
 - `--level <level>` - error, warning, info, fatal
+- `--category <cat>` - error, performance
 - `--period, -t <period>` - Time period (default: 14d)
 - `--limit, -n <n>` - Max results (default: 25)
 - `--sort <sort>` - date, new, priority, freq, user
@@ -222,6 +262,53 @@ project:my-project       Filter by project slug
 **Accepts Sentry URLs:**
 ```bash
 ./scripts/search-logs.js "https://myorg.sentry.io/explore/logs/?project=123&statsPeriod=7d"
+```
+
+---
+
+## Perf Summary
+
+```bash
+./scripts/perf-summary.js [options]
+```
+
+Aggregate performance metrics (p50/p75/p95/p99, tpm, failure rate) per transaction.
+
+**Options:**
+- `--org, -o <org>` - Organization slug (required)
+- `--project, -p <project>` - Project slug or ID
+- `--transaction <name>` - Filter to specific transaction
+- `--period, -t <period>` - Time period (default: 24h)
+- `--limit, -n <n>` - Max results (default: 25)
+- `--sort <sort>` - Sort: `-p95` (default), `-tpm`, `-failure_rate`
+- `--json` - Output raw JSON
+
+---
+
+## Web Vitals
+
+```bash
+./scripts/web-vitals.js [options]
+```
+
+Web vitals (LCP, FCP, CLS, TTFB, INP) per transaction with Good/Meh/Poor ratings.
+
+**Options:**
+- `--org, -o <org>` - Organization slug (required)
+- `--project, -p <project>` - Project slug or ID
+- `--transaction <name>` - Filter to specific page/transaction
+- `--period, -t <period>` - Time period (default: 24h)
+- `--percentile <pN>` - p50, p75 (default), p95, p99
+- `--limit, -n <n>` - Max results (default: 25)
+- `--json` - Output raw JSON
+
+**Thresholds (Core Web Vitals):**
+```
+LCP   good <2500ms, poor >4000ms
+FCP   good <1800ms, poor >3000ms
+CLS   good <0.1,    poor >0.25
+TTFB  good <800ms,  poor >1800ms
+INP   good <200ms,  poor >500ms
 ```
 
 ---
