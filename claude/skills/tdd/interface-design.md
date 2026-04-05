@@ -4,26 +4,32 @@ Good interfaces make testing natural:
 
 1. **Accept dependencies, don't create them**
 
-   ```typescript
-   // Testable
+   JavaScript:
+   ```javascript
    function processOrder(order, paymentGateway) {}
-
-   // Hard to test
-   function processOrder(order) {
-     const gateway = new StripeGateway();
-   }
+   ```
+   Python:
+   ```python
+   def process_order(order, payment_gateway): ...
+   ```
+   Kotlin:
+   ```kotlin
+   fun processOrder(order: Order, paymentGateway: PaymentGateway) {}
    ```
 
 2. **Return results, don't produce side effects**
 
-   ```typescript
-   // Testable
-   function calculateDiscount(cart): Discount {}
-
-   // Hard to test
-   function applyDiscount(cart): void {
-     cart.total -= discount;
-   }
+   JavaScript:
+   ```javascript
+   function calculateDiscount(cart) {}
+   ```
+   Python:
+   ```python
+   def calculate_discount(cart) -> Discount: ...
+   ```
+   Kotlin:
+   ```kotlin
+   fun calculateDiscount(cart: Cart): Discount = TODO()
    ```
 
 3. **Small surface area**

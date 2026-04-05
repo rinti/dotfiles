@@ -2,16 +2,33 @@
 
 ## Good Tests
 
-**Integration-style**: Test through real interfaces, not mocks of internal parts.
+Integration-style: verify observable behavior via public APIs.
 
-```typescript
-// GOOD: Tests observable behavior
-test("user can checkout with valid cart", async () => {
-  const cart = createCart();
-  cart.add(product);
-  const result = await checkout(cart, paymentMethod);
+JavaScript:
+
+```javascript
+test("checkout confirms valid cart", async () => {
+  const result = await checkout(cartWith(product), paymentMethod);
   expect(result.status).toBe("confirmed");
 });
+```
+
+Python:
+
+```python
+def test_checkout_confirms_valid_cart():
+    result = checkout(cart_with(product), payment_method)
+    assert result.status == "confirmed"
+```
+
+Kotlin:
+
+```kotlin
+@Test
+fun checkoutConfirmsValidCart() {
+    val result = checkout(cartWith(product), paymentMethod)
+    assertEquals("confirmed", result.status)
+}
 ```
 
 Characteristics:
@@ -24,16 +41,7 @@ Characteristics:
 
 ## Bad Tests
 
-**Implementation-detail tests**: Coupled to internal structure.
-
-```typescript
-// BAD: Tests implementation details
-test("checkout calls paymentService.process", async () => {
-  const mockPayment = jest.mock(paymentService);
-  await checkout(cart, payment);
-  expect(mockPayment.process).toHaveBeenCalledWith(cart.total);
-});
-```
+Implementation-detail tests are brittle.
 
 Red flags:
 
@@ -43,19 +51,3 @@ Red flags:
 - Test breaks when refactoring without behavior change
 - Test name describes HOW not WHAT
 - Verifying through external means instead of interface
-
-```typescript
-// BAD: Bypasses interface to verify
-test("createUser saves to database", async () => {
-  await createUser({ name: "Alice" });
-  const row = await db.query("SELECT * FROM users WHERE name = ?", ["Alice"]);
-  expect(row).toBeDefined();
-});
-
-// GOOD: Verifies through interface
-test("createUser makes user retrievable", async () => {
-  const user = await createUser({ name: "Alice" });
-  const retrieved = await getUser(user.id);
-  expect(retrieved.name).toBe("Alice");
-});
-```
