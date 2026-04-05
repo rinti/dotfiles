@@ -12,7 +12,8 @@ Reviews the current implementation plan using OpenAI Codex CLI.
 Read the plan file and pipe it to Codex for review:
 
 ```bash
-cat .claude-plan.md | codex exec "Review this implementation plan. Check for:
+cat .claude-plan.md | codex exec "
+Review this implementation plan. Check for:
 - Missing edge cases or error handling
 - Potential bugs or issues
 - Unclear or ambiguous steps
@@ -20,7 +21,8 @@ cat .claude-plan.md | codex exec "Review this implementation plan. Check for:
 - Security concerns
 - Missing tests or validation steps
 
-Be concise and actionable in your feedback."
+Be concise and actionable in your feedback.
+"
 ```
 
 If `.claude-plan.md` doesn't exist, check for alternative locations like `PLAN.md`.

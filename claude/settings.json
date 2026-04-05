@@ -1,8 +1,4 @@
 {
-  "enabledPlugins": {
-    "safety-net@cc-marketplace": true,
-    "code-simplifier@claude-plugins-official": true
-  },
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -15,6 +11,10 @@
         ]
       }
     ]
+  },
+  "enabledPlugins": {
+    "safety-net@cc-marketplace": true,
+    "code-simplifier@claude-plugins-official": true
   },
   "skipDangerousModePermissionPrompt": true
 }

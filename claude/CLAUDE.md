@@ -6,13 +6,14 @@
 ## Misc
 
 - Never --amend without asking if previous commit was pushed
-- In all interactions and commit messages, be extremely concise and sacrifice grammar for the sake of concision.
-- NEVER, EVER, UNDER ANY CIRCUMSTANCES CREATE A NEW BRANCH WITHOUT EXPLICIT USER PERMISSION
 - NEVER commit and/or push before the user has tested your changes!
-- ABSOLUTELY FORBIDDEN: NEVER USE `git rebase --skip` EVER
-- NEVER create duplicate files with version numbers or suffixes
 - Always keep functionality, when doing edits make sure the current functionality is not removed, if not explicity told to
-- Only use comments when needed to explain code. Never remove existing comments unless they are factually wrong.
 - NEVER run formatters on files you didn't modify. Only format specific files you changed.
 - When commiting, DO NOT add any authored with claude code or co-creator anthropic etc.
-- You never have to run the dev servers, I will have them running.
+
+## Task Endings - "What Else Can I Handle?"
+
+After completing any big task, end with a "Let me take more off your plate" section with three categories:
+
+1. Next actions I can do right now — specific follow-ups I can knock out immediately
+2. Automations or systems I can set up — so you never have to do it manually again

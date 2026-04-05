@@ -50,12 +50,9 @@ ln -sfn ~/dotfiles/claude/skills ~/.claude/skills
 ln -sfn ~/dotfiles/claude/commands ~/.claude/commands
 ln -sfn ~/dotfiles/claude/hooks ~/.claude/hooks
 
-# agents (mirror claude skills into ~/.agents/skills without replacing ~/.agents)
-mkdir -p ~/.agents/skills 2> /dev/null || true
-for skill_dir in ~/dotfiles/claude/skills/*; do
-  [ -d "$skill_dir" ] || continue
-  ln -sfn "$skill_dir" "$HOME/.agents/skills/$(basename "$skill_dir")"
-done
+# agents (share claude skills with all agents)
+mkdir -p ~/.agents 2> /dev/null || true
+ln -sfn ~/dotfiles/claude/skills ~/.agents/skills
 
 # launchd agents
 mkdir -p ~/Library/LaunchAgents 2> /dev/null || true
