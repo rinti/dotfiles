@@ -69,15 +69,6 @@ vim.api.nvim_set_keymap('o', 'iB', '<Plug>CamelCaseMotion_ib', {silent = true})
 vim.api.nvim_set_keymap('x', 'iB', '<Plug>CamelCaseMotion_ib', {silent = true})
 
 
--- LSP
--- vim.api.nvim_set_keymap('n', 'ff', ':Lspsaga lsp_finder<CR>', {silent = true, noremap = true})
--- vim.api.nvim_set_keymap('n', '<leader>ca', ':Lspsaga code_action<CR>', {silent = true, noremap = true})
--- vim.api.nvim_set_keymap('v', '<leader>ca', ':<C-U>Lspsaga range_code_action<CR>', {silent = true, noremap = true})
--- vim.api.nvim_set_keymap('n', 'K', ':Lspsaga hover_doc<CR>', {silent = true, noremap = true})
--- vim.api.nvim_set_keymap('n', 'fr', ':Lspsaga rename<CR>', {silent = true, noremap = true})
--- vim.api.nvim_set_keymap('n', 'fd', ':Lspsaga preview_definition<CR>', {silent = true, noremap = true})
-
-
 map("n", "fc", "<cmd>FormatWrite<CR>", { noremap = true, silent = true }) -- lsp
 map("n", "ff", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true }) -- lsp
 map("n", "ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", { noremap = true, silent = true }) -- lsp

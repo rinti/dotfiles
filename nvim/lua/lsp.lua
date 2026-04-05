@@ -1,11 +1,3 @@
--- Lsp
---
--- Python: npm i -g pyright
--- TS: npm install -g typescript typescript-language-server diagnostic-languageserver eslint_d
--- json: npm i -g vscode-langservers-extracted
--- svelte: npm install -g svelte-language-server
--- css, html: npm i -g vscode-langservers-extracted
---
 vim.diagnostic.config({
   virtual_text = false,
 })
@@ -14,11 +6,11 @@ vim.api.nvim_set_keymap(
   { noremap = true, silent = true }
 )
 vim.api.nvim_set_keymap(
-  'n', '<Leader>n', ':lua vim.diagnostic.goto_next()<CR>',
+  'n', '<Leader>n', ':lua vim.diagnostic.jump({count=1})<CR>',
   { noremap = true, silent = true }
 )
 vim.api.nvim_set_keymap(
-  'n', '<Leader>p', ':lua vim.diagnostic.goto_prev()<CR>',
+  'n', '<Leader>p', ':lua vim.diagnostic.jump({count=-1})<CR>',
   { noremap = true, silent = true }
 )
 
@@ -142,33 +134,3 @@ vim.lsp.config('ruff', {
 })
 
 vim.lsp.enable({ 'ts_ls', 'jsonls', 'svelte', 'cssls', 'html', 'intelephense', 'basedpyright', 'ruff' })
-
--- require 'pylance'
--- nvim_lsp.pylance.setup{
---     on_attach = on_attach,
---     capabilities = capabilities,
---     settings = {
---         python = {
---             analysis = {
---                 typeCheckingMode = "off"
---             },
---         }
---     }
--- }
-
--- nvim_lsp.pyright.setup {}
--- -- nvim_lsp.jedi_language_server.setup {}
--- -- nvim_lsp.pyright.setup {}
--- -- nvim_lsp.jedi_language_server.setup {}
--- nvim_lsp.tsserver.setup {}
--- nvim_lsp.jsonls.setup {}
--- nvim_lsp.svelte.setup {}
--- nvim_lsp.cssls.setup {
---   capabilities = capabilities,
--- }
--- nvim_lsp.html.setup {
---   capabilities = capabilities,
--- }
--- -- nvim_lsp.elixirls.setup {
--- --     cmd = { "/Users/andreas/languageservers/elixir-ls/language_server.sh" };
--- -- }
