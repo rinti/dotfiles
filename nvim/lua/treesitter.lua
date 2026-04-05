@@ -1,10 +1,3 @@
 -- Treesitter
---
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "python", "javascript", "typescript", "html", "css", "markdown", "markdown_inline" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  ignore_install = { }, -- List of parsers to ignore installing
-  highlight = {
-    enable = true,              -- false will disable the whole extension
-    disable = { },  -- list of language that will be disabled
-  },
-}
+-- Highlighting is built-in to Neovim 0.12, nvim-treesitter just installs parsers
+require('nvim-treesitter').install { "python", "javascript", "typescript", "html", "css", "markdown", "markdown_inline" }

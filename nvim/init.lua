@@ -7,88 +7,61 @@ vim.o.completeopt = "menuone,noselect"
 
 vim.g.mapleader = " "
 
-require('packer').startup(function()
-    use 'github/copilot.vim'
-    use 'wbthomason/packer.nvim'
-    use 'mhartington/formatter.nvim'
-    use {
-        "hrsh7th/nvim-cmp",
-        requires = {
-            "hrsh7th/cmp-vsnip",
-            "hrsh7th/vim-vsnip",
-            "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-path",
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-cmdline",
-            "neovim/nvim-lspconfig",
-            "onsails/lspkind-nvim",
-        }
-    }
-    use 'editorconfig/editorconfig-vim'
-    use 'neovim/nvim-lspconfig'
-    -- use 'folke/tokyonight.nvim'
-    -- use 'rebelot/kanagawa.nvim'
-    -- use 'AlexvZyl/nordic.nvim'
-    -- use 'serhez/teide.nvim'
-    use { "catppuccin/nvim", as = "catppuccin" }
+-- Run TSUpdate on treesitter install/update
+vim.api.nvim_create_autocmd('PackChanged', {
+  callback = function(ev)
+    if ev.data.spec.name == 'nvim-treesitter' then
+      if not ev.data.active then vim.cmd.packadd('nvim-treesitter') end
+      vim.cmd('TSUpdate')
+    end
+  end,
+})
 
-    use 'bkad/CamelCaseMotion'
-    use 'tpope/vim-fugitive'
-    use 'tpope/vim-sensible'
-    use 'airblade/vim-gitgutter'
-    use {
-        "kuator/some-python-plugin.nvim",
-    }
-    use 'scrooloose/syntastic'
-    use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-    use 'tpope/vim-commentary'
-    use 'wellle/targets.vim'
-    use {
-        'mileszs/ack.vim',
-        config = function()
-            vim.g.ackprg = 'rg --vimgrep -g "!*migration*"'
-        end
-    }
-    use 'tpope/vim-vinegar'
-    use {
-        "junegunn/fzf.vim",
-        requires = {
-            {"junegunn/fzf"}
-        },
-        config = function()
-            vim.g.fzf_buffers_jump = true
-            vim.g.fzf_nvim_statusline = "0"
-            vim.g.fzf_files_options = "--preview 'cat {}'"
-            vim.g.fzf_layout = {window = {width = 0.8, height = 0.4, yoffset = 0.2}}
-            vim.cmd [[let $FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS . ' --reverse --ansi']]
-        end
-    }
-    use 'nvim-lua/plenary.nvim'
-    use 'nvim-lua/popup.nvim'
-    use 'windwp/nvim-spectre'
-    use "williamboman/mason.nvim"
-    use "williamboman/mason-lspconfig.nvim"
-    use {
-        'hoob3rt/lualine.nvim',
-        requires = {'kyazdani42/nvim-web-devicons', opt = true} -- https://www.nerdfonts.com/font-downloads
-        -- https://github.com/epk/SF-Mono-Nerd-Font
-        -- https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Iosevka/Regular/complete/Iosevka%20Nerd%20Font%20Complete%20Mono.ttf
-    }
-    use 'ggandor/lightspeed.nvim'
-    use {
-        "folke/lsp-trouble.nvim",
-        requires = "kyazdani42/nvim-web-devicons",
-        config = function()
-            require("trouble").setup {
-                auto_close = true,
-            }
-        end
-    }
-end
-)
+vim.pack.add({
+  'https://github.com/github/copilot.vim',
+  'https://github.com/mhartington/formatter.nvim',
+  -- Completion
+  'https://github.com/hrsh7th/nvim-cmp',
+  'https://github.com/hrsh7th/cmp-vsnip',
+  'https://github.com/hrsh7th/vim-vsnip',
+  'https://github.com/hrsh7th/cmp-buffer',
+  'https://github.com/hrsh7th/cmp-path',
+  'https://github.com/hrsh7th/cmp-nvim-lsp',
+  'https://github.com/hrsh7th/cmp-cmdline',
+  'https://github.com/onsails/lspkind-nvim',
+  -- Editor
+  'https://github.com/editorconfig/editorconfig-vim',
+  { src = 'https://github.com/catppuccin/nvim', name = 'catppuccin' },
+  'https://github.com/bkad/CamelCaseMotion',
+  'https://github.com/tpope/vim-fugitive',
+  'https://github.com/tpope/vim-sensible',
+  'https://github.com/airblade/vim-gitgutter',
+  'https://github.com/kuator/some-python-plugin.nvim',
+  'https://github.com/scrooloose/syntastic',
+  'https://github.com/nvim-treesitter/nvim-treesitter',
+  'https://github.com/tpope/vim-commentary',
+  'https://github.com/wellle/targets.vim',
+  'https://github.com/mileszs/ack.vim',
+  'https://github.com/tpope/vim-vinegar',
+  'https://github.com/junegunn/fzf',
+  'https://github.com/junegunn/fzf.vim',
+  'https://github.com/nvim-lua/plenary.nvim',
+  'https://github.com/nvim-lua/popup.nvim',
+  'https://github.com/windwp/nvim-spectre',
+  'https://github.com/kyazdani42/nvim-web-devicons',
+  'https://github.com/hoob3rt/lualine.nvim',
+  'https://github.com/ggandor/lightspeed.nvim',
+  'https://github.com/folke/lsp-trouble.nvim',
+})
 
-require("mason").setup()
-require("mason-lspconfig").setup()
+-- Plugin configs (must be after vim.pack.add)
+vim.g.ackprg = 'rg --vimgrep -g "!*migration*"'
+vim.g.fzf_buffers_jump = true
+vim.g.fzf_nvim_statusline = "0"
+vim.g.fzf_files_options = "--preview 'cat {}'"
+vim.g.fzf_layout = {window = {width = 0.8, height = 0.4, yoffset = 0.2}}
+vim.cmd [[let $FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS . ' --reverse --ansi']]
+require("trouble").setup { auto_close = true }
 
 require'settings'
 require'keybinds'
