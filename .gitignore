@@ -5,6 +5,8 @@ nvim/.netrwhist
 *.log
 .DS_STORE
 
+.issues/*
+
 # Override global gitignore for claude config
 !claude/CLAUDE.md
 !claude/
