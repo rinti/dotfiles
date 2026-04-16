@@ -113,5 +113,10 @@
     "command": "workbench.action.terminal.sendSequence",
     "args": { "text": "\u0000" },
     "when": "terminalFocus"
+  },
+  {
+    "key": "alt+cmd+s",
+    "command": "workbench.action.toggleUnifiedSidebarFromKeyboard",
+    "when": "!isAuxiliaryWindowFocusedContext"
   }
 ]
