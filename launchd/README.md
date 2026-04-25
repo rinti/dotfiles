@@ -45,6 +45,35 @@ tail -f /tmp/twd.err
 
 The `twd.sh` script deletes all tmux sessions with names consisting only of digits (e.g., "123", "456"). This is useful for cleaning up automatically-created numeric session names that accumulate over time.
 
+### com.user.weekly-recap.plist
+
+Runs a weekly recap of Claude Code sessions every Friday at 14:00 local.
+
+- **Script**: `~/dotfiles/weekly-recap/run.sh`
+- **Task prompt**: `~/dotfiles/weekly-recap/task.md`
+- **Schedule**: Friday 14:00 (missed runs catch up on next wake)
+- **Output**: `~/Library/Mobile Documents/com~apple~CloudDocs/Obsidian/Obsidian iCloud/Weekly Recaps/YYYY-MM-DD.md`
+- **Logs**:
+  - Output: `/tmp/weekly-recap.log`
+  - Errors: `/tmp/weekly-recap.err`
+
+#### Management Commands
+
+```bash
+ln -sf ~/dotfiles/launchd/com.user.weekly-recap.plist ~/Library/LaunchAgents/com.user.weekly-recap.plist
+launchctl load ~/Library/LaunchAgents/com.user.weekly-recap.plist
+
+# Dry-run on demand (without waiting for Friday):
+~/dotfiles/weekly-recap/run.sh
+
+# Or trigger via launchd:
+launchctl start com.user.weekly-recap
+```
+
+#### What it does
+
+Reads `~/.claude/projects/*/*.jsonl` for the current work week (Mon 00:00 → Fri 14:00), filters real user prompts, groups by day and project, and asks Claude (Opus) to summarize themes into a markdown file in the Obsidian vault.
+
 ## Notes
 
 - Launch agents are user-specific and run when the user is logged in

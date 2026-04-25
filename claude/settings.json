@@ -1,8 +1,7 @@
 {
-  "env": {
-    "CLAUDE_CODE_EFFORT_LEVEL": "max",
-    "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": "1",
-    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1"
+  "env": {},
+  "permissions": {
+    "defaultMode": "auto"
   },
   "hooks": {
     "UserPromptSubmit": [
@@ -17,10 +16,16 @@
       }
     ]
   },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline-command.sh"
+  },
   "enabledPlugins": {
     "safety-net@cc-marketplace": true,
     "code-simplifier@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true
   },
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "skipAutoPermissionPrompt": true,
+  "theme": "dark-daltonized"
 }
