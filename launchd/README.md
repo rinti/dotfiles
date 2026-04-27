@@ -47,7 +47,7 @@ The `twd.sh` script deletes all tmux sessions with names consisting only of digi
 
 ### com.user.weekly-recap.plist
 
-Runs a weekly recap of Claude Code sessions every Friday at 14:00 local.
+Runs a weekly recap of Claude Code and Codex sessions every Friday at 14:00 local.
 
 - **Script**: `~/dotfiles/weekly-recap/run.sh`
 - **Task prompt**: `~/dotfiles/weekly-recap/task.md`
