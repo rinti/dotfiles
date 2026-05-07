@@ -27,5 +27,9 @@
   },
   "skipDangerousModePermissionPrompt": true,
   "skipAutoPermissionPrompt": true,
-  "theme": "dark-daltonized"
+  "theme": "dark-daltonized",
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  }
 }
