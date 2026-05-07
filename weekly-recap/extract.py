@@ -5,6 +5,8 @@ Prints a digest to stdout, grouped by local-time day and project.
 Window: Monday 00:00 local → Friday 14:00 local of the current week.
 """
 
+from __future__ import annotations
+
 import json
 import os
 import sys

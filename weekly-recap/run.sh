@@ -5,7 +5,7 @@ cd /Users/andreas/dotfiles/weekly-recap
 echo "=== weekly-recap $(date '+%Y-%m-%d %H:%M:%S') ==="
 
 digest=/tmp/weekly-recap-digest.txt
-if ! /usr/bin/env python3 extract.py > "$digest"; then
+if ! /opt/homebrew/bin/python3 extract.py > "$digest"; then
     osascript -e 'display notification "extract.py failed — check /tmp/weekly-recap.err" with title "Weekly Recap"'
     exit 1
 fi
