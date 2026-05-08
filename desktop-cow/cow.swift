@@ -1,6 +1,31 @@
 import SwiftUI
 import AppKit
 
+// MARK: - Cow Facts
+
+let cowFacts: [String] = [
+    "Kor har bästisar och blir stressade om de skiljs åt.",
+    "En ko kan producera ungefär 200 000 glas mjölk under sin livstid.",
+    "Kor ser nästan 360° runt om sig.",
+    "Kor känner igen över 100 andra individer i flocken.",
+    "Kor sover bara cirka 4 timmar per dygn.",
+    "En vuxen ko dricker upp till 180 liter vatten om dagen.",
+    "Kor har fyra magar — egentligen en mage med fyra delar.",
+    "Kor idisslar i upp till åtta timmar varje dag.",
+    "Kor luktar saker på flera kilometers avstånd.",
+    "Det finns över en miljard kor i världen.",
+    "Kor har bra minne och kommer ihåg ansikten i flera år.",
+    "En ko kan väga lika mycket som en liten bil.",
+    "Varje ko har sin egen unika 'röst' när hon råmar.",
+    "Kor älskar att bli klappade, särskilt på halsen.",
+    "Kor blir gladare när de får lyssna på lugn musik.",
+    "Kalvar kan gå redan efter någon timme.",
+    "Kor föredrar att sova liggande på vänster sida.",
+    "En ko har 32 tänder men inga övre framtänder.",
+    "Kor kan simma — om de behöver.",
+    "Kor blir kompisar med specifika individer i flocken."
+]
+
 // MARK: - Appearance
 
 struct SpotConfig {
@@ -77,7 +102,7 @@ struct HayBale: Identifiable {
 
 @MainActor
 final class PastureModel: ObservableObject, Identifiable {
-    enum CowState { case walking, grazing, following, headingToHay, eatingHay }
+    enum CowState { case walking, grazing, following, headingToHay, eatingHay, sleeping }
 
     /// Mouse must come within this distance (px) before the cow starts following.
     static let followStart: CGFloat = 80
@@ -85,6 +110,10 @@ final class PastureModel: ObservableObject, Identifiable {
     static let followStop: CGFloat = 220
     /// Seconds spent eating each hay bale.
     static let eatingDuration: TimeInterval = 5.0
+    /// Probability that grazing transitions to sleeping rather than walking.
+    static let sleepChance: Double = 0.25
+    /// How long a fact stays visible.
+    static let factDuration: TimeInterval = 9.0
 
     let id = UUID()
     let appearance: CowAppearance
@@ -96,9 +125,11 @@ final class PastureModel: ObservableObject, Identifiable {
     @Published var state: CowState = .walking
     @Published var legPhase: Double = 0
     @Published var bodyBob: Double = 0
+    @Published var factText: String? = nil
 
     var hayTargetId: UUID?
     var hayTargetPos: CGPoint?
+    var hayApproachFacing: CGFloat = 1
 
     private var targetX: CGFloat = 0
     private var targetY: CGFloat = 0
@@ -106,6 +137,8 @@ final class PastureModel: ObservableObject, Identifiable {
     private var cowSize: CGSize = .zero
     private var grazingUntil: Date = .distantPast
     private var eatingUntil: Date = .distantPast
+    private var sleepingUntil: Date = .distantPast
+    private var factUntil: Date = .distantPast
     private var configured = false
 
     init(appearance: CowAppearance = .random()) {
@@ -141,13 +174,24 @@ final class PastureModel: ObservableObject, Identifiable {
     func assignHay(id: UUID, position: CGPoint) {
         hayTargetId = id
         hayTargetPos = position
+        hayApproachFacing = (position.x >= x) ? 1 : -1
         state = .headingToHay
+    }
+
+    func showFact(_ text: String) {
+        factText = text
+        factUntil = Date().addingTimeInterval(Self.factDuration)
     }
 
     func tick(mouseLocation: CGPoint?) {
         let s = scale
 
-        // Hay assignment overrides everything else.
+        // Clear expired fact bubble regardless of state.
+        if factText != nil, Date() > factUntil {
+            factText = nil
+        }
+
+        // Hay assignment overrides everything else (and wakes a sleeping cow).
         if hayTargetId != nil {
             switch state {
             case .eatingHay:
@@ -161,11 +205,11 @@ final class PastureModel: ObservableObject, Identifiable {
             return
         }
 
-        // Mouse proximity drives the .following state.
+        // Mouse proximity drives the .following state. Sleeping cows wake into following.
         if let mouse = mouseLocation {
             let mdist = hypot(mouse.x - x, mouse.y - y)
             switch state {
-            case .walking, .grazing:
+            case .walking, .grazing, .sleeping:
                 if mdist < Self.followStart { state = .following }
             case .following:
                 if mdist > Self.followStop {
@@ -183,6 +227,7 @@ final class PastureModel: ObservableObject, Identifiable {
         switch state {
         case .walking: handleWalking(s: s)
         case .grazing: handleGrazing()
+        case .sleeping: handleSleeping()
         case .following:
             if let mouse = mouseLocation { handleFollowing(mouse: mouse, s: s) }
         case .headingToHay, .eatingHay:
@@ -211,10 +256,26 @@ final class PastureModel: ObservableObject, Identifiable {
 
     private func handleGrazing() {
         if Date() > grazingUntil {
+            if Double.random(in: 0...1) < Self.sleepChance {
+                state = .sleeping
+                sleepingUntil = Date().addingTimeInterval(.random(in: 20...45))
+                return
+            }
             pickNewTarget()
             state = .walking
+            return
         }
         bodyBob = sin(Date().timeIntervalSinceReferenceDate * 2.2) * 0.4
+    }
+
+    private func handleSleeping() {
+        if Date() > sleepingUntil {
+            state = .walking
+            pickNewTarget()
+            return
+        }
+        // Slow breathing.
+        bodyBob = sin(Date().timeIntervalSinceReferenceDate * 0.9) * 0.25
     }
 
     private func handleFollowing(mouse: CGPoint, s: CGFloat) {
@@ -245,22 +306,42 @@ final class PastureModel: ObservableObject, Identifiable {
             return
         }
 
-        let dx = hayPos.x - x
-        let dy = hayPos.y - y
+        let stop = hayStopPosition(for: hayPos)
+        let dx = stop.x - x
+        let dy = stop.y - y
         let dist = sqrt(dx * dx + dy * dy)
 
-        if dist < 5 {
+        if dist < 4 {
             state = .eatingHay
             eatingUntil = Date().addingTimeInterval(Self.eatingDuration)
+            facing = hayApproachFacing
             return
         }
 
         let speed: CGFloat = 1.6 * s   // hungry — slightly faster
         x += (dx / dist) * speed
         y += (dy / dist) * speed
-        facing = dx >= 0 ? 1 : -1
+        facing = hayApproachFacing
         legPhase += 0.2 * s
         bodyBob = sin(legPhase) * 0.6
+    }
+
+    /// Where the cow should stand to nibble the hay: just to its side, head down.
+    private func hayStopPosition(for hayPos: CGPoint) -> CGPoint {
+        // Cow's feet should be roughly aligned with the hay bale's bottom.
+        // hayHeight ≈ baseCowHeight * 0.32 ⇒ cow.y = hay.y + (hayH - cowH)/2 ≈ hay.y - 0.34*cowH
+        let rawStopY = hayPos.y - cowSize.height * 0.34
+        let stopY = max(yMin, min(yMax, rawStopY))
+
+        // Approximate perspective scale at the stop position.
+        let t = (stopY - yMin) / max(0.0001, yMax - yMin)
+        let stopScale: CGFloat = 0.5 + 0.5 * max(0, min(1, t))
+
+        // Stop with the snout reaching the bale's near edge so the body stays mostly off the bale.
+        let halfHay = cowSize.height * 0.275                 // hayWidth/2 ≈ baseCowH * 0.55 / 2
+        let snoutOffset = cowSize.width * 0.34 * stopScale   // sprite snout x ≈ W*0.84 from left
+        let stopX = hayPos.x - hayApproachFacing * (halfHay + snoutOffset)
+        return CGPoint(x: stopX, y: stopY)
     }
 
     private func handleEating() {
@@ -292,6 +373,9 @@ final class Herd: ObservableObject {
     @Published var hayBales: [HayBale] = []
     private var bounds: CGSize = .zero
 
+    private var nextRandomHayAt: Date = Date().addingTimeInterval(.random(in: 90...150))
+    private var nextFactAt: Date = Date().addingTimeInterval(.random(in: 240...360))
+
     init(count: Int) {
         cows = (0..<count).map { _ in PastureModel() }
         for cow in cows { cow.herd = self }
@@ -312,11 +396,42 @@ final class Herd: ObservableObject {
     }
 
     func tick(mouseLocation: CGPoint?) {
+        let now = Date()
+
+        if now > nextRandomHayAt {
+            dropRandomHay()
+            nextRandomHayAt = now.addingTimeInterval(.random(in: 110...130))
+        }
+
+        if now > nextFactAt {
+            triggerRandomFact()
+            nextFactAt = now.addingTimeInterval(.random(in: 270...330))
+        }
+
         for cow in cows {
             cow.tick(mouseLocation: mouseLocation)
         }
         // Force PastureView to re-evaluate so the y-sorted ForEach reorders cows.
         objectWillChange.send()
+    }
+
+    private func dropRandomHay() {
+        guard !cows.isEmpty, bounds.width > 0 else { return }
+        let yMinHay = bounds.height / 3
+        let yMaxHay = bounds.height - 30
+        let xMargin: CGFloat = 30
+        let pt = CGPoint(
+            x: CGFloat.random(in: xMargin...(bounds.width - xMargin)),
+            y: CGFloat.random(in: yMinHay...yMaxHay)
+        )
+        dropHay(at: pt)
+    }
+
+    private func triggerRandomFact() {
+        let candidates = cows.filter { $0.state != .sleeping && $0.factText == nil }
+        guard let cow = candidates.randomElement(),
+              let fact = cowFacts.randomElement() else { return }
+        cow.showFact(fact)
     }
 
     func dropHay(at point: CGPoint) {
@@ -364,56 +479,65 @@ struct CowSprite: View {
             let H = geo.size.height
             let isMoving = state == .walking || state == .following || state == .headingToHay
             let headDown = state == .grazing || state == .eatingHay
+            let sleeping = state == .sleeping
+            let bodyOffset: CGFloat = sleeping ? H * 0.20 : 0
 
             ZStack {
                 // Tail
                 CowTail()
                     .stroke(appearance.darkColor, style: StrokeStyle(lineWidth: max(2, H * 0.022), lineCap: .round))
                     .frame(width: W * 0.16, height: H * 0.32)
-                    .position(x: W * 0.13, y: H * 0.42 + bodyBob)
+                    .position(x: W * 0.13, y: H * 0.42 + bodyBob + bodyOffset)
 
                 Ellipse()
                     .fill(appearance.darkColor)
                     .frame(width: H * 0.09, height: H * 0.07)
                     .rotationEffect(.degrees(35))
-                    .position(x: W * 0.06, y: H * 0.62 + bodyBob)
+                    .position(x: W * 0.06, y: H * 0.62 + bodyBob + bodyOffset)
 
-                // Back legs (behind body)
-                Leg(phase: legPhase + .pi, isWalking: isMoving)
-                    .frame(width: W * 0.05, height: H * 0.42)
-                    .position(x: W * 0.27, y: H * 0.78)
+                if !sleeping {
+                    // Back legs (behind body)
+                    Leg(phase: legPhase + .pi, isWalking: isMoving)
+                        .frame(width: W * 0.05, height: H * 0.42)
+                        .position(x: W * 0.27, y: H * 0.78)
 
-                Leg(phase: legPhase, isWalking: isMoving)
-                    .frame(width: W * 0.05, height: H * 0.42)
-                    .position(x: W * 0.55, y: H * 0.78)
+                    Leg(phase: legPhase, isWalking: isMoving)
+                        .frame(width: W * 0.05, height: H * 0.42)
+                        .position(x: W * 0.55, y: H * 0.78)
+                }
 
                 // Body
                 CowBody(appearance: appearance)
                     .frame(width: W * 0.7, height: H * 0.5)
-                    .position(x: W * 0.42, y: H * 0.42 + bodyBob)
+                    .position(x: W * 0.42, y: H * 0.42 + bodyBob + bodyOffset)
 
-                // Udder
-                Udder()
-                    .frame(width: W * 0.13, height: H * 0.14)
-                    .position(x: W * 0.4, y: H * 0.7 + bodyBob * 0.5)
+                // Udder — tucked away when lying down
+                if !sleeping {
+                    Udder()
+                        .frame(width: W * 0.13, height: H * 0.14)
+                        .position(x: W * 0.4, y: H * 0.7 + bodyBob * 0.5)
+                }
 
-                // Front legs (in front of body)
-                Leg(phase: legPhase + .pi + 0.6, isWalking: isMoving)
-                    .frame(width: W * 0.05, height: H * 0.42)
-                    .position(x: W * 0.32, y: H * 0.78)
+                if !sleeping {
+                    // Front legs (in front of body)
+                    Leg(phase: legPhase + .pi + 0.6, isWalking: isMoving)
+                        .frame(width: W * 0.05, height: H * 0.42)
+                        .position(x: W * 0.32, y: H * 0.78)
 
-                Leg(phase: legPhase + 0.6, isWalking: isMoving)
-                    .frame(width: W * 0.05, height: H * 0.42)
-                    .position(x: W * 0.6, y: H * 0.78)
+                    Leg(phase: legPhase + 0.6, isWalking: isMoving)
+                        .frame(width: W * 0.05, height: H * 0.42)
+                        .position(x: W * 0.6, y: H * 0.78)
+                }
 
-                // Head
-                CowHead(grazing: headDown, appearance: appearance)
+                // Head — tucked low and closer to body when sleeping
+                CowHead(grazing: headDown, closed: sleeping, appearance: appearance)
                     .frame(width: W * 0.36, height: H * 0.45)
                     .position(
-                        x: W * 0.78,
-                        y: headDown ? H * 0.8 : H * 0.32 + bodyBob
+                        x: sleeping ? W * 0.66 : W * 0.78,
+                        y: sleeping ? H * 0.62 + bodyBob : (headDown ? H * 0.8 : H * 0.32 + bodyBob)
                     )
                     .animation(.easeInOut(duration: 0.45), value: headDown)
+                    .animation(.easeInOut(duration: 0.6), value: sleeping)
             }
             .scaleEffect(x: facing, y: 1)
         }
@@ -576,38 +700,150 @@ struct Udder: View {
     }
 }
 
+struct StrawStroke: Identifiable {
+    let id = UUID()
+    var from: CGPoint   // normalized 0..1
+    var to: CGPoint
+    var color: Color
+    var width: CGFloat
+}
+
+struct HayWisp: Identifiable {
+    let id = UUID()
+    var fromX: CGFloat   // normalized 0..1 across top edge
+    var dx: CGFloat      // pixels outward
+    var dy: CGFloat      // pixels outward (negative = up)
+    var color: Color
+    var width: CGFloat
+}
+
 struct HayBaleView: View {
+    @State private var strokes: [StrawStroke] = HayBaleView.makeStrokes()
+    @State private var wisps: [HayWisp] = HayBaleView.makeWisps()
+
     var body: some View {
         GeometryReader { geo in
             let W = geo.size.width
             let H = geo.size.height
+            let r = H * 0.18
 
             ZStack {
-                Capsule()
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                Color(red: 1.0, green: 0.9, blue: 0.5),
-                                Color(red: 0.78, green: 0.6, blue: 0.26)
-                            ],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-
-                VStack(spacing: H * 0.2) {
-                    ForEach(0..<3, id: \.self) { _ in
-                        Rectangle()
-                            .fill(Color(red: 0.5, green: 0.38, blue: 0.18).opacity(0.45))
-                            .frame(height: 0.8)
-                            .padding(.horizontal, W * 0.12)
+                // Wisps poking up from inside the top edge — drawn first so the bale covers their roots.
+                ForEach(wisps) { wisp in
+                    Path { p in
+                        let x0 = wisp.fromX * W
+                        p.move(to: CGPoint(x: x0, y: H * 0.10))
+                        p.addLine(to: CGPoint(x: x0 + wisp.dx, y: wisp.dy))
                     }
+                    .stroke(wisp.color, style: StrokeStyle(lineWidth: wisp.width, lineCap: .round))
                 }
 
-                Capsule()
-                    .stroke(Color(red: 0.42, green: 0.32, blue: 0.16).opacity(0.65), lineWidth: 0.8)
+                // Body + straw fiber texture, clipped to the rounded rect.
+                ZStack {
+                    RoundedRectangle(cornerRadius: r)
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color(red: 1.00, green: 0.88, blue: 0.50),
+                                    Color(red: 0.88, green: 0.68, blue: 0.28),
+                                    Color(red: 0.62, green: 0.42, blue: 0.16)
+                                ],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+
+                    ForEach(strokes) { stroke in
+                        Path { p in
+                            p.move(to: CGPoint(x: stroke.from.x * W, y: stroke.from.y * H))
+                            p.addLine(to: CGPoint(x: stroke.to.x * W, y: stroke.to.y * H))
+                        }
+                        .stroke(stroke.color, style: StrokeStyle(lineWidth: stroke.width, lineCap: .round))
+                    }
+
+                    // Top sheen
+                    RoundedRectangle(cornerRadius: r)
+                        .strokeBorder(
+                            LinearGradient(
+                                colors: [Color.white.opacity(0.55), Color.white.opacity(0)],
+                                startPoint: .top,
+                                endPoint: .center
+                            ),
+                            lineWidth: 1.2
+                        )
+                }
+                .clipShape(RoundedRectangle(cornerRadius: r))
+
+                // Twine — two vertical strings wrapping the bale.
+                ForEach([-0.24, 0.24], id: \.self) { off in
+                    Capsule()
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color(red: 0.97, green: 0.88, blue: 0.60),
+                                    Color(red: 0.78, green: 0.66, blue: 0.40)
+                                ],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .frame(width: max(1.6, W * 0.025), height: H * 1.04)
+                        .overlay(
+                            Capsule()
+                                .stroke(Color(red: 0.45, green: 0.34, blue: 0.16).opacity(0.5), lineWidth: 0.4)
+                        )
+                        .offset(x: W * CGFloat(off))
+                }
+
+                // Outer outline
+                RoundedRectangle(cornerRadius: r)
+                    .stroke(Color(red: 0.30, green: 0.20, blue: 0.08).opacity(0.5), lineWidth: 0.9)
             }
-            .shadow(color: .black.opacity(0.25), radius: 3, x: 1, y: 2)
+            .shadow(color: .black.opacity(0.3), radius: 3, x: 1, y: 2)
+        }
+    }
+
+    private static func makeStrokes() -> [StrawStroke] {
+        (0..<32).map { _ in
+            let cx = CGFloat.random(in: 0.05...0.95)
+            let cy = CGFloat.random(in: 0.08...0.92)
+            let len = CGFloat.random(in: 0.05...0.20)
+            let angle = Double.random(in: -0.55...0.55)   // mostly horizontal
+            let dx = CGFloat(cos(angle)) * len * 0.5
+            let dy = CGFloat(sin(angle)) * len * 0.5
+            let darken = Double.random(in: 0.0...0.55)
+            return StrawStroke(
+                from: CGPoint(x: cx - dx, y: cy - dy),
+                to: CGPoint(x: cx + dx, y: cy + dy),
+                color: Color(
+                    red: 0.55 - darken * 0.30,
+                    green: 0.42 - darken * 0.25,
+                    blue: 0.20 - darken * 0.10
+                ).opacity(Double.random(in: 0.45...0.9)),
+                width: CGFloat.random(in: 0.5...1.3)
+            )
+        }
+    }
+
+    private static func makeWisps() -> [HayWisp] {
+        (0..<8).map { _ in
+            let fromX = CGFloat.random(in: 0.10...0.90)
+            let len = CGFloat.random(in: 5...11)
+            let angle = -Double.pi / 2 + Double.random(in: -0.6...0.6)  // mostly upward
+            let dx = CGFloat(cos(angle)) * len
+            let dy = CGFloat(sin(angle)) * len
+            let darken = Double.random(in: 0.0...0.35)
+            return HayWisp(
+                fromX: fromX,
+                dx: dx,
+                dy: dy,
+                color: Color(
+                    red: 0.85 - darken * 0.20,
+                    green: 0.70 - darken * 0.15,
+                    blue: 0.35 - darken * 0.10
+                ).opacity(0.85),
+                width: CGFloat.random(in: 0.8...1.5)
+            )
         }
     }
 }
@@ -645,6 +881,7 @@ struct Ear: View {
 
 struct CowHead: View {
     let grazing: Bool
+    let closed: Bool
     let appearance: CowAppearance
 
     var body: some View {
@@ -761,11 +998,11 @@ struct CowHead: View {
                 .offset(x: W * 0.16, y: H * 0.18)
 
                 // Eyes (two)
-                CowEye()
+                CowEye(closed: closed)
                     .frame(width: W * 0.075, height: H * 0.09)
                     .offset(x: -W * 0.06, y: -H * 0.05)
 
-                CowEye()
+                CowEye(closed: closed)
                     .frame(width: W * 0.075, height: H * 0.09)
                     .offset(x: W * 0.04, y: -H * 0.05)
 
@@ -780,28 +1017,110 @@ struct CowHead: View {
 }
 
 struct CowEye: View {
+    var closed: Bool = false
+
     var body: some View {
         GeometryReader { geo in
             let w = geo.size.width
             let h = geo.size.height
 
-            ZStack {
-                Ellipse()
-                    .fill(Color.white)
-                    .overlay(
-                        Ellipse().stroke(Color(white: 0.4).opacity(0.5), lineWidth: 0.6)
+            if closed {
+                Path { p in
+                    p.move(to: CGPoint(x: w * 0.08, y: h * 0.5))
+                    p.addQuadCurve(
+                        to: CGPoint(x: w * 0.92, y: h * 0.5),
+                        control: CGPoint(x: w * 0.5, y: h * 0.92)
                     )
+                }
+                .stroke(Color(white: 0.15), style: StrokeStyle(lineWidth: max(1, h * 0.14), lineCap: .round))
+            } else {
+                ZStack {
+                    Ellipse()
+                        .fill(Color.white)
+                        .overlay(
+                            Ellipse().stroke(Color(white: 0.4).opacity(0.5), lineWidth: 0.6)
+                        )
 
-                Ellipse()
-                    .fill(Color(white: 0.05))
-                    .frame(width: w * 0.55, height: h * 0.72)
+                    Ellipse()
+                        .fill(Color(white: 0.05))
+                        .frame(width: w * 0.55, height: h * 0.72)
 
-                Circle()
-                    .fill(Color.white)
-                    .frame(width: w * 0.22, height: w * 0.22)
-                    .offset(x: w * 0.1, y: -h * 0.13)
+                    Circle()
+                        .fill(Color.white)
+                        .frame(width: w * 0.22, height: w * 0.22)
+                        .offset(x: w * 0.1, y: -h * 0.13)
+                }
             }
         }
+    }
+}
+
+// MARK: - Overlays
+
+struct SleepZs: View {
+    var body: some View {
+        TimelineView(.animation) { context in
+            let now = context.date.timeIntervalSinceReferenceDate
+            ZStack {
+                zChar(size: 10, t: phase(now, delay: 0.0))
+                zChar(size: 14, t: phase(now, delay: 0.8))
+                zChar(size: 18, t: phase(now, delay: 1.6))
+            }
+        }
+    }
+
+    private func phase(_ now: Double, delay: Double) -> Double {
+        let cycle = 2.5
+        var v = (now - delay).truncatingRemainder(dividingBy: cycle) / cycle
+        if v < 0 { v += 1 }
+        return v
+    }
+
+    private func zChar(size: CGFloat, t: Double) -> some View {
+        // sin(πt) gives 0 → 1 → 0 over the cycle so the Z fades in and out.
+        let alpha = sin(.pi * t) * 0.95
+        return Text("z")
+            .font(.system(size: size, weight: .bold, design: .rounded))
+            .foregroundColor(Color.white.opacity(alpha))
+            .shadow(color: Color.black.opacity(0.5 * alpha), radius: 1.5)
+            .offset(x: CGFloat(t) * 10, y: -CGFloat(t) * 26)
+    }
+}
+
+struct BubbleTail: Shape {
+    func path(in rect: CGRect) -> Path {
+        var p = Path()
+        p.move(to: CGPoint(x: rect.minX, y: rect.minY))
+        p.addLine(to: CGPoint(x: rect.midX, y: rect.maxY))
+        p.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+        p.closeSubpath()
+        return p
+    }
+}
+
+struct SpeechBubbleView: View {
+    let text: String
+
+    var body: some View {
+        VStack(spacing: -1) {
+            Text(text)
+                .font(.system(size: 11, weight: .medium))
+                .foregroundColor(.black)
+                .multilineTextAlignment(.center)
+                .lineSpacing(2)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 6)
+                .frame(maxWidth: 180)
+                .fixedSize(horizontal: false, vertical: true)
+                .background(
+                    RoundedRectangle(cornerRadius: 10).fill(Color.white)
+                )
+
+            BubbleTail()
+                .fill(Color.white)
+                .frame(width: 12, height: 7)
+        }
+        .shadow(color: .black.opacity(0.3), radius: 4, x: 1, y: 2)
     }
 }
 
@@ -816,16 +1135,57 @@ struct CowView: View {
     private var cowHeight: CGFloat { baseCowHeight * model.appearance.sizeMultiplier }
 
     var body: some View {
-        CowSprite(
-            state: model.state,
-            legPhase: model.legPhase,
-            facing: model.facing,
-            bodyBob: model.bodyBob,
-            appearance: model.appearance
-        )
-        .frame(width: cowWidth, height: cowHeight)
+        ZStack {
+            CowSprite(
+                state: model.state,
+                legPhase: model.legPhase,
+                facing: model.facing,
+                bodyBob: model.bodyBob,
+                appearance: model.appearance
+            )
+            .frame(width: cowWidth, height: cowHeight)
+
+            // Z's float above sleeping cows (rendered outside the sprite's facing-mirror).
+            if model.state == .sleeping {
+                SleepZs()
+                    .frame(width: 40, height: 36)
+                    .offset(y: -cowHeight * 0.42)
+                    .allowsHitTesting(false)
+                    .transition(.opacity)
+            }
+
+            // Speech bubble with a fun cow fact.
+            if let text = model.factText {
+                SpeechBubbleView(text: text)
+                    .offset(y: -cowHeight * 0.65)
+                    .allowsHitTesting(false)
+                    .transition(.opacity.combined(with: .scale(scale: 0.5, anchor: .bottom)))
+            }
+        }
+        .animation(.spring(response: 0.4, dampingFraction: 0.75), value: model.factText)
+        .animation(.easeInOut(duration: 0.4), value: model.state == .sleeping)
         .scaleEffect(model.scale, anchor: .bottom)
         .position(x: model.x, y: model.y)
+    }
+}
+
+@MainActor
+enum PastureItem: Identifiable {
+    case cow(PastureModel)
+    case hay(HayBale)
+
+    nonisolated var id: String {
+        switch self {
+        case .cow(let c): return "cow-\(c.id.uuidString)"
+        case .hay(let h): return "hay-\(h.id.uuidString)"
+        }
+    }
+
+    var sortY: CGFloat {
+        switch self {
+        case .cow(let c): return c.y
+        case .hay(let h): return h.position.y
+        }
     }
 }
 
@@ -839,18 +1199,24 @@ struct PastureView: View {
     private var hayWidth: CGFloat { baseCowHeight * 0.55 }
     private var hayHeight: CGFloat { baseCowHeight * 0.32 }
 
+    private var sortedItems: [PastureItem] {
+        let cows = herd.cows.map { PastureItem.cow($0) }
+        let bales = herd.hayBales.map { PastureItem.hay($0) }
+        return (cows + bales).sorted { $0.sortY < $1.sortY }
+    }
+
     var body: some View {
         ZStack {
-            // Hay bales — drawn behind cows.
-            ForEach(herd.hayBales) { hay in
-                HayBaleView()
-                    .frame(width: hayWidth, height: hayHeight)
-                    .position(hay.position)
-            }
-
-            // Cows, sorted by y so closer ones render in front.
-            ForEach(herd.cows.sorted(by: { $0.y < $1.y })) { cow in
-                CowView(model: cow, baseCowWidth: baseCowWidth, baseCowHeight: baseCowHeight)
+            // Cows and hay bales sorted together by y so closer items render on top.
+            ForEach(sortedItems) { item in
+                switch item {
+                case .cow(let cow):
+                    CowView(model: cow, baseCowWidth: baseCowWidth, baseCowHeight: baseCowHeight)
+                case .hay(let hay):
+                    HayBaleView()
+                        .frame(width: hayWidth, height: hayHeight)
+                        .position(hay.position)
+                }
             }
         }
         .frame(width: screenSize.width, height: screenSize.height)
