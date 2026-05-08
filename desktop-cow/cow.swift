@@ -1,6 +1,20 @@
 import SwiftUI
 import AppKit
 
+// MARK: - Pet images
+
+/// Loaded once; tries CWD first (run.sh cd's into the source dir), then the
+/// executable's own directory.
+private func loadPetImage(_ filename: String) -> NSImage? {
+    if let img = NSImage(contentsOfFile: filename) { return img }
+    let exeDir = URL(fileURLWithPath: CommandLine.arguments[0])
+        .deletingLastPathComponent().path
+    return NSImage(contentsOfFile: exeDir + "/" + filename)
+}
+
+let pelleImage: NSImage? = loadPetImage("pelle.png")
+let socksImage: NSImage? = loadPetImage("socks.png")
+
 // MARK: - Cow Facts
 
 let cowFacts: [String] = [
@@ -368,9 +382,98 @@ final class PastureModel: ObservableObject, Identifiable {
 // MARK: - Herd
 
 @MainActor
+final class Companion: ObservableObject, Identifiable {
+    /// Switch to a new cow at this cadence.
+    static let switchInterval: TimeInterval = 60
+
+    /// Minimum gap (px) between the companion's near edge and the cow's visual edge.
+    static let gap: CGFloat = 10
+
+    let id = UUID()
+    let name: String
+    let image: NSImage
+    /// `-1` = trail behind the cow (opposite its facing). `+1` = lead in front of it (same as facing).
+    let trailSign: CGFloat
+    let aspectRatio: CGFloat
+
+    @Published var x: CGFloat = 0
+    @Published var y: CGFloat = 0
+    @Published var facing: CGFloat = 1
+
+    var target: PastureModel?
+    private var nextSwitchAt: Date = .distantPast
+    private var bounds: CGSize = .zero
+    private var heightHint: CGFloat = 80
+    private var configured = false
+
+    init(name: String, image: NSImage, trailSign: CGFloat = -1) {
+        self.name = name
+        self.image = image
+        self.trailSign = trailSign
+        let s = image.size
+        self.aspectRatio = s.height > 0 ? s.width / s.height : 1
+    }
+
+    var scale: CGFloat {
+        let yMin = bounds.height / 3
+        let yMax = bounds.height - heightHint * 0.5
+        guard yMax > yMin else { return 1 }
+        let t = (y - yMin) / (yMax - yMin)
+        return 0.5 + 0.5 * max(0, min(1, t))
+    }
+
+    func configure(bounds: CGSize, cows: [PastureModel], height: CGFloat) {
+        self.bounds = bounds
+        self.heightHint = height
+        guard !configured, !cows.isEmpty else { return }
+        configured = true
+        target = cows.randomElement()
+        nextSwitchAt = Date().addingTimeInterval(Self.switchInterval)
+        if let t = target {
+            x = t.x + trailSign * t.facing * trailDistance(for: t)
+            y = t.y
+        } else {
+            x = bounds.width / 2
+            y = bounds.height * 0.6
+        }
+    }
+
+    /// Distance from cow center where the companion should sit so its near edge clears
+    /// the cow's by `gap`. heightHint is half the cow's base height, so the visible cow
+    /// body spans about 90% of its frame ⇒ cow visual half ≈ 1.55 * heightHint.
+    private func trailDistance(for cow: PastureModel) -> CGFloat {
+        let cowHalf = heightHint * 1.55 * cow.scale
+        let petHalf = aspectRatio * heightHint * 0.5 * scale
+        return cowHalf + petHalf + Self.gap
+    }
+
+    func tick(cows: [PastureModel]) {
+        if Date() > nextSwitchAt && !cows.isEmpty {
+            let candidates = cows.filter { $0.id != target?.id }
+            target = candidates.randomElement() ?? cows.randomElement()
+            nextSwitchAt = Date().addingTimeInterval(Self.switchInterval)
+        }
+        guard let t = target else { return }
+        // trailSign=-1 trails behind cow's facing; +1 leads in front.
+        let goalX = t.x + trailSign * t.facing * trailDistance(for: t)
+        let goalY = t.y
+        let dx = goalX - x
+        let dy = goalY - y
+        let dist = sqrt(dx * dx + dy * dy)
+        let speed: CGFloat = 1.6 * scale
+        if dist > 3 {
+            x += (dx / dist) * speed
+            y += (dy / dist) * speed
+            facing = dx >= 0 ? 1 : -1
+        }
+    }
+}
+
+@MainActor
 final class Herd: ObservableObject {
     let cows: [PastureModel]
     @Published var hayBales: [HayBale] = []
+    let companions: [Companion]
     private var bounds: CGSize = .zero
 
     private var nextRandomHayAt: Date = Date().addingTimeInterval(.random(in: 90...150))
@@ -378,6 +481,14 @@ final class Herd: ObservableObject {
 
     init(count: Int) {
         cows = (0..<count).map { _ in PastureModel() }
+        var pets: [Companion] = []
+        if let img = pelleImage {
+            pets.append(Companion(name: "Pelle", image: img, trailSign: -1))
+        }
+        if let img = socksImage {
+            pets.append(Companion(name: "Socks", image: img, trailSign: 1))
+        }
+        companions = pets
         for cow in cows { cow.herd = self }
     }
 
@@ -392,6 +503,9 @@ final class Herd: ObservableObject {
                     height: baseCowSize.height * m
                 )
             )
+        }
+        for pet in companions {
+            pet.configure(bounds: bounds, cows: cows, height: baseCowSize.height * 0.50)
         }
     }
 
@@ -411,7 +525,10 @@ final class Herd: ObservableObject {
         for cow in cows {
             cow.tick(mouseLocation: mouseLocation)
         }
-        // Force PastureView to re-evaluate so the y-sorted ForEach reorders cows.
+        for pet in companions {
+            pet.tick(cows: cows)
+        }
+        // Force PastureView to re-evaluate so the y-sorted ForEach reorders items.
         objectWillChange.send()
     }
 
@@ -1169,15 +1286,36 @@ struct CowView: View {
     }
 }
 
+struct CompanionView: View {
+    @ObservedObject var companion: Companion
+    let baseCowHeight: CGFloat
+
+    private var petHeight: CGFloat { baseCowHeight * 0.50 }
+    private var petWidth: CGFloat { petHeight * companion.aspectRatio }
+
+    var body: some View {
+        Image(nsImage: companion.image)
+            .resizable()
+            .interpolation(.medium)
+            .frame(width: petWidth, height: petHeight)
+            .scaleEffect(x: companion.facing, y: 1)
+            .scaleEffect(companion.scale, anchor: .bottom)
+            .shadow(color: .black.opacity(0.25), radius: 3, x: 1, y: 3)
+            .position(x: companion.x, y: companion.y)
+    }
+}
+
 @MainActor
 enum PastureItem: Identifiable {
     case cow(PastureModel)
     case hay(HayBale)
+    case companion(Companion)
 
     nonisolated var id: String {
         switch self {
         case .cow(let c): return "cow-\(c.id.uuidString)"
         case .hay(let h): return "hay-\(h.id.uuidString)"
+        case .companion(let p): return "pet-\(p.id.uuidString)"
         }
     }
 
@@ -1185,6 +1323,7 @@ enum PastureItem: Identifiable {
         switch self {
         case .cow(let c): return c.y
         case .hay(let h): return h.position.y
+        case .companion(let p): return p.y
         }
     }
 }
@@ -1200,14 +1339,15 @@ struct PastureView: View {
     private var hayHeight: CGFloat { baseCowHeight * 0.32 }
 
     private var sortedItems: [PastureItem] {
-        let cows = herd.cows.map { PastureItem.cow($0) }
-        let bales = herd.hayBales.map { PastureItem.hay($0) }
-        return (cows + bales).sorted { $0.sortY < $1.sortY }
+        let items = herd.cows.map { PastureItem.cow($0) }
+            + herd.hayBales.map { PastureItem.hay($0) }
+            + herd.companions.map { PastureItem.companion($0) }
+        return items.sorted { $0.sortY < $1.sortY }
     }
 
     var body: some View {
         ZStack {
-            // Cows and hay bales sorted together by y so closer items render on top.
+            // Cows, hay bales, and companions sorted together by y so closer items render on top.
             ForEach(sortedItems) { item in
                 switch item {
                 case .cow(let cow):
@@ -1216,6 +1356,8 @@ struct PastureView: View {
                     HayBaleView()
                         .frame(width: hayWidth, height: hayHeight)
                         .position(hay.position)
+                case .companion(let pet):
+                    CompanionView(companion: pet, baseCowHeight: baseCowHeight)
                 }
             }
         }
