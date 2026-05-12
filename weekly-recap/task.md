@@ -4,6 +4,10 @@ Read `/tmp/weekly-recap-digest.txt`. It contains my Claude Code and Codex user p
 
 The digest may include a `## Source notes` section before the day sections. Use it to understand differences between Claude and Codex JSONL formats; do not render it as a weekday. If those differences affected the recap, add a brief note near the top of the output under `> Source note: ...`.
 
+Also fetch this week's meetings from Google Calendar via the `mcp__claude_ai_Google_Calendar__list_events` tool. Query my primary calendar for the same window as the digest (Monday 00:00 → Friday 14:00 local, parsed from the digest header). Only include events I actually attended or was a confirmed attendee of — skip declined events and all-day non-meeting blocks (focus time, OOO, personal reminders, holidays). If an event has no clear meeting purpose (e.g., a calendar block for solo work), skip it.
+
+Always skip the recurring daily standup titled `Fröjd: Tech standup` — it's daily and not worth reporting.
+
 Summarize the digest into a weekly recap markdown file in my Obsidian vault.
 
 ## Summarization rules
@@ -29,6 +33,24 @@ For each `(day, project)` block in the digest:
 ```markdown
 # Week of YYYY-MM-DD → YYYY-MM-DD
 
+## Time Report
+
+**Monday YYYY-MM-DD**
+- project-a — terse one-line summary suitable for a time report
+- project-b — terse one-line summary
+- Meetings: 30 min "Standup", 1 h "Client review"
+
+**Tuesday YYYY-MM-DD**
+_No sessions._
+
+**Wednesday YYYY-MM-DD**
+- project-c — terse one-line summary
+- Meetings: (none)
+
+...
+
+---
+
 > Source note: Codex and Claude sessions were parsed from different JSONL event shapes.
 
 ## Monday YYYY-MM-DD
@@ -52,6 +74,17 @@ _No sessions._
 ...
 ```
 
+### Time Report rules
+
+- Per day, list one bullet per project worked on that day: `- project-name — terse one-line summary`. Wording should be different from the TL;DR — written for a time-reporting tool, not a recap.
+- If the day had no sessions, render `_No sessions._` under the bold day heading (still include a `Meetings:` line below if there were meetings that day).
+- After project bullets, add a `- Meetings:` line:
+  - If there were meetings: `- Meetings: 30 min "Standup", 1 h "Client review"`. Use `min` for under 60 minutes, `h` for whole hours, `h Xmin` for mixed (e.g. `1 h 30 min`). Quote the meeting title verbatim.
+  - If there were no meetings that day: `- Meetings: (none)`.
+- Separate the Time Report from the detail section with a `---` horizontal rule.
+
+### Detail rules
+
 - Render `_No sessions._` under the H2 day heading for any weekday marked `(no prompts)` in the digest.
 - Every `### project` block ends with a single-line **TL;DR:**.
 
@@ -60,6 +93,8 @@ _No sessions._
 1. Read `/tmp/weekly-recap-digest.txt`.
 2. Parse the week range from the header line.
 3. Read any `## Source notes`; decide whether a short output source note is warranted.
-4. For each day block: either render `_No sessions._`, or summarize each project (bullets + TL;DR).
-5. Write to `/tmp/weekly-recap-YYYY-MM-DD.md`, then `mv` to the Obsidian path.
-6. Print `OK: <final path>`.
+4. Call `mcp__claude_ai_Google_Calendar__list_events` for the same Mon 00:00 → Fri 14:00 local window. Filter to meetings I attended (skip declined / OOO / focus-time / all-day reminders). Group by local day.
+5. Build the Time Report block: per day, one terse bullet per project (different wording from TL;DR) plus a `Meetings:` line.
+6. Build the detail section: for each day block either render `_No sessions._`, or summarize each project (bullets + TL;DR).
+7. Write to `/tmp/weekly-recap-YYYY-MM-DD.md`, then `mv` to the Obsidian path.
+8. Print `OK: <final path>`.

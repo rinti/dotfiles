@@ -14,7 +14,7 @@ echo "digest: $(wc -l < "$digest" | tr -d ' ') lines, $(wc -c < "$digest" | tr -
 /Users/andreas/.local/bin/claude \
     -p "Read task.md and execute it." \
     --model sonnet \
-    --allowedTools 'Bash(*)' 'Read' 'Write' 'Edit' 'Glob' 'Grep'
+    --allowedTools 'Bash(*)' 'Read' 'Write' 'Edit' 'Glob' 'Grep' 'mcp__claude_ai_Google_Calendar__list_events'
 status=$?
 
 if [ $status -ne 0 ]; then
