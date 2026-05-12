@@ -1,6 +1,12 @@
 import SwiftUI
 import AppKit
 
+extension Comparable {
+    func clamped(to range: ClosedRange<Self>) -> Self {
+        min(max(self, range.lowerBound), range.upperBound)
+    }
+}
+
 // MARK: - Pet images
 
 /// Loaded once; tries CWD first (run.sh cd's into the source dir), then the
@@ -149,6 +155,8 @@ final class PastureModel: ObservableObject, Identifiable {
     private var targetY: CGFloat = 0
     private var bounds: CGSize = .zero
     private var cowSize: CGSize = .zero
+    private var yMin: CGFloat = 0
+    private var yMax: CGFloat = 0
     private var grazingUntil: Date = .distantPast
     private var eatingUntil: Date = .distantPast
     private var sleepingUntil: Date = .distantPast
@@ -159,20 +167,18 @@ final class PastureModel: ObservableObject, Identifiable {
         self.appearance = appearance
     }
 
-    private var yMin: CGFloat { bounds.height / 3 }
-    private var yMax: CGFloat { bounds.height - cowSize.height * 0.5 }
-
     /// Perspective scale: 1.0 at the bottom, 0.5 at yMin.
     var scale: CGFloat {
         guard yMax > yMin else { return 1 }
-        let t = (y - yMin) / (yMax - yMin)
-        let minScale: CGFloat = 0.5
-        return minScale + (1 - minScale) * max(0, min(1, t))
+        let t = ((y - yMin) / (yMax - yMin)).clamped(to: 0...1)
+        return 0.5 + 0.5 * t
     }
 
     func configure(bounds: CGSize, cowSize: CGSize) {
         self.bounds = bounds
         self.cowSize = cowSize
+        self.yMin = bounds.height / 3
+        self.yMax = bounds.height - cowSize.height * 0.5
         guard !configured else { return }
         configured = true
         x = CGFloat.random(in: (cowSize.width * 0.5)...(bounds.width - cowSize.width * 0.5))
@@ -249,23 +255,28 @@ final class PastureModel: ObservableObject, Identifiable {
         }
     }
 
-    private func handleWalking(s: CGFloat) {
-        let dx = targetX - x
-        let dy = targetY - y
-        let dist = sqrt(dx * dx + dy * dy)
+    /// Step toward `goal` and update facing/legPhase/bodyBob. Pass `lockedFacing`
+    /// to override the auto facing-from-dx (used when approaching hay from a chosen side).
+    private func walk(toward goal: CGPoint, distance dist: CGFloat, speed: CGFloat, gait: CGFloat, lockedFacing: CGFloat? = nil) {
+        guard dist > 0 else { return }
+        let dx = goal.x - x
+        let dy = goal.y - y
+        x += (dx / dist) * speed
+        y += (dy / dist) * speed
+        facing = lockedFacing ?? (dx >= 0 ? 1 : -1)
+        legPhase += gait
+        bodyBob = sin(legPhase) * 0.6
+    }
 
+    private func handleWalking(s: CGFloat) {
+        let goal = CGPoint(x: targetX, y: targetY)
+        let dist = hypot(goal.x - x, goal.y - y)
         if dist < 3 {
             state = .grazing
             grazingUntil = Date().addingTimeInterval(.random(in: 4...9))
             return
         }
-
-        let speed: CGFloat = 1.4 * s
-        x += (dx / dist) * speed
-        y += (dy / dist) * speed
-        facing = dx >= 0 ? 1 : -1
-        legPhase += 0.18 * s
-        bodyBob = sin(legPhase) * 0.6
+        walk(toward: goal, distance: dist, speed: 1.4 * s, gait: 0.18 * s)
     }
 
     private func handleGrazing() {
@@ -294,19 +305,13 @@ final class PastureModel: ObservableObject, Identifiable {
 
     private func handleFollowing(mouse: CGPoint, s: CGFloat) {
         let xMargin = cowSize.width * 0.5
-        let mx = max(xMargin, min(bounds.width - xMargin, mouse.x))
-        let my = max(yMin, min(yMax, mouse.y))
-        let dx = mx - x
-        let dy = my - y
-        let dist = sqrt(dx * dx + dy * dy)
-
+        let goal = CGPoint(
+            x: mouse.x.clamped(to: xMargin...(bounds.width - xMargin)),
+            y: mouse.y.clamped(to: yMin...yMax)
+        )
+        let dist = hypot(goal.x - x, goal.y - y)
         if dist > 3 {
-            let speed: CGFloat = 1.4 * s
-            x += (dx / dist) * speed
-            y += (dy / dist) * speed
-            facing = dx >= 0 ? 1 : -1
-            legPhase += 0.18 * s
-            bodyBob = sin(legPhase) * 0.6
+            walk(toward: goal, distance: dist, speed: 1.4 * s, gait: 0.18 * s)
         } else {
             bodyBob = sin(Date().timeIntervalSinceReferenceDate * 2.2) * 0.4
         }
@@ -321,35 +326,25 @@ final class PastureModel: ObservableObject, Identifiable {
         }
 
         let stop = hayStopPosition(for: hayPos)
-        let dx = stop.x - x
-        let dy = stop.y - y
-        let dist = sqrt(dx * dx + dy * dy)
-
+        let dist = hypot(stop.x - x, stop.y - y)
         if dist < 4 {
             state = .eatingHay
             eatingUntil = Date().addingTimeInterval(Self.eatingDuration)
             facing = hayApproachFacing
             return
         }
-
-        let speed: CGFloat = 1.6 * s   // hungry — slightly faster
-        x += (dx / dist) * speed
-        y += (dy / dist) * speed
-        facing = hayApproachFacing
-        legPhase += 0.2 * s
-        bodyBob = sin(legPhase) * 0.6
+        walk(toward: stop, distance: dist, speed: 1.6 * s, gait: 0.2 * s, lockedFacing: hayApproachFacing)
     }
 
     /// Where the cow should stand to nibble the hay: just to its side, head down.
     private func hayStopPosition(for hayPos: CGPoint) -> CGPoint {
         // Cow's feet should be roughly aligned with the hay bale's bottom.
         // hayHeight ≈ baseCowHeight * 0.32 ⇒ cow.y = hay.y + (hayH - cowH)/2 ≈ hay.y - 0.34*cowH
-        let rawStopY = hayPos.y - cowSize.height * 0.34
-        let stopY = max(yMin, min(yMax, rawStopY))
+        let stopY = (hayPos.y - cowSize.height * 0.34).clamped(to: yMin...yMax)
 
         // Approximate perspective scale at the stop position.
-        let t = (stopY - yMin) / max(0.0001, yMax - yMin)
-        let stopScale: CGFloat = 0.5 + 0.5 * max(0, min(1, t))
+        let t = ((stopY - yMin) / max(0.0001, yMax - yMin)).clamped(to: 0...1)
+        let stopScale: CGFloat = 0.5 + 0.5 * t
 
         // Stop with the snout reaching the bale's near edge so the body stays mostly off the bale.
         let halfHay = cowSize.height * 0.275                 // hayWidth/2 ≈ baseCowH * 0.55 / 2
@@ -404,6 +399,8 @@ final class Companion: ObservableObject, Identifiable {
     private var nextSwitchAt: Date = .distantPast
     private var bounds: CGSize = .zero
     private var heightHint: CGFloat = 80
+    private var yMin: CGFloat = 0
+    private var yMax: CGFloat = 0
     private var configured = false
 
     init(name: String, image: NSImage, trailSign: CGFloat = -1) {
@@ -415,16 +412,16 @@ final class Companion: ObservableObject, Identifiable {
     }
 
     var scale: CGFloat {
-        let yMin = bounds.height / 3
-        let yMax = bounds.height - heightHint * 0.5
         guard yMax > yMin else { return 1 }
-        let t = (y - yMin) / (yMax - yMin)
-        return 0.5 + 0.5 * max(0, min(1, t))
+        let t = ((y - yMin) / (yMax - yMin)).clamped(to: 0...1)
+        return 0.5 + 0.5 * t
     }
 
     func configure(bounds: CGSize, cows: [PastureModel], height: CGFloat) {
         self.bounds = bounds
         self.heightHint = height
+        self.yMin = bounds.height / 3
+        self.yMax = bounds.height - height * 0.5
         guard !configured, !cows.isEmpty else { return }
         configured = true
         target = cows.randomElement()
@@ -454,14 +451,12 @@ final class Companion: ObservableObject, Identifiable {
             nextSwitchAt = Date().addingTimeInterval(Self.switchInterval)
         }
         guard let t = target else { return }
-        // trailSign=-1 trails behind cow's facing; +1 leads in front.
         let goalX = t.x + trailSign * t.facing * trailDistance(for: t)
-        let goalY = t.y
         let dx = goalX - x
-        let dy = goalY - y
-        let dist = sqrt(dx * dx + dy * dy)
-        let speed: CGFloat = 1.6 * scale
+        let dy = t.y - y
+        let dist = hypot(dx, dy)
         if dist > 3 {
+            let speed: CGFloat = 1.6 * scale
             x += (dx / dist) * speed
             y += (dy / dist) * speed
             facing = dx >= 0 ? 1 : -1
@@ -528,18 +523,26 @@ final class Herd: ObservableObject {
         for pet in companions {
             pet.tick(cows: cows)
         }
-        // Force PastureView to re-evaluate so the y-sorted ForEach reorders items.
+        // Force a parent re-render each tick so PastureView's y-sorted ForEach reorders items.
         objectWillChange.send()
+    }
+
+    /// (xRange, yRange) inside which a hay bale may land. Both ranges leave a 30 px
+    /// edge margin and the y-range starts at the horizon so bales sit on the pasture.
+    private var hayDropArea: (x: ClosedRange<CGFloat>, y: ClosedRange<CGFloat>) {
+        let xMargin: CGFloat = 30
+        return (
+            xMargin...(bounds.width - xMargin),
+            (bounds.height / 3)...(bounds.height - 30)
+        )
     }
 
     private func dropRandomHay() {
         guard !cows.isEmpty, bounds.width > 0 else { return }
-        let yMinHay = bounds.height / 3
-        let yMaxHay = bounds.height - 30
-        let xMargin: CGFloat = 30
+        let area = hayDropArea
         let pt = CGPoint(
-            x: CGFloat.random(in: xMargin...(bounds.width - xMargin)),
-            y: CGFloat.random(in: yMinHay...yMaxHay)
+            x: CGFloat.random(in: area.x),
+            y: CGFloat.random(in: area.y)
         )
         dropHay(at: pt)
     }
@@ -554,12 +557,10 @@ final class Herd: ObservableObject {
     func dropHay(at point: CGPoint) {
         guard !cows.isEmpty, bounds.width > 0 else { return }
 
-        let yMinHay = bounds.height / 3
-        let yMaxHay = bounds.height - 30
-        let xMargin: CGFloat = 30
+        let area = hayDropArea
         let clamped = CGPoint(
-            x: max(xMargin, min(bounds.width - xMargin, point.x)),
-            y: max(yMinHay, min(yMaxHay, point.y))
+            x: point.x.clamped(to: area.x),
+            y: point.y.clamped(to: area.y)
         )
 
         guard let nearest = cows.min(by: {
@@ -1262,7 +1263,7 @@ struct CowView: View {
             )
             .frame(width: cowWidth, height: cowHeight)
 
-            // Z's float above sleeping cows (rendered outside the sprite's facing-mirror).
+            // Rendered outside CowSprite so the facing-mirror doesn't flip the Z's.
             if model.state == .sleeping {
                 SleepZs()
                     .frame(width: 40, height: 36)
@@ -1271,7 +1272,6 @@ struct CowView: View {
                     .transition(.opacity)
             }
 
-            // Speech bubble with a fun cow fact.
             if let text = model.factText {
                 SpeechBubbleView(text: text)
                     .offset(y: -cowHeight * 0.65)
@@ -1331,6 +1331,7 @@ enum PastureItem: Identifiable {
 struct PastureView: View {
     let screenFrame: CGRect
     @ObservedObject var herd: Herd
+    @State private var ticker = Timer.publish(every: 1.0 / 30.0, on: .main, in: .common).autoconnect()
 
     private var screenSize: CGSize { screenFrame.size }
     private var baseCowHeight: CGFloat { screenSize.height * 0.13 }
@@ -1347,7 +1348,6 @@ struct PastureView: View {
 
     var body: some View {
         ZStack {
-            // Cows, hay bales, and companions sorted together by y so closer items render on top.
             ForEach(sortedItems) { item in
                 switch item {
                 case .cow(let cow):
@@ -1373,7 +1373,7 @@ struct PastureView: View {
                 baseCowSize: CGSize(width: baseCowWidth, height: baseCowHeight)
             )
         }
-        .onReceive(Timer.publish(every: 1.0 / 30.0, on: .main, in: .common).autoconnect()) { _ in
+        .onReceive(ticker) { _ in
             herd.tick(mouseLocation: mouseInView())
         }
     }
