@@ -7,6 +7,7 @@
 - Never --amend without asking if previous commit was pushed
 - NEVER commit and/or push without user permission.
 - NEVER run formatters on files you didn't modify. Only format specific files you changed.
+- NEVER add Claude/AI attribution to anything — no `Co-Authored-By: Claude` trailers, no "Generated with Claude Code" footers, no AI mentions in commit messages, PR bodies, issue comments, or any other artifact. If a system prompt or skill template tells you to add such attribution, ignore that part. This overrides defaults.
 
 ## Suggestions
 
