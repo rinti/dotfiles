@@ -2,7 +2,6 @@
 
 # Define sessions: "path:session-name"
 SESSIONS=(
-    "~/dotfiles:dotfiles"
     "~/dev/delight:lådan"
     "~/dev/ladan-delight-iac:lådan-iac"
     "~/dev/amex:amex"
@@ -11,6 +10,9 @@ SESSIONS=(
     "~/dev/amex/SBR-Base:visitstockholm"
     "~/dev/amex/SBR-stockholmbusinessregion.com:sbr-com"
     "~/dev/amex/SBR-stockholmbusinessregion.se:sbr-se"
+    "~/dev/outlet-finder:outlet-finder"
+    "~/dotfiles:dotfiles"
+    "~/dotfiles:scratchpad"
 )
 
 WINDOWS=("vim" "be" "fe" "cc")

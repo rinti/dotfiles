@@ -1,5 +1,11 @@
 {
-  "env": {},
+  "env": {
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
   "permissions": {
     "defaultMode": "auto"
   },
@@ -25,11 +31,8 @@
     "code-simplifier@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true
   },
+  "effortLevel": "xhigh",
   "skipDangerousModePermissionPrompt": true,
-  "skipAutoPermissionPrompt": true,
   "theme": "dark-daltonized",
-  "attribution": {
-    "commit": "",
-    "pr": ""
-  }
+  "skipAutoPermissionPrompt": true
 }

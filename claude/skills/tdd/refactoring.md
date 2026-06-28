@@ -8,5 +8,3 @@ After TDD cycle, look for:
 - **Feature envy** → Move logic to where data lives
 - **Primitive obsession** → Introduce value objects
 - **Existing code** the new code reveals as problematic
-
-But always have maintainability in mind, e.g. do not extract function/class if it makes the code less maintainable.
