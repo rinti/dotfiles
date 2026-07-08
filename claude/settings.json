@@ -7,7 +7,6 @@
     "pr": ""
   },
   "permissions": {
-
     "deny": [
       "EnterPlanMode",
       "ExitPlanMode",
@@ -24,11 +23,11 @@
       "CronList"
     ]
   },
-      "disableBundledSkills": true,
-      "disableWorkflows": true,
-      "disableRemoteControl": true,
-      "disableClaudeAiConnectors": true,
-      "disableArtifact": true,
+  "disableBundledSkills": true,
+  "disableWorkflows": true,
+  "disableRemoteControl": true,
+  "disableClaudeAiConnectors": true,
+  "disableArtifact": true,
   "model": "claude-fable-5",
   "hooks": {
     "UserPromptSubmit": [
