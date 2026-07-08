@@ -7,8 +7,29 @@
     "pr": ""
   },
   "permissions": {
-    "defaultMode": "auto"
+
+    "deny": [
+      "EnterPlanMode",
+      "ExitPlanMode",
+      "DesignSync",
+      "NotebookEdit",
+      "SendMessage",
+      "PushNotification",
+      "RemoteTrigger",
+      "ReportFindings",
+      "ScheduleWakeup",
+      "AskUserQuestion",
+      "CronCreate",
+      "CronDelete",
+      "CronList"
+    ]
   },
+      "disableBundledSkills": true,
+      "disableWorkflows": true,
+      "disableRemoteControl": true,
+      "disableClaudeAiConnectors": true,
+      "disableArtifact": true,
+  "model": "claude-fable-5",
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -31,9 +52,9 @@
     "code-simplifier@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true
   },
-  "effortLevel": "xhigh",
+  "effortLevel": "high",
+  "autoCompactWindow": 180000,
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark-daltonized",
-  "skipAutoPermissionPrompt": true,
-  "autoCompactWindow": 180000
+  "skipAutoPermissionPrompt": true
 }
