@@ -10,6 +10,8 @@
 require("catppuccin").setup({ flavour = "mocha" })
 vim.cmd.colorscheme 'catppuccin'
 
+vim.o.guifont = "Myna:h14"
+
 vim.o.colorcolumn = "100"
 vim.cmd [[au VimEnter * highlight ColorColumn guibg=#2c2c3b]]
 

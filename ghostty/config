@@ -3,3 +3,5 @@ keybind = cmd+l=text:\x1bl
 keybind = cmd+j=text:\x1bj
 keybind = cmd+k=text:\x1bk
 theme = Catppuccin Mocha
+# Font from https://github.com/sayyadirfanali/Myna
+font-family = Myna
