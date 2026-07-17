@@ -42,6 +42,11 @@ ln -sfn ~/dotfiles/nvim ~/.config/nvim
 mkdir -p ~/.config/ghostty 2> /dev/null || true
 ln -sf ~/dotfiles/ghostty/config ~/.config/ghostty/config
 
+# herdr
+mkdir -p ~/.config/herdr 2> /dev/null || true
+ln -sf ~/dotfiles/herdr/config.toml ~/.config/herdr/config.toml
+ln -sf ~/dotfiles/herdr/claude-toggle.sh ~/.config/herdr/claude-toggle.sh
+
 # claude
 mkdir -p ~/.claude 2> /dev/null || true
 ln -sf ~/dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md

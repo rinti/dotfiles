@@ -1,0 +1,17 @@
+onboarding = false
+
+[keys]
+prefix = "ctrl+space"
+previous_tab = "alt+j"
+next_tab = "alt+k"
+previous_workspace = "alt+shift+j"
+next_workspace = "alt+shift+k"
+
+[[keys.command]]
+key = "alt+l"
+type = "shell"
+command = "~/.config/herdr/claude-toggle.sh"
+description = "toggle claude tab"
+
+[ui]
+agent_panel_sort = "spaces"

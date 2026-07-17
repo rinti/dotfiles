@@ -2,6 +2,8 @@ keybind = shift+enter=text:\n
 keybind = cmd+l=text:\x1bl
 keybind = cmd+j=text:\x1bj
 keybind = cmd+k=text:\x1bk
+keybind = cmd+shift+j=text:\x1bJ
+keybind = cmd+shift+k=text:\x1bK
 theme = Catppuccin Mocha
 # Font from https://github.com/sayyadirfanali/Myna
 font-family = Myna
