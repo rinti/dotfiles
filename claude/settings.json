@@ -23,13 +23,22 @@
       "CronList"
     ]
   },
-  "disableBundledSkills": true,
-  "disableWorkflows": true,
-  "disableRemoteControl": true,
+  "model": "claude-opus-4-8[1m]",
   "disableClaudeAiConnectors": true,
-  "disableArtifact": true,
-  "model": "claude-fable-5",
+  "disableBundledSkills": true,
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash '/Users/andreas/.claude/hooks/herdr-agent-state.sh' session",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
     "UserPromptSubmit": [
       {
         "matcher": "",
@@ -42,16 +51,19 @@
       }
     ]
   },
+  "disableRemoteControl": true,
+  "disableWorkflows": true,
+  "disableArtifact": true,
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
-    "safety-net@cc-marketplace": true,
     "code-simplifier@claude-plugins-official": true,
-    "pyright-lsp@claude-plugins-official": true
+    "pyright-lsp@claude-plugins-official": true,
+    "safety-net@cc-marketplace": true
   },
-  "effortLevel": "high",
+  "effortLevel": "medium",
   "autoCompactWindow": 180000,
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark-daltonized",
