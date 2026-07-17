@@ -4,8 +4,8 @@ onboarding = false
 prefix = "ctrl+space"
 previous_tab = "alt+j"
 next_tab = "alt+k"
-previous_workspace = "alt+shift+j"
-next_workspace = "alt+shift+k"
+next_workspace = "alt+shift+j"
+previous_workspace = "alt+shift+k"
 
 [[keys.command]]
 key = "alt+l"
