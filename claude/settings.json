@@ -23,7 +23,7 @@
       "CronList"
     ]
   },
-  "model": "claude-opus-4-8[1m]",
+  "model": "claude-fable-5",
   "disableClaudeAiConnectors": true,
   "disableBundledSkills": true,
   "hooks": {
@@ -61,7 +61,16 @@
   "enabledPlugins": {
     "code-simplifier@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
-    "safety-net@cc-marketplace": true
+    "safety-net@cc-marketplace": true,
+    "mattpocock-skills@mattpocock": true
+  },
+  "extraKnownMarketplaces": {
+    "mattpocock": {
+      "source": {
+        "source": "github",
+        "repo": "mattpocock/skills"
+      }
+    }
   },
   "effortLevel": "medium",
   "autoCompactWindow": 180000,
