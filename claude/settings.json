@@ -7,7 +7,6 @@
     "pr": ""
   },
   "permissions": {
-    "defaultMode": "auto",
     "deny": [
       "EnterPlanMode",
       "ExitPlanMode",
@@ -22,9 +21,10 @@
       "CronCreate",
       "CronDelete",
       "CronList"
-    ]
+    ],
+    "defaultMode": "auto"
   },
-  "model": "claude-opus-5",
+  "model": "claude-fable-5",
   "disableClaudeAiConnectors": true,
   "disableBundledSkills": true,
   "hooks": {
@@ -73,7 +73,7 @@
       }
     }
   },
-  "effortLevel": "medium",
+  "effortLevel": "high",
   "autoCompactWindow": 180000,
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark-daltonized",
