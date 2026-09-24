@@ -24,7 +24,7 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "claude-fable-5",
+  "model": "opus[1m]",
   "disableClaudeAiConnectors": true,
   "disableBundledSkills": true,
   "hooks": {
@@ -62,8 +62,9 @@
   "enabledPlugins": {
     "code-simplifier@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
-    "safety-net@cc-marketplace": true,
-    "mattpocock-skills@mattpocock": true
+    "safety-net@cc-marketplace": false,
+    "mattpocock-skills@mattpocock": true,
+    "typesafe@typesafe-ai": true
   },
   "extraKnownMarketplaces": {
     "mattpocock": {
@@ -71,10 +72,29 @@
         "source": "github",
         "repo": "mattpocock/skills"
       }
+    },
+    "typesafe-ai": {
+      "source": {
+        "source": "github",
+        "repo": "typesafe-ai/skills"
+      }
     }
   },
+  "outputStyle": "Concise",
   "effortLevel": "high",
-  "autoCompactWindow": 180000,
+  "modelSettings": {
+    "claude-fable-5-1": {
+      "effortLevel": "low"
+    },
+    "claude-fable-5": {
+      "effortLevel": "low"
+    },
+    "claude-opus-5-5": {
+      "effortLevel": "high"
+    }
+  },
+  "autoCompactWindow": 220000,
+  "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark-daltonized",
   "skipAutoPermissionPrompt": true

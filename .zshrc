@@ -91,7 +91,33 @@ alias dcp="docker compose"
 alias dcpe="docker compose exec"
 alias cs="docker sandbox run claude"
 alias claudec="claude --chrome"
-alias activate="source venv/bin/activate"
+# Activate the nearest .venv/venv: this dir and its parents, then one level
+# down (e.g. src/.venv from a repo root). Skips venvs created at another path,
+# since their activate script and shebangs point to a directory that is gone.
+unalias activate 2>/dev/null
+activate() {
+  local dir=$PWD candidate
+  local -a candidates
+  while true; do
+    candidates+=("$dir/.venv" "$dir/venv")
+    [[ $dir == / || $dir == $HOME ]] && break
+    dir=${dir:h}
+  done
+  candidates+=($PWD/*/.venv(N/) $PWD/*/venv(N/))
+  for candidate in $candidates; do
+    [[ -f $candidate/bin/activate ]] || continue
+    if ! grep -qF -e "VIRTUAL_ENV=$candidate" -e "VIRTUAL_ENV='$candidate'" $candidate/bin/activate; then
+      print -u2 "aa: skipping $candidate (created at another path, recreate it)"
+      continue
+    fi
+    (( $+functions[deactivate] )) && deactivate
+    source $candidate/bin/activate
+    print "aa: activated $candidate ($(python --version))"
+    return
+  done
+  print -u2 "aa: no virtualenv found"
+  return 1
+}
 # alias aa="activate_asdf; activate"
 alias aa="activate"
 alias oci='cd $(git rev-parse --show-toplevel) && make open_ci && cd -'

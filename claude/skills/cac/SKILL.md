@@ -40,6 +40,8 @@ When updating, follow Keep a Changelog 1.0.0:
   - `### Fixed` — bug fixes
   - `### Security` — vulnerabilities
 - Write entries for humans, not machines. Imperative, present tense, one line each, no trailing period required by Keep a Changelog but match the file's existing style.
+- **Keep entries SHORT.** One line means one short line — aim for under ~10 words, never wrap. State *what* changed, not why or how; the commit body and diff carry the detail. No sub-bullets, no trailing explanations, no file paths or implementation details. "Fix crash when config file is missing" is right; a sentence with clauses is too long.
+- One entry per user-visible change. Don't enumerate every touched file or internal step as separate entries.
 - Do not invent a version bump or release date. Only modify `## [Unreleased]`.
 - Match the existing file's formatting (dash vs asterisk bullets, blank-line conventions, link references at the bottom) — read the file first to detect the style.
 
