@@ -6,6 +6,8 @@ previous_tab = "alt+j"
 next_tab = "alt+k"
 next_workspace = "alt+shift+j"
 previous_workspace = "alt+shift+k"
+cycle_pane_next = ["prefix+tab", "ctrl+w"]
+toggle_sidebar = ["prefix+b", "alt+shift+h"]
 
 [[keys.command]]
 key = "alt+l"
@@ -15,3 +17,4 @@ description = "toggle claude tab"
 
 [ui]
 agent_panel_sort = "spaces"
+sidebar_collapsed_mode = "hidden"

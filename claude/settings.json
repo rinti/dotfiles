@@ -24,7 +24,6 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "opus[1m]",
   "disableClaudeAiConnectors": true,
   "disableBundledSkills": true,
   "hooks": {
@@ -61,7 +60,7 @@
   },
   "enabledPlugins": {
     "code-simplifier@claude-plugins-official": true,
-    "pyright-lsp@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": false,
     "safety-net@cc-marketplace": false,
     "mattpocock-skills@mattpocock": true,
     "typesafe@typesafe-ai": true
@@ -78,6 +77,12 @@
         "source": "github",
         "repo": "typesafe-ai/skills"
       }
+    },
+    "frojd-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "frojd/frojd-marketplace"
+      }
     }
   },
   "outputStyle": "Concise",
@@ -90,7 +95,7 @@
       "effortLevel": "low"
     },
     "claude-opus-5-5": {
-      "effortLevel": "high"
+      "effortLevel": "xhigh"
     }
   },
   "autoCompactWindow": 220000,

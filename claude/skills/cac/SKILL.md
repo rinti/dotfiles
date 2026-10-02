@@ -1,6 +1,6 @@
 ---
 name: cac
-description: "Changelog and commit. Updates CHANGELOG.md (if present) following Keep a Changelog 1.0.0, then prepares a git commit following Tim Pope / cbea.ms seven rules. Use when the user runs /cac or asks to record a change in the changelog and commit it."
+description: "Changelog and commit. Updates CHANGELOG.md (if present) following Keep a Changelog 1.0.0, then prepares a git commit following Tim Pope / cbea.ms seven rules. Use whenever writing a git commit message or editing CHANGELOG.md, including as a step of another workflow such as implement, not only when the user runs /cac."
 argument-hint: "Optional: extra context about the change (e.g. issue ref, scope hint)"
 ---
 
