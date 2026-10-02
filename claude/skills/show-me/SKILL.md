@@ -5,6 +5,8 @@ description: Help the user understand the current topic visually with concise di
 
 Help the user understand the current topic of conversation visually. Skip the preamble and keep prose brief. Pick the smallest view that makes the key point clear.
 
+Write every explanation in ASD-STE100 Simplified Technical English: prose, captions, code comments, diagram labels, and HTML artifact text. Use short sentences with one topic each, active voice, present tense, and one meaning per word. Keep code identifiers, file paths, and product names exactly as they are.
+
 - Show logic or an algorithm as pseudocode:
 
 ```text
