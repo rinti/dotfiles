@@ -51,6 +51,7 @@ ln -sf ~/dotfiles/herdr/claude-toggle.sh ~/.config/herdr/claude-toggle.sh
 mkdir -p ~/.claude 2> /dev/null || true
 ln -sf ~/dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
 ln -sf ~/dotfiles/claude/settings.json ~/.claude/settings.json
+ln -sf ~/dotfiles/claude/statusline-command.sh ~/.claude/statusline-command.sh
 ln -sfn ~/dotfiles/claude/skills ~/.claude/skills
 ln -sfn ~/dotfiles/claude/commands ~/.claude/commands
 ln -sfn ~/dotfiles/claude/hooks ~/.claude/hooks
