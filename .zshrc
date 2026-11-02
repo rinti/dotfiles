@@ -184,5 +184,5 @@ cdx() {
   fi
 }
 
-source ~/.safe-chain/scripts/init-posix.sh # Safe-chain Zsh initialization script
+[ -f ~/.safe-chain/scripts/init-posix.sh ] && source ~/.safe-chain/scripts/init-posix.sh # Safe-chain Zsh initialization script
 export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"

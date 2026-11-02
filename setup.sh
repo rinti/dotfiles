@@ -1,38 +1,38 @@
-## Remove date at top of terminal
-#touch ~/.hushlogin
-#
-##if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-##    ./linux.sh
-##else
-##    ./brew.sh
-##fi
-#
-## Git
-#ln -sf ~/dotfiles/.gitconfig ~/.gitconfig
-#
-## tmux
-#ln -sf ~/dotfiles/.tmux.conf ~/.tmux.conf
-#
-## zsh
-#ln -sf ~/dotfiles/.zshrc ~/.zshrc
-#ln -sf ~/dotfiles/.zpreztorc ~/.zpreztorc
-#
-## fd
-#ln -sf ~/dotfiles/.fdignore ~/.fdignore
-#
-## Nvm
-#mkdir -p ~/.nvm 2> /dev/null || true
-#
-## Nvim
+# Remove date at top of terminal
+touch ~/.hushlogin
+
+#if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+#    ./linux.sh
+#else
+#    ./brew.sh
+#fi
+
+# Git (needs git-delta from brew.sh: it is the pager in .gitconfig)
+ln -sf ~/dotfiles/.gitconfig ~/.gitconfig
+
+# tmux
+ln -sf ~/dotfiles/.tmux.conf ~/.tmux.conf
+[ -d ~/.tmux/plugins/tpm ] || git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+~/.tmux/plugins/tpm/bin/install_plugins > /dev/null
+
+# zsh
+ln -sf ~/dotfiles/.zshrc ~/.zshrc
+ln -sf ~/dotfiles/.zpreztorc ~/.zpreztorc
+[ -d ~/.zprezto ] || git clone --recursive https://github.com/sorin-ionescu/prezto.git ~/.zprezto
+
+# fd
+ln -sf ~/dotfiles/.fdignore ~/.fdignore
+
+# Nvm
+mkdir -p ~/.nvm 2> /dev/null || true
+
+# Nvim
 ln -sfn ~/dotfiles/nvim ~/.config/nvim
 
 # vscode
 #ln -sf ~/dotfiles/vscode/snippets/ ~/Library/Application\ Support/Code/User/
 #ln -sf ~/dotfiles/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
 #ln -sf ~/dotfiles/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
-
-# tmux
-#git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 # mise
 #curl https://mise.run | sh

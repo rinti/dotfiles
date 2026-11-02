@@ -43,55 +43,40 @@ hard-code `/Users/andreas/dotfiles`):
 
     eval "$(/opt/homebrew/bin/brew shellenv)"
     bash ~/dotfiles/brew.sh
-    brew install tmux git-delta tree-sitter-cli
 
-`tmux`, `git-delta` (git pager in `.gitconfig`) and `tree-sitter-cli` (needed
-by nvim-treesitter to build parsers) are not in `brew.sh` yet.
+### Phase 4 — Node and safe-chain
 
-### Phase 4 — shell, git, tmux
-
-`setup.sh` has these steps commented out, so do them by hand:
-
-    touch ~/.hushlogin
-    ln -sf ~/dotfiles/.zshrc ~/.zshrc
-    ln -sf ~/dotfiles/.zpreztorc ~/.zpreztorc
-    ln -sf ~/dotfiles/.tmux.conf ~/.tmux.conf
-    ln -sf ~/dotfiles/.fdignore ~/.fdignore
-    ln -sf ~/dotfiles/.gitconfig ~/.gitconfig   # only after git-delta is installed
-    mkdir -p ~/.nvm
-    git clone --recursive https://github.com/sorin-ionescu/prezto.git ~/.zprezto
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-    ~/.tmux/plugins/tpm/bin/install_plugins
-
-`.zprofile` is **not** symlinked: tools like Docker Desktop write to it. Make
-sure it starts with `eval "$(/opt/homebrew/bin/brew shellenv)"` and keep
-whatever else is in it.
-
-### Phase 5 — Node and safe-chain
-
-`.zshrc` sources `~/.safe-chain/scripts/init-posix.sh` unconditionally, so
-every shell errors until it exists.
+Do this before `setup.sh` links `.zshrc`: `safe-chain setup` rewrites its
+line in `~/.zshrc`, and before the link that is a throwaway file, not the repo.
+(If `.zshrc` is already linked, run `git -C ~/dotfiles checkout .zshrc` after.)
 
     export PATH="$HOME/.local/bin:$PATH"
     mise use -g node@lts
     eval "$(mise env -s bash)"
     npm install -g @aikidosec/safe-chain
     safe-chain setup
-    cd ~/dotfiles && git checkout .zshrc   # safe-chain setup rewrites its line in .zshrc
 
-### Phase 6 — run setup.sh (Claude + app configs)
+### Phase 5 — run setup.sh
 
+Back up `~/.zshrc` and `~/.claude/settings.json` first, then:
+
+    eval "$(/opt/homebrew/bin/brew shellenv)"
     cd ~ && bash ~/dotfiles/setup.sh
 
-This links nvim, ghostty, herdr, Claude Code config (`~/.claude/...`,
-`~/.agents/skills`) and loads the `com.user.twd` launchd agent. Back up
-`~/.claude/settings.json` first.
+It links zsh/prezto, tmux (+ tpm plugins), git, fd, nvim, ghostty, herdr and
+Claude Code config (`~/.claude/...`, `~/.agents/skills`), and loads the
+`com.user.twd` launchd agent. It is safe to re-run.
 
-Do this phase **last**: the linked Claude `settings.json` takes effect in the
-running session and denies tools such as AskUserQuestion, disables connectors
-and Artifacts, and switches to the Concise output style.
+`.zprofile` is **not** symlinked: tools like Docker Desktop write to it. Make
+sure it starts with `eval "$(/opt/homebrew/bin/brew shellenv)"` and keep
+whatever else is in it.
 
-### Phase 7 — nvim
+Do this phase **after everything that needs your full toolset**: the linked
+Claude `settings.json` takes effect in the running session and denies tools
+such as AskUserQuestion, disables connectors and Artifacts, and switches to
+the Concise output style.
+
+### Phase 6 — nvim
 
 Plugins (vim.pack) and treesitter parsers install on first launch. Do it
 headless so the user doesn't wait:
@@ -100,7 +85,7 @@ headless so the user doesn't wait:
 
 Check the output for `Language installed` vs `error`.
 
-### Phase 8 — verify
+### Phase 7 — verify
 
     env -i HOME=$HOME TERM=xterm-256color /bin/zsh -lic \
       'for c in brew nvim tmux delta mise node npm safe-chain rg fd fzf; do whence -p $c >/dev/null || echo "MISSING $c"; done; echo DONE'
