@@ -67,9 +67,8 @@ Back up `~/.zshrc` and `~/.claude/settings.json` first, then:
     eval "$(/opt/homebrew/bin/brew shellenv)"
     cd ~ && bash ~/dotfiles/setup.sh
 
-It links zsh/prezto, tmux (+ tpm plugins), git, fd, nvim, ghostty, herdr and
-Claude Code config (`~/.claude/...`, `~/.agents/skills`), and loads the
-`com.user.twd` launchd agent. It is safe to re-run.
+It links zsh/prezto, git, fd, nvim, ghostty, herdr and Claude Code config
+(`~/.claude/...`, `~/.agents/skills`). It is safe to re-run.
 
 `.zprofile` is **not** symlinked: tools like Docker Desktop write to it. Make
 sure it starts with `eval "$(/opt/homebrew/bin/brew shellenv)"` and keep
@@ -92,8 +91,7 @@ Check the output for `Language installed` vs `error`.
 ### Phase 7 — verify
 
     env -i HOME=$HOME TERM=xterm-256color /bin/zsh -lic \
-      'for c in brew nvim tmux delta mise node npm safe-chain rg fd fzf; do whence -p $c >/dev/null || echo "MISSING $c"; done; echo DONE'
+      'for c in brew nvim delta mise node npm safe-chain rg fd fzf; do whence -p $c >/dev/null || echo "MISSING $c"; done; echo DONE'
 
-Expect only `DONE` with no errors above it. Also check
-`launchctl list | grep com.user.twd` and `git -C ~/dotfiles status`
-(should be clean). Tell the user to open a new terminal window.
+Expect only `DONE` with no errors above it. Also check that
+`git -C ~/dotfiles status` is clean. Tell the user to open a new terminal window.

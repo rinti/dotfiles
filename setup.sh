@@ -10,11 +10,6 @@ touch ~/.hushlogin
 # Git (needs git-delta from brew.sh: it is the pager in .gitconfig)
 ln -sf ~/dotfiles/.gitconfig ~/.gitconfig
 
-# tmux
-ln -sf ~/dotfiles/.tmux.conf ~/.tmux.conf
-[ -d ~/.tmux/plugins/tpm ] || git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-~/.tmux/plugins/tpm/bin/install_plugins > /dev/null
-
 # zsh
 ln -sf ~/dotfiles/.zshrc ~/.zshrc
 ln -sf ~/dotfiles/.zpreztorc ~/.zpreztorc
@@ -28,11 +23,6 @@ mkdir -p ~/.nvm 2> /dev/null || true
 
 # Nvim
 ln -sfn ~/dotfiles/nvim ~/.config/nvim
-
-# vscode
-#ln -sf ~/dotfiles/vscode/snippets/ ~/Library/Application\ Support/Code/User/
-#ln -sf ~/dotfiles/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
-#ln -sf ~/dotfiles/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
 
 # mise
 #curl https://mise.run | sh
@@ -58,8 +48,3 @@ ln -sfn ~/dotfiles/claude/hooks ~/.claude/hooks
 # agents (share claude skills with all agents)
 mkdir -p ~/.agents 2> /dev/null || true
 ln -sfn ~/dotfiles/claude/skills ~/.agents/skills
-
-# launchd agents
-mkdir -p ~/Library/LaunchAgents 2> /dev/null || true
-ln -sf ~/dotfiles/launchd/com.user.twd.plist ~/Library/LaunchAgents/com.user.twd.plist
-launchctl load ~/Library/LaunchAgents/com.user.twd.plist 2> /dev/null || true

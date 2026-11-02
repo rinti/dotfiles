@@ -34,10 +34,6 @@
 [diff]
 	# Detect copies as well as renames
 	renames = copies
-    tool = default-difftool
-
-[difftool "default-difftool"]
-    cmd = code --wait --diff $LOCAL $REMOTE
 
 [help]
 	# Automatically correct and execute mistyped commands

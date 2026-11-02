@@ -5,7 +5,7 @@ touch ~/.hushlogin
 
 alias dn='open "obsidian://daily?vault=Obsidian%20iCloud"'
 
-# export PATH="/usr/local/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/opt/homebrew/opt/openssl@1.1/bin:$PATH"
+# export PATH="/usr/local/bin:/opt/homebrew/opt/openssl@1.1/bin:$PATH"
 # export PATH="/opt/homebrew/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 # export PATH="$HOME/bin:$HOME/.pyenv__/bin:$HOME/Library/Android/sdk/tools:$PATH";
 # export PATH="/Users/andreas/.composer/bin:/Users/andreas/flutter/bin:/usr/local/opt/python/libexec/bin:$PATH"
@@ -15,7 +15,6 @@ alias dn='open "obsidian://daily?vault=Obsidian%20iCloud"'
 # export PATH="$HOME/.composer/bin:$HOME/flutter/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin"
 # export PATH="$HOME/bin:$HOME/.pyenv__/bin:$HOME/Library/Android/sdk/tools"
 # export PATH="/usr/local/opt/python/libexec/bin:/opt/homebrew/sbin:/opt/homebrew/opt/openssl@1.1/bin"
-# export PATH="/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
 #
 export PATH="/opt/local/bin"
 export PATH="$PATH:/opt/homebrew/bin:/opt/homebrew/sbin"
@@ -24,7 +23,6 @@ export PATH="$PATH:$HOME/.local/share/mise/installs/python/3.11.1/bin:$HOME/.loc
 export PATH="$PATH:$HOME/.composer/bin:$HOME/flutter/bin"
 export PATH="$PATH:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin"
 export PATH="$PATH:$HOME/bin:$HOME/.pyenv__/bin:$HOME/Library/Android/sdk/tools"
-export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin"
 
 export LC_ALL=en_US.UTF-8
@@ -121,7 +119,6 @@ activate() {
 # alias aa="activate_asdf; activate"
 alias aa="activate"
 alias oci='cd $(git rev-parse --show-toplevel) && make open_ci && cd -'
-alias tdf='~/dotfiles/tmux-sessions.sh && tmux attach -t dotfiles'
 # alias fc='pushd $(git rev-parse --show-toplevel) > /dev/null && FILES=$(git diff --name-only -- "*.py"; git ls-files --others --exclude-standard -- "*.py") && echo "$FILES" | xargs black && echo "$FILES" | xargs isort --profile black && popd > /dev/null'
 # alias fc='ROOT_DIR=$(git rev-parse --show-toplevel) && CURRENT_DIR=$(pwd) && \
 # [ "$ROOT_DIR" != "$CURRENT_DIR" ] && pushd "$ROOT_DIR" > /dev/null; \
@@ -137,11 +134,6 @@ alias fc='
   echo "$FILES" | xargs isort --profile black && 
   [ "$ROOT_DIR" != "$CURRENT_DIR" ] && popd > /dev/null
 '
-
-alias rns="tmux rename-session"
-alias rnw="tmux rename-window"
-alias tms="/Users/andreas/dotfiles/twd.sh && /Users/andreas/dotfiles/tmuxsession.sh"
-alias clocu="tmux send-keys -t 1 C-c && tmux send-keys -t 2 C-c"
 
 # alias activate_asdf='. /opt/homebrew/opt/asdf/libexec/asdf.sh'
 
