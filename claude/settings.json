@@ -63,7 +63,8 @@
     "pyright-lsp@claude-plugins-official": false,
     "safety-net@cc-marketplace": false,
     "mattpocock-skills@mattpocock": true,
-    "typesafe@typesafe-ai": true
+    "typesafe@typesafe-ai": true,
+    "pstack@pstack-rinti": true
   },
   "extraKnownMarketplaces": {
     "mattpocock": {
@@ -82,6 +83,12 @@
       "source": {
         "source": "github",
         "repo": "frojd/frojd-marketplace"
+      }
+    },
+    "pstack-rinti": {
+      "source": {
+        "source": "github",
+        "repo": "rinti/pstack-rinti"
       }
     }
   },

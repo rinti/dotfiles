@@ -24,6 +24,8 @@ export PATH="$PATH:$HOME/.composer/bin:$HOME/flutter/bin"
 export PATH="$PATH:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin"
 export PATH="$PATH:$HOME/bin:$HOME/.pyenv__/bin:$HOME/Library/Android/sdk/tools"
 export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin"
+# Docker Desktop puts this in .zprofile, but the reset above drops it.
+export PATH="$PATH:$HOME/.docker/bin"
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
