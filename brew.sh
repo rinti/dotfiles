@@ -22,6 +22,7 @@ brew install reattach-to-user-namespace
 brew install tmux
 brew install git-delta
 brew install tree-sitter-cli
+brew install gh
 brew install --cask alt-tab
 brew install --cask hiddenbar
 

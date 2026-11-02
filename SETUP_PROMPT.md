@@ -44,6 +44,10 @@ hard-code `/Users/andreas/dotfiles`):
     eval "$(/opt/homebrew/bin/brew shellenv)"
     bash ~/dotfiles/brew.sh
 
+Then ask the user to run `gh auth login` in a real terminal (interactive).
+`.gitconfig` uses `gh` as the GitHub credential helper, so pushing to GitHub
+fails until they are logged in.
+
 ### Phase 4 — Node and safe-chain
 
 Do this before `setup.sh` links `.zshrc`: `safe-chain setup` rewrites its
