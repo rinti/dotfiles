@@ -36,6 +36,10 @@ mkdir -p ~/.config/herdr 2> /dev/null || true
 ln -sf ~/dotfiles/herdr/config.toml ~/.config/herdr/config.toml
 ln -sf ~/dotfiles/herdr/claude-toggle.sh ~/.config/herdr/claude-toggle.sh
 
+# herdr-core (hc) templates
+mkdir -p ~/.config/herdr-core 2> /dev/null || true
+ln -sfn ~/dotfiles/herdr-core/templates ~/.config/herdr-core/templates
+
 # claude
 mkdir -p ~/.claude 2> /dev/null || true
 ln -sf ~/dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
