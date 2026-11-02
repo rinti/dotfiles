@@ -24,7 +24,6 @@
 #mkdir -p ~/.nvm 2> /dev/null || true
 #
 ## Nvim
-mkdir -p ~/.config/nvim 2> /dev/null || true
 ln -sfn ~/dotfiles/nvim ~/.config/nvim
 
 # vscode
