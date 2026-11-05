@@ -63,7 +63,14 @@ writes `~/.docker/bin` to `~/.zprofile`, but `.zshrc` resets PATH from
 scratch, so `.zshrc` adds `~/.docker/bin` itself. If `docker` is missing in
 a new shell, check that line first.
 
-### Phase 4 — Node and safe-chain
+Ask the user to run this in a real terminal (its pkg installer needs sudo):
+
+    brew install --cask session-manager-plugin
+
+`aws ssm start-session` needs it for port forwarding, such as database
+tunnels through a bastion host.
+
+### Phase 4 — mise tools and safe-chain
 
 Do this before `setup.sh` links `.zshrc`: `safe-chain setup` rewrites its
 line in `~/.zshrc`, and before the link that is a throwaway file, not the repo.
@@ -72,6 +79,7 @@ line in `~/.zshrc`, and before the link that is a throwaway file, not the repo.
     export PATH="$HOME/.local/bin:$PATH"
     mise use -g node@lts
     mise use -g uv@latest
+    mise use -g aws-cli@latest
     mise settings add idiomatic_version_file_enable_tools node
     eval "$(mise env -s bash)"
     npm install -g @aikidosec/safe-chain
@@ -108,7 +116,7 @@ Check the output for `Language installed` vs `error`.
 ### Phase 7 — verify
 
     env -i HOME=$HOME TERM=xterm-256color /bin/zsh -lic \
-      'for c in brew nvim delta mise node npm uv safe-chain rg fd fzf pg_config docker; do whence -p $c >/dev/null || echo "MISSING $c"; done; echo DONE'
+      'for c in brew nvim delta mise node npm uv aws session-manager-plugin safe-chain rg fd fzf pg_config docker; do whence -p $c >/dev/null || echo "MISSING $c"; done; echo DONE'
 
 Expect only `DONE` with no errors above it. Also check that
 `git -C ~/dotfiles status` is clean. Tell the user to open a new terminal window.
