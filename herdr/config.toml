@@ -2,10 +2,10 @@ onboarding = false
 
 [keys]
 prefix = "ctrl+space"
-previous_tab = "alt+j"
-next_tab = "alt+k"
-next_workspace = "alt+shift+j"
-previous_workspace = "alt+shift+k"
+previous_tab = ["alt+j", "cmd+j"]
+next_tab = ["alt+k", "cmd+k"]
+next_workspace = ["alt+shift+j", "cmd+shift+j"]
+previous_workspace = ["alt+shift+k", "cmd+shift+k"]
 cycle_pane_next = ["prefix+tab", "ctrl+w"]
 toggle_sidebar = ["prefix+b", "alt+shift+h"]
 
